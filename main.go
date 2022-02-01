@@ -1,11 +1,13 @@
 package main
 
 import (
+	"GroupieTracker/GroupieTracker"
 	"net/http"
 	"text/template"
 )
 
 func main() {
+	GroupieTracker.ApiDates()
 	fileServer := http.FileServer(http.Dir("./static"))
 	http.Handle("/ressources/", http.StripPrefix("/ressources/", fileServer))
 
