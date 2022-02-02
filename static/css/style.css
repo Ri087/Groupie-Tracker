@@ -21,7 +21,7 @@ li{
 
 #main-flex{
     display: flex;
-    height: 200vh;
+    height: 400vh;
     width: 100%;
     flex-direction: column;
     z-index: 1;
@@ -29,7 +29,7 @@ li{
 }
 #main-page{
     display: flex;
-    height: 100%;
+    height: 200%;
     width: 100%;
     flex-direction: column;
      background-image: url("/ressources/img/Cassette.png"); 
@@ -57,10 +57,55 @@ li{
 #second-page{
     display: flex;
     flex-direction: column;
-    height:100%;
+    justify-content: center;
+    align-items: center;
+    height:600%;
     width: 100%;
     background-image: url("/ressources/img/Foret2.png");
     background-attachment: fixed, scroll;
     background-repeat: no-repeat, repeat-y;
+    
+}
+
+#artist1{
+    display: flex;
+    height: 40%;
+    width: 90%;
+    background-color: red;
+    justify-content: center;
+    align-items: center;
+}
+#artist2{
+    display: flex;
+    margin-top: 3%;
+    height: 40%;
+    width: 90%;
+    background-color: black;
+    justify-content: center;
+    align-items: center;
+}
+#artist3{
+    display: flex;
+    margin-top: 3%;
+    height: 40%;
+    width: 90%;
+    background-color: blue;
+    justify-content: center;
+    align-items: center;
+}
+
+.gauche{
+    display: flex;
+    height:90%;
+    width: 50%;
+    background-color: blueviolet;
+    
+}
+
+.droite{
+    display: flex;
+    height:90%;
+    width: 50%;
+    background-color:brown ;
     
 }
