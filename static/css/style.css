@@ -56,10 +56,11 @@ li{
 
 #second-page{
     display: flex;
+    flex-direction: column;
     height:100%;
     width: 100%;
-    background-image: url("/ressources/img/Foret.png");
-    background-position: center;
-     background-size: cover;
+    background-image: url("/ressources/img/Foret2.png");
+    background-attachment: fixed, scroll;
+    background-repeat: no-repeat, repeat-y;
     
 }
