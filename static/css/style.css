@@ -1,38 +1,65 @@
-* {
+*{
     margin: 0;
     padding: 0;
 }
-
-.all-page {
+html{
+    scroll-behavior: smooth;
+}
+a{
+    text-decoration: none;
+}
+ul{
     display: flex;
+    justify-content: space-around;
+    align-items: center;
     width: 100%;
-    height: 100vh;
-    background-image: url("/ressources/img/Cassette.png");
-    font-family: "Cinzel";
+    height: 100%;
+}
+li{
+    list-style: none;
 }
 
-.div-button-container {
+#main-flex{
     display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 20%;
+    height: 200vh;
     width: 100%;
+    flex-direction: column;
+    z-index: 1;
+    
 }
-
-.liste-item {
+#main-page{
     display: flex;
-    align-items: center;
     height: 100%;
     width: 100%;
-    justify-content: space-around;
+    flex-direction: column;
+     background-image: url("/ressources/img/Cassette.png"); 
+     background-position: center;
+     background-size: cover;
 }
 
-.a {
-    color: #fff;
-    text-decoration: none;
+#div-button-container{
+    display: flex;
+    height: 15%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.25);
+    justify-content: center;
+    align-items: center;
+}
+.a{
+    font-family: "Cinzel";
     font-size: 40px;
+    color: #fff;
 }
 
-ul li {
-    list-style: none;
+
+
+
+#second-page{
+    display: flex;
+    height:100%;
+    width: 100%;
+    background-image: url("/ressources/img/Foret.png");
+    background-position: center;
+     background-size: cover;
+    
 }
