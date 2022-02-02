@@ -32,5 +32,4 @@ func ApiRelations() {
 		os.Exit(1)
 	}
 	json.Unmarshal(responseData, &relAPi)
-	fmt.Println(relAPi)
 }

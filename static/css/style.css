@@ -2,6 +2,21 @@
     margin: 0;
     padding: 0;
 }
+::-webkit-scrollbar {
+    width: 10px;
+  }
+    ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #555;
+  }
+  
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #333;
+  }
 html{
     scroll-behavior: smooth;
 }
@@ -28,7 +43,7 @@ h4{
 
 #main-flex{
     display: flex;
-    height: 400vh;
+    height: 650vh;
     width: 100%;
     flex-direction: column;
     z-index: 1;
@@ -36,7 +51,7 @@ h4{
 }
 #main-page{
     display: flex;
-    height: 200%;
+    height: 115%;
     width: 100%;
     flex-direction: column;
      background-image: url("/ressources/img/Cassette.png"); 
@@ -51,6 +66,7 @@ h4{
     background-color: rgba(0, 0, 0, 0.25);
     justify-content: center;
     align-items: center;
+    z-index: 1;
 }
 .a{
     font-family: "Cinzel";
@@ -78,13 +94,13 @@ h4{
     background-repeat: no-repeat, repeat-y;
     background-position: center;
      background-size: cover;
-     z-index: 1;
+     
     
 }
 
 #artist1{
     display: flex;
-    height: 40%;
+    height: 37%;
     width: 90%;
     justify-content: center;
     align-items: center;
@@ -92,7 +108,7 @@ h4{
 #artist2{
     display: flex;
     margin-top: 3%;
-    height: 40%;
+    height: 37%;
     width: 90%;
     justify-content: center;
     align-items: center;
@@ -100,7 +116,7 @@ h4{
 #artist3{
     display: flex;
     margin-top: 3%;
-    height: 40%;
+    height: 37%;
     width: 90%;
     justify-content: center;
     align-items: center;
@@ -198,4 +214,27 @@ h4{
 #button:hover{
     text-decoration: underline;
     
+}
+
+#third-page{
+    display: flex;
+    height: 41%;
+    width: 100%;
+    background-color:powderblue;
+    justify-content: center;
+    align-items: center;
+}
+
+
+#fourth-page{
+    display: flex;
+    height: 40%;
+    width: 100%;
+    background-color:teal;
+    justify-content: center;
+    align-items: center;
+}
+
+.test{
+    font-size: 100px;
 }
