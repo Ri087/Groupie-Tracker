@@ -7,7 +7,8 @@ import (
 )
 
 func main() {
-	GroupieTracker.ApiLocations()
+	GroupieTracker.ApiURL("8", "https://groupietrackers.herokuapp.com/api/artists")
+
 	fileServer := http.FileServer(http.Dir("./static"))
 	http.Handle("/ressources/", http.StripPrefix("/ressources/", fileServer))
 
@@ -18,10 +19,22 @@ func main() {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
 	})
-	//Page game.html
+	//Page principal
 	http.HandleFunc("/artiste", func(w http.ResponseWriter, r *http.Request) {
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
 		templateshtml.ExecuteTemplate(w, "artiste.html", "")
+	})
+	http.HandleFunc("/event", func(w http.ResponseWriter, r *http.Request) {
+		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
+		templateshtml.ExecuteTemplate(w, "event.html", "")
+	})
+	http.HandleFunc("/contact", func(w http.ResponseWriter, r *http.Request) {
+		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
+		templateshtml.ExecuteTemplate(w, "contact.html", "")
+	})
+	http.HandleFunc("/connection", func(w http.ResponseWriter, r *http.Request) {
+		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
+		templateshtml.ExecuteTemplate(w, "connection.html", "")
 	})
 
 	http.ListenAndServe(":8080", nil)

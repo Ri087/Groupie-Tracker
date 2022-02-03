@@ -2,19 +2,64 @@
 <html>
     <head>
         <link rel="stylesheet" href="/ressources/css/style.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Cinzel&display=swap" rel="stylesheet">
         <title>TEST</title>
-    </head>
+    </fghead>
     <body>
-      <div class="all-page">
-          <div class="div-button-container">
-            <div class="div-button">
-                <p style="color:red;"></p>
+      <div id="main-flex">
+        <div id="main-page">
+          <div id="div-button-container">
+            <ul id="liste-items">
+              <li><a class="a" href="#second-page">ARTISTE</a></li>
+              <li><a class="a" href="#third-page">EVENT</a></li>
+              <li><a class="a" href="#fourth-page">CONTACT</a></li>
+              <li><a class="a" href="###">CONNECTION</a></li>
+            </ul>
+          </div>
+          
+        </div>
+        <div id="second-page">
+         
+          {{range .}}
+          <div id="artist{{.Id}}">
+            <div class="gauche">
+              <img class="img-artist" src="{{.Image}}">
+            </div>
+            <div class="droite">
+              <div class="droite-min-container">
+                <div class="droite-haut">
+                  <h2>{{.Name}}</h2>
+                </div>
+                <div class="doite-bas">
+                  <!-- <h4> sktop publishing software like Aldus PageMaker includi.</h4>
+                  <h4> sktop publishing software like Aldus PageMaker includi.</h4>
+                  <h4> sktop publishing software like Aldus PageMaker includi.</h4>
+                  <h4> sktop publishing software like Aldus PageMaker includi.</h4>
+                  <h4> sktop publishing software like Aldus PageMaker includi.</h4>
+                  <h4> sktop publishing software like Aldus PageMaker includi.</h4> -->
+                </div>
+              </div>
+             
             </div>
           </div>
-          <div>
+          {{end}}
+        </div>
+        <!-- <div id="button-container">
+           
+            <a id="button" href="/artiste">Next !</a>
             
         </div>
+        <div id="third-page">
+          <h1 class="test">EVENT</h1>
+          
+        </div>
+        <div id="fourth-page">
+          <h1 class="test">CONTACT</h1>
+
+        </div> -->
       </div>
        
     </body>
-</html>
+</html> 

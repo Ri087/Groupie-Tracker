@@ -21,7 +21,7 @@ type Artist struct {
 	Relations    string
 }
 
-func ApiArtists() {
+func ApiArtists() []Artist {
 	var artists []Artist
 	response, err := http.Get("https://groupietrackers.herokuapp.com/api/artists")
 
@@ -35,5 +35,8 @@ func ApiArtists() {
 		os.Exit(1)
 	}
 	json.Unmarshal(responseData, &artists)
-	fmt.Println(artists)
+	return artists
+	// for _, x := range artists {
+	// 	fmt.Println(x.Name + "||" + x.Image + "||" + x.Members)
+	// }
 }
