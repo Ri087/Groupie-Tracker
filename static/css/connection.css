@@ -1,0 +1,14 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+div {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    background-image: url("/ressources/img/Background-co.png");
+    background-repeat: no-repeat, repeat-y;
+    background-position: center;
+    background-size: 100%;
+}
