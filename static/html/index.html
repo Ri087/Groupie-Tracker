@@ -20,29 +20,30 @@
           </div>
         </div>
       <div id="second-page">
+        {{range .}}
           <div class="page-artist">
-          <div id="artist1">
-            <div class="gauche">
-              <img class="img-artist" src="{{.Image}}">
-            </div>
+            <div id="artist1">
+              <div class="gauche">
+                <img class="img-artist" src="{{.Image}}">
+             </div>
             <div class="droite">
               <div class="droite-min-container">
                 <div class="droite-haut">
                   <h2>{{.Name}}</h2>
                 </div>
                 <div class="doite-bas">
-                  <!-- <h4> sktop publishing software like Aldus PageMaker includi.</h4>
-                  <h4> sktop publishing software like Aldus PageMaker includi.</h4>
-                  <h4> sktop publishing software like Aldus PageMaker includi.</h4>
-                  <h4> sktop publishing software like Aldus PageMaker includi.</h4>
-                  <h4> sktop publishing software like Aldus PageMaker includi.</h4>
-                  <h4> sktop publishing software like Aldus PageMaker includi.</h4> -->
+                  {{.ConcertDates}}
+                  {{.Members}}
+                  {{.CreationDate}}
+                  {{.FirstAlbum}}
+                  {{.Relations}}
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="page-artist">
+        {{end}}
+        <!-- <div class="page-artist">
           <div id="artist1">
             <div class="gauche">
               <img class="img-artist" src="/ressources/img/test-img/test1.jpg">
@@ -63,8 +64,8 @@
               </div>
             </div>
           </div>
-        </div>
-        <div class="page-artist">
+        </div> -->
+        <!-- <div class="page-artist">
           <div id="artist1">
             <div class="gauche">
               <img class="img-artist" src="/ressources/img/test-img/test1.jpg">
@@ -85,7 +86,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
         <div id="third-page">
           <h1 class="test">EVENT</h1>

@@ -9,7 +9,7 @@ import (
 	"os"
 )
 
-func ApiURL(id string, url string) {
+func ApiURL(id string, url string) Artist {
 	var popo Artist
 	response, err := http.Get(url + "/" + id)
 	if err != nil {
@@ -22,6 +22,5 @@ func ApiURL(id string, url string) {
 		os.Exit(1)
 	}
 	json.Unmarshal(responseData, &popo)
-	fmt.Print("caca")
-	fmt.Print(popo)
+	return popo
 }
