@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	GroupieTracker.ApiDates()
+	GroupieTracker.ApiLocations()
 	fileServer := http.FileServer(http.Dir("./static"))
 	http.Handle("/ressources/", http.StripPrefix("/ressources/", fileServer))
 

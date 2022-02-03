@@ -32,5 +32,7 @@ func ApiDates() {
 		os.Exit(1)
 	}
 	json.Unmarshal(responseData, &dateAPi)
-	fmt.Println(dateAPi)
+	for _, e := range dateAPi.Index {
+		fmt.Println(e)
+	}
 }
