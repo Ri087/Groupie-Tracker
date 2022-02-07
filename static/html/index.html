@@ -28,16 +28,16 @@
            <div class="s-mid">
             {{range .}}
             <div class="s-artist">
-              <a href="{{.Id}}" class="s-a-etiquette">
+              <a href="{{.All.Id}}" class="s-a-etiquette">
                 <div class="s-a-top">
                   <div class="s-a-div-t">
-                    <h3 class="s-a-title">{{.Name}}</h3>
+                    <h3 class="s-a-title">{{.All.Name}}</h3>
                   </div>
-                  <h3 class="s-a-title">{{.ConcertDates}}</h3>
+                  <h3 class="s-a-title">{{.All.ConcertDates}}</h3>
                   
                 </div>
                 <div class="s-a-bot">
-                  <img class="s-a-img" src="{{.Image}}">
+                  <img class="s-a-img" src="{{.All.Image}}">
                 </div>
               </a>
               </div>

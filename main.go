@@ -19,7 +19,7 @@ func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
-		err := templateshtml.ExecuteTemplate(w, "index.html", GroupieTracker.All)
+		err := templateshtml.ExecuteTemplate(w, "index.html", GroupieTracker.All.Artists)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}

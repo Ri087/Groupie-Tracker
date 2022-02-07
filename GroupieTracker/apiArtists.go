@@ -12,12 +12,12 @@ import (
 var All AllApi
 
 func TraitementArtiste() {
-	res, err := http.Get("https://groupietrackers.herokuapp.com/api/artists")
+	response, err := http.Get("https://groupietrackers.herokuapp.com/api/artists")
 	if err != nil {
 		fmt.Println(err.Error())
 		os.Exit(0)
 	}
-	body, err := ioutil.ReadAll(res.Body)
+	body, err := ioutil.ReadAll(response.Body)
 	if err != nil {
 		fmt.Println(err.Error())
 		os.Exit(0)
