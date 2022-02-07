@@ -4,20 +4,36 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
 )
 
-func TraitementLocations() {
+type Locations struct {
+	Index []Location
+}
+
+type Location struct {
+	Id        int
+	Locations []string
+	Dates     string
+}
+
+func ApiLocations() {
+	var locAPi Locations
 	response, err := http.Get("https://groupietrackers.herokuapp.com/api/locations")
+
 	if err != nil {
-		fmt.Println(err.Error())
-		os.Exit(0)
+		fmt.Print(err.Error())
+		os.Exit(1)
 	}
-	body, err := ioutil.ReadAll(response.Body)
+	responseData, err := ioutil.ReadAll(response.Body)
 	if err != nil {
-		fmt.Println(err.Error())
-		os.Exit(0)
+		log.Fatal(err)
+		os.Exit(1)
 	}
-	json.Unmarshal(body, &All.Locations)
+	json.Unmarshal(responseData, &locAPi)
+	for _, e := range locAPi.Index {
+		fmt.Println(e)
+	}
 }
