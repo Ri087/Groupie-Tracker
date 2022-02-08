@@ -33,5 +33,7 @@ func ApiLocations() {
 		os.Exit(1)
 	}
 	json.Unmarshal(responseData, &locAPi)
-	fmt.Println(locAPi)
+	for _, e := range locAPi.Index {
+		fmt.Println(e)
+	}
 }

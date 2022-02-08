@@ -2,6 +2,7 @@ package main
 
 import (
 	"GroupieTracker/GroupieTracker"
+	"math/rand"
 	"net/http"
 	"text/template"
 )
@@ -15,8 +16,10 @@ func main() {
 	http.Handle("/ressources/", http.StripPrefix("/ressources/", fileServer))
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		Artist := GroupieTracker.ApiArtists()
+		N := rand.Intn(len(Artist) - 3)
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
-		err := templateshtml.ExecuteTemplate(w, "index.html", "")
+		err := templateshtml.ExecuteTemplate(w, "index.html", Artist[N:N+3])
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
