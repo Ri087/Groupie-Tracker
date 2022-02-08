@@ -6,15 +6,18 @@
 <body>
     <div id="main-page">
         <div id="flex-page">
-        <form action="" method="get" class="connection">
-            <label for="name">Enter your name: </label>
-            <input type="text" name="name" id="name">
+            <form action="/checkconnection" method="post">
+                <label for="text">Enter your email: </label>
+                <input type="text" name="mail" id="mail">
+                <br>
+                <label for="password">Enter your password: </label>
+                <input type="password" name="pwd" id="pwd">
+                <br>
+                <input type="submit" value="Submit!">
+            </form>
             <br>
-            <label for="password">Enter your password: </label>
-            <input type="password" name="password" id="password">
-            <br>
-        </form>
-        <p>Click <a href="/creation">here</a> if you want to create an account.</p>
-    </div>
+            <p>Click <a href="/creation">here</a> if you don't have an account.</p>
+            <p>{{if .Mail}} MAIL NUL {{else if .Pwd}} PASSWORD NUL {{else}} YO {{end}}</p>
+        </div>
     </div>
 </body>
