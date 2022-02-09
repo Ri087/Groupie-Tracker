@@ -1,0 +1,236 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+ ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+ ::-webkit-scrollbar-thumb {
+    background: #555;
+}
+
+ ::-webkit-scrollbar-thumb:hover {
+    background: #333;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+.main-flex {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100%;
+}
+
+.m-haut {
+    display: flex;
+    height: 10%;
+    width: 100%;
+    background-color: #f1f1f1;
+    border-bottom: 1px solid #333;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+}
+
+ul {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    list-style: none;
+}
+
+.a {
+    color: #333;
+    font-family: 'Cinzel';
+    font-size: 30px;
+    text-decoration: none;
+}
+
+.a:hover {
+    text-decoration: underline;
+}
+
+.m-bas {
+    display: flex;
+    height: 90%;
+    width: 100%;
+}
+
+.b-filtre {
+    display: flex;
+    flex-direction: column;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0px;
+    height: 100vh;
+    width: 15%;
+    border-right: 1px solid #333;
+    background-color: #f1f1f1;
+}
+
+.f-haut {
+    display: flex;
+    flex-direction: column;
+    height: 10%;
+    width: 100%;
+}
+
+.f-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+.t {
+    display: flex;
+    color: #333;
+    border-bottom: 1px solid #333;
+    font-size: 40px;
+    font-family: 'Cinzel';
+}
+
+.f-bas {
+    display: flex;
+    flex-direction: column;
+    height: 90%;
+    width: 100%;
+}
+
+.f-info {
+    display: flex;
+    flex-direction: column;
+    height: 90%;
+    width: 100%;
+}
+
+.t1-2 {
+    font-size: 30px;
+    font-family: 'Cinzel';
+    color: #333;
+}
+
+.i-form {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    overflow-y: scroll;
+}
+
+.f-form {
+    font-size: 15px;
+    font-family: 'Cinzel';
+    color: #333;
+}
+
+.title-info {
+    font-size: 20px;
+    border-bottom: 1px solid #333;
+}
+
+input {
+    margin: 10px;
+}
+
+.apply {
+    display: flex;
+    flex-direction: column;
+    height: 10%;
+    width: 100%;
+}
+
+.m-b-milieu {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    background-image: url("/ressources/img/fondp2.png");
+}
+
+.m-divArtist {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 60%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.d-haut {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 20%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.d-h-title {
+    color: #efefef;
+    font-size: 50px;
+    font-family: 'Cinzel';
+}
+
+.d-bas {
+    display: flex;
+    overflow-y: scroll;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    height: 80%;
+    width: 100%;
+}
+
+.div-artist {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 2px;
+    margin-top: 2%;
+    margin-bottom: 1%;
+    height: 50%;
+    width: 25%;
+}
+
+.d-b-pageArtist {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 95%;
+    width: 95%;
+    transition: 600ms;
+    background-color: #333;
+    color: #efefef;
+    text-decoration: none;
+    font-size: 30px;
+}
+
+.d-b-pageArtist:hover {
+    height: 100%;
+    width: 100%;
+    background-color: antiquewhite;
+    color: #333;
+}
+
+.img-artist {
+    display: flex;
+}
+
+.name-artist {
+    color: #efefef;
+    font-family: 'Cinzel';
+    text-decoration: none;
+}

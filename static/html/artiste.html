@@ -1,11 +1,128 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="stylesheet" href="/ressources/css/artist.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Cinzel&display=swap" rel="stylesheet">
         <title>TEST</title>
     </head>
     <body>
-        <h1>ARTISTE</h1>
-        <a href="/artiste">Artiste</a>
-       
+       <div class="main-flex">
+           <div class="m-haut">
+            
+                <ul id="liste-items">
+                  <li><a class="a" href="#second-page">ARTISTE</a></li>
+                  <li><a class="a" href="#third-page">EVENT</a></li>
+                  <li><a class="a" href="#fourth-page">CONTACT</a></li>
+                  <li><a class="a" href="/connection">CONNECTION</a></li>
+                </ul>
+              
+           </div>
+           <div class="m-bas">
+            <div class="b-filtre">
+                <div class="f-haut">
+                    <div class="f-title">
+                        <p class="t">Filtre</p>
+                    </div>
+                </div>
+                <div class="f-bas">
+                    <div class="f-info">
+                        <div class="i-form">
+                            <form class="f-form">
+                                <div class="i-1">
+                                    <h2 class"title-info">-Dates Créa</h2>
+                                    <input type="checkbox" value="All">All
+                                    <br>
+                                    <input type="checkbox" value="XX/XX/XXXX">14/02/1990
+                                    <br>
+                                    <input type="checkbox" value="XX/XX/XXXX">12/07/1990
+                                    <br>                                
+                                    <input type="checkbox" value="XX/XX/XXXX">21/09/2021
+                                    <br>
+                                    <input type="checkbox" value="XX/XX/XXXX">31/08/2007
+                                    <br>
+                                    <input type="checkbox" value="XX/XX/XXXX">22/01/2011
+                                    <br>
+                                    <input type="checkbox" value="XX/XX/XXXX">27/01/1998
+                                    <br>                                
+                                    <input type="checkbox" value="XX/XX/XXXX">2/12/1998
+                                    <br>
+                                    <input type="checkbox" value="XX/XX/XXXX">25/10/2003
+                                
+                                </div>
+                                <div class="i-2">
+                                    <h2 class"title-info">-Location</h2>
+                                    <input type="checkbox" value="All">All
+                                    <br>
+                                    <input type="checkbox" value="XX/XX/XXXX">Paris
+                                    <br>
+                                    <input type="checkbox" value="XX/XX/XXXX">Lyon
+                                    <br>                                
+                                    <input type="checkbox" value="XX/XX/XXXX">Amsterdam
+                                    <br>
+                                    <input type="checkbox" value="XX/XX/XXXX">Luxembourg
+                                    <br>
+                                    <input type="checkbox" value="XX/XX/XXXX">Londre
+                                    <br>
+                                    <input type="checkbox" value="XX/XX/XXXX">Oxford
+                                    <br>                                
+                                    <input type="checkbox" value="XX/XX/XXXX">New york
+                                    <br>
+                                    <input type="checkbox" value="XX/XX/XXXX">Moscou
+                                
+                                </div>
+                                <div class="i-3">
+                                    <h2 class"title-info">-Relation</h2>
+                                    <input type="checkbox" value="All">All
+                                    <br>
+                                    <input type="checkbox" value="XX/XX/XXXX">north_carolina-usa
+                                    <br>
+                                    <input type="checkbox" value="XX/XX/XXXX">queensland-australia
+                                    <br>                                
+                                    <input type="checkbox" value="XX/XX/XXXX">minsk-belarus
+                                    <br>
+                                    <input type="checkbox" value="XX/XX/XXXX">san_isidro-argentina
+                                    <br>
+                                    <input type="checkbox" value="XX/XX/XXXX">north_carolina-usa
+                                    <br>
+                                    <input type="checkbox" value="XX/XX/XXXX">queensland-australia
+                                    <br>                                
+                                    <input type="checkbox" value="XX/XX/XXXX">minsk-belarus
+                                    <br>
+                                    <input type="checkbox" value="XX/XX/XXXX">san_isidro-argentina
+                                    <br>
+                               
+                                
+                                </div>
+                               </form>
+                        </div>
+                    
+                    
+                    </div>
+                    <div class="apply">
+                        <button type="submit">Filtre</button>
+                    </div>
+                </div>
+            </div>
+            <div class="m-b-milieu">  
+                <div class="m-divArtist">
+                    <div class="d-haut">
+                        <h1 class="d-h-title">All Artist</h1>
+                    </div>
+                    <div class="d-bas">
+                        {{range .}}
+                        <div class="div-artist">
+                        <a href="/##" class="d-b-pageArtist">{{.Name}}
+                            <img class="img-artist" src="{{.Image}}">
+                            
+                        </a>
+                        </div>
+                        {{end}}
+                    </div>
+                </div>
+            </div>
+           </div>
+       </div>
     </body>
 </html>

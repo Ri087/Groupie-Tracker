@@ -26,8 +26,9 @@ func main() {
 	})
 	//Page principal
 	http.HandleFunc("/artiste", func(w http.ResponseWriter, r *http.Request) {
+		artist := GroupieTracker.ApiArtists()
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
-		templateshtml.ExecuteTemplate(w, "artiste.html", "")
+		templateshtml.ExecuteTemplate(w, "artiste.html", artist)
 	})
 	http.HandleFunc("/event", func(w http.ResponseWriter, r *http.Request) {
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
