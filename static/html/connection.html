@@ -4,20 +4,35 @@
     <title>Connection</title>
 </head>
 <body>
-    <div id="main-page">
-        <div id="flex-page">
-            <form action="/checkconnection" method="post">
-                <label for="text">Enter your email: </label>
-                <input type="text" name="mail" id="mail">
-                <br>
-                <label for="password">Enter your password: </label>
-                <input type="password" name="pwd" id="pwd">
-                <br>
-                <input type="submit" value="Submit!">
-            </form>
-            <br>
-            <p>Click <a href="/creation">here</a> if you don't have an account.</p>
-            <p>{{if .Mail}} MAIL NUL {{else if .Pwd}} PASSWORD NUL {{else}} YO {{end}}</p>
+    <div id="page-div">
+        <div id="image-div">
+            <div id="main-div">
+                <div id="co-text">
+                    <p>Connection</p>
+                </div>
+                <div id="login">
+                    <div id="tab"></div>
+                    <div id="login-placement">
+                        <form action="/checkconnection" method="post">
+                            <div id="email">
+                                <input type="text" name="mail" id="mail" placeholder="Enter your email">
+                            </div>
+                            <div id="password">
+                                <input type="password" name="pwd" id="pwd" placeholder="Enter your password">
+                            </div>
+                            <div id="createacc">
+                                <a href="/creation">Click here if you don't have an account.</a>
+                            </div>
+                            <div id="submit">
+                                <input type="submit" value="Submit!">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div id="art-div">
+                <p>lol</p>
+            </div>
         </div>
     </div>
 </body>
