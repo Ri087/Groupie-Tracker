@@ -11,7 +11,7 @@ func main() {
 	CheckCreation := &GroupieTracker.CheckCreation{}
 	CheckConnection := &GroupieTracker.CheckCo{}
 	Acc := &GroupieTracker.Account{}
-	Art := GroupieTracker.Artist{}
+	// Art := GroupieTracker.Artist{}
 	GroupieTracker.ApiArtists()
 	fileServer := http.FileServer(http.Dir("./static"))
 	http.Handle("/ressources/", http.StripPrefix("/ressources/", fileServer))
