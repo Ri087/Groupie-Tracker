@@ -10,14 +10,15 @@ import (
 )
 
 type Artist struct {
-	Id      int
-	Image   string
-	Name    string
-	Members string
+	Id           int
+	Image        string
+	Name         string
+	Members      string
+	CreationDate int
 }
 
 func ApiArtists() []Artist {
-	var popo []Artist
+	var apiArtist []Artist
 	response, err := http.Get("https://groupietrackers.herokuapp.com/api/artists")
 
 	if err != nil {
@@ -29,9 +30,9 @@ func ApiArtists() []Artist {
 		log.Fatal(err)
 		os.Exit(1)
 	}
-	json.Unmarshal(responseData, &popo)
+	json.Unmarshal(responseData, &apiArtist)
 
-	return popo
+	return apiArtist
 	// for _, x := range artists {
 	// 	fmt.Println(x.Name + "||" + x.Image + "||" + x.Members)
 	// }

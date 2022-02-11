@@ -20,12 +20,24 @@ func main() {
 	CheckCreation := &GroupieTracker.CheckCreation{}
 	CheckConnection := &GroupieTracker.CheckCo{}
 	Acc := &GroupieTracker.Account{}
+	Apis := api{}
+	Apis.ApiArtist = GroupieTracker.ApiArtists()
+	Date := GroupieTracker.ApiDates()
+	Apis.ApiDates = append(Apis.ApiDates, Date)
+	Location := GroupieTracker.ApiLocations()
+	Apis.ApiLocations = append(Apis.ApiLocations, Location)
+	Relation := GroupieTracker.ApiRelations()
+	Apis.ApiRelations = append(Apis.ApiRelations, Relation)
 	// Art := GroupieTracker.Artist{}
 	// GroupieTracker.ApiArtists()
 	fileServer := http.FileServer(http.Dir("./static"))
 	http.Handle("/ressources/", http.StripPrefix("/ressources/", fileServer))
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+
+		fmt.Println(Apis)
+		// N := rand.Intn(len(Artist) - 3)
+		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
 		Apis := api{}
 		Apis.ApiArtist = GroupieTracker.ApiArtists()
 		Date := GroupieTracker.ApiDates()
@@ -34,17 +46,22 @@ func main() {
 		Apis.ApiLocations = append(Apis.ApiLocations, Location)
 		Relation := GroupieTracker.ApiRelations()
 		Apis.ApiRelations = append(Apis.ApiRelations, Relation)
-		fmt.Println(Apis)
-		// N := rand.Intn(len(Artist) - 3)
-		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
+
 		templateshtml.ExecuteTemplate(w, "index.html", Apis)
 
 	})
 	//Page principal
 	http.HandleFunc("/artiste", func(w http.ResponseWriter, r *http.Request) {
-		artist := GroupieTracker.ApiArtists()
+		Apis := api{}
+		Apis.ApiArtist = GroupieTracker.ApiArtists()
+		Date := GroupieTracker.ApiDates()
+		Apis.ApiDates = append(Apis.ApiDates, Date)
+		Location := GroupieTracker.ApiLocations()
+		Apis.ApiLocations = append(Apis.ApiLocations, Location)
+		Relation := GroupieTracker.ApiRelations()
+		Apis.ApiRelations = append(Apis.ApiRelations, Relation)
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
-		templateshtml.ExecuteTemplate(w, "artiste.html", artist)
+		templateshtml.ExecuteTemplate(w, "artiste.html", Apis)
 	})
 	// http.HandleFunc("/actionfiltre", func(w http.ResponseWriter, r *http.Request) {
 	// 	ActionFiltre(w, r, Art)
@@ -134,6 +151,9 @@ func SetCookie(w http.ResponseWriter, mail string, Acc *GroupieTracker.Account) 
 
 func Logout(Acc *GroupieTracker.Account) {
 	Acc.Mail, Acc.Password, Acc.Name = "", "", ""
+}
+func Api() {
+
 }
 
 // func ActionFiltre(w http.ResponseWriter, r *http.Request, a GroupieTracker.Artist) {

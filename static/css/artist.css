@@ -26,13 +26,13 @@ html {
 .main-flex {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: 110vh;
     width: 100%;
 }
 
 .m-haut {
     display: flex;
-    height: 10%;
+    height: 10vh;
     width: 100%;
     background-color: #f1f1f1;
     border-bottom: 1px solid #333;
@@ -63,7 +63,7 @@ ul {
 
 .m-bas {
     display: flex;
-    height: 90%;
+    height: 100vh;
     width: 100%;
 }
 
@@ -73,7 +73,7 @@ ul {
     position: -webkit-sticky;
     position: sticky;
     top: 0px;
-    height: 100vh;
+    height: 100%;
     width: 15%;
     border-right: 1px solid #333;
     background-color: #f1f1f1;
@@ -82,8 +82,9 @@ ul {
 .f-haut {
     display: flex;
     flex-direction: column;
-    height: 10%;
+    height: 10vh;
     width: 100%;
+    background-color: cornsilk;
 }
 
 .f-title {
@@ -105,7 +106,7 @@ ul {
 .f-bas {
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: 90vh;
     width: 100%;
 }
 
@@ -130,32 +131,38 @@ ul {
 
 .f-form {
     font-size: 15px;
+    height: 100%;
+    width: 100%;
     font-family: 'Cinzel';
     color: #333;
+    background-color: cornflowerblue;
 }
 
 .form-div-info {
     display: flex;
-    height: 100%;
+    height: 90%;
     width: 100%;
     flex-direction: column;
     overflow-y: scroll;
+    background-color: aqua;
 }
 
 .title-info {
     font-size: 20px;
     border-bottom: 1px solid #333;
+    background-color: aquamarine;
 }
 
 input {
     margin: 10px;
 }
 
-.apply {
+.form-div-button {
     display: flex;
     flex-direction: column;
     height: 10%;
     width: 100%;
+    background-color: red;
 }
 
 .m-b-milieu {
@@ -163,9 +170,10 @@ input {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 100%;
     width: 100%;
-    background-image: url("/ressources/img/fondp2.png");
+    background: rgb(149, 91, 25);
+    background: radial-gradient(circle, rgba(149, 91, 25, 1) 0%, rgba(10, 1, 0, 1) 100%);
 }
 
 .m-divArtist {
@@ -195,8 +203,9 @@ input {
     overflow-y: scroll;
     justify-content: space-around;
     flex-wrap: wrap;
-    height: 80%;
+    height: 78%;
     width: 100%;
+    margin-bottom: 2%;
 }
 
 .div-artist {
@@ -231,12 +240,10 @@ input {
     color: #333;
 }
 
-.img-artist {
+.pA-name {
     display: flex;
-}
-
-.name-artist {
-    color: #efefef;
-    font-family: 'Cinzel';
-    text-decoration: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 30%;
 }
