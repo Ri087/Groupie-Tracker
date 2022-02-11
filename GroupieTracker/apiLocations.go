@@ -16,10 +16,9 @@ type Locations struct {
 type Location struct {
 	Id        int
 	Locations []string
-	Dates     string
 }
 
-func ApiLocations() {
+func ApiLocations() Locations {
 	var locAPi Locations
 	response, err := http.Get("https://groupietrackers.herokuapp.com/api/locations")
 
@@ -33,7 +32,6 @@ func ApiLocations() {
 		os.Exit(1)
 	}
 	json.Unmarshal(responseData, &locAPi)
-	for _, e := range locAPi.Index {
-		fmt.Println(e)
-	}
+
+	return locAPi
 }

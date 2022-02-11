@@ -18,7 +18,7 @@ type Relation struct {
 	DatesLocations map[string][]string
 }
 
-func ApiRelations() {
+func ApiRelations() Relations{
 	var relAPi Relations
 	response, err := http.Get("https://groupietrackers.herokuapp.com/api/locations")
 
@@ -32,4 +32,5 @@ func ApiRelations() {
 		os.Exit(1)
 	}
 	json.Unmarshal(responseData, &relAPi)
+	return relAPi
 }

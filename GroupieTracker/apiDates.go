@@ -18,7 +18,7 @@ type Date struct {
 	Dates []string
 }
 
-func ApiDates() {
+func ApiDates() Dates {
 	var dateAPi Dates
 	response, err := http.Get("https://groupietrackers.herokuapp.com/api/dates")
 
@@ -32,7 +32,5 @@ func ApiDates() {
 		os.Exit(1)
 	}
 	json.Unmarshal(responseData, &dateAPi)
-	for _, e := range dateAPi.Index {
-		fmt.Println(e)
-	}
+	return dateAPi
 }

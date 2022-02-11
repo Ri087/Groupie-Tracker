@@ -2,28 +2,43 @@ package main
 
 import (
 	"GroupieTracker/GroupieTracker"
-	"math/rand"
+	"fmt"
+
+	// "math/rand"
 	"net/http"
 	"text/template"
 )
+
+type api struct {
+	ApiArtist    []GroupieTracker.Artist
+	ApiDates     []GroupieTracker.Dates
+	ApiLocations []GroupieTracker.Locations
+	ApiRelations []GroupieTracker.Relations
+}
 
 func main() {
 	CheckCreation := &GroupieTracker.CheckCreation{}
 	CheckConnection := &GroupieTracker.CheckCo{}
 	Acc := &GroupieTracker.Account{}
 	// Art := GroupieTracker.Artist{}
-	GroupieTracker.ApiArtists()
+	// GroupieTracker.ApiArtists()
 	fileServer := http.FileServer(http.Dir("./static"))
 	http.Handle("/ressources/", http.StripPrefix("/ressources/", fileServer))
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		Artist := GroupieTracker.ApiArtists()
-		N := rand.Intn(len(Artist) - 3)
+		Apis := api{}
+		Apis.ApiArtist = GroupieTracker.ApiArtists()
+		Date := GroupieTracker.ApiDates()
+		Apis.ApiDates = append(Apis.ApiDates, Date)
+		Location := GroupieTracker.ApiLocations()
+		Apis.ApiLocations = append(Apis.ApiLocations, Location)
+		Relation := GroupieTracker.ApiRelations()
+		Apis.ApiRelations = append(Apis.ApiRelations, Relation)
+		fmt.Println(Apis)
+		// N := rand.Intn(len(Artist) - 3)
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
-		err := templateshtml.ExecuteTemplate(w, "index.html", Artist[N:N+3])
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-		}
+		templateshtml.ExecuteTemplate(w, "index.html", Apis)
+
 	})
 	//Page principal
 	http.HandleFunc("/artiste", func(w http.ResponseWriter, r *http.Request) {

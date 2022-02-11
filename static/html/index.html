@@ -1,67 +1,67 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <link rel="stylesheet" href="/ressources/css/style.css" />
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Cinzel&display=swap" rel="stylesheet">
-        <title>TEST</title>
-    </head>
-    <body>
-      
-      <div id="main-flex">
+
+<head>
+    <link rel="stylesheet" href="/ressources/css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel&display=swap" rel="stylesheet">
+    <title>TEST</title>
+</head>
+
+<body>
+
+    <div id="main-flex">
         <div id="main-page">
-          <div id="div-button-container">
-            <ul id="liste-items">
-              <li><a class="a" href="#second-page">ARTISTE</a></li>
-              <li><a class="a" href="#third-page">EVENT</a></li>
-              <li><a class="a" href="#fourth-page">CONTACT</a></li>
-              <li><a class="a" href="/connection">CONNECTION</a></li>
-            </ul>
-          </div>
-        </div>
-      <div id="second-page">
-        
-          <div class="page-artist">
-           <div class="s-top">
-            <h3 class="s-title">Top Artist</h3>
-           </div>
-           
-           <div class="s-mid">
-            {{range .}}
-            <div class="s-artist">
-              <a href="" class="s-a-etiquette">
-                <div class="s-a-top">
-                  <div class="s-a-div-t">
-                    <h3 class="s-a-title">{{.Name}}</h3>
-                  </div>
-                 
-                  
-                </div>
-               
-                <div class="s-a-bot">
-                  <img class="s-a-img" src="{{.Image}}">
-                </div>
-              </a>
-              </div>
-              
-              {{end}}
-           </div>
-          
-           <div class="s-bot">
-            <div class="s-b-next">
-              <a  href="/artiste"class="next">Next !</a>
+            <div id="div-button-container">
+                <ul id="liste-items">
+                    <li><a class="a" href="#second-page">ARTISTE</a></li>
+                    <li><a class="a" href="#third-page">EVENT</a></li>
+                    <li><a class="a" href="#fourth-page">CONTACT</a></li>
+                    <li><a class="a" href="/connection">CONNECTION</a></li>
+                </ul>
             </div>
-          </div>
-          </div>
-          
-      </div>
-        <div id="third-page">
-          <h1 class="test">EVENT</h1>
-          
         </div>
-      </div>
-       
-    </body>
-</html> 
- 
+        <div id="second-page">
+
+            <div class="page-artist">
+                <div class="s-top">
+                    <h3 class="s-title">Top Artist</h3>
+                </div>
+
+                <div class="s-mid">
+                    {{range .}}
+                    <div class="s-artist">
+                        <a href="" class="s-a-etiquette">
+                            <div class="s-a-top">
+                                <div class="s-a-div-t">
+                                    <h3 class="s-a-title">{{.Name}}</h3>
+                                </div>
+
+                            </div>
+                            {{.Date}}
+                            <div class="s-a-bot">
+                                <img class="s-a-img" src="{{.Image}}">
+                            </div>
+                        </a>
+                    </div>
+                    {{end}}
+                </div>
+
+                <div class="s-bot">
+                    <div class="s-b-next">
+                        <a href="/artiste" class="next">Next !</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div id="third-page">
+            <h1 class="test">EVENT</h1>
+
+        </div>
+    </div>
+
+</body>
+
+</html>
