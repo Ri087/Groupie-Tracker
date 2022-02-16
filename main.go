@@ -54,10 +54,10 @@ func main() {
 	})
 	http.HandleFunc("/artiste/", func(w http.ResponseWriter, r *http.Request) {
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
-		Id_Api_page, _ := strconv.Atoi(r.URL.Path[8:])
+		Id_Api_page, _ := strconv.Atoi(r.URL.Path[9:])
 		Apis.Id = Id_Api_page - 1
 		fmt.Println(Apis.Id)
-		templateshtml.ExecuteTemplate(w, "page_artist.html", Apis)
+		templateshtml.ExecuteTemplate(w, "pages-artistes.html", Apis)
 	})
 
 	http.HandleFunc("/connection", func(w http.ResponseWriter, r *http.Request) {
