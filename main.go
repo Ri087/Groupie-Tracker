@@ -3,6 +3,7 @@ package main
 import (
 	"GroupieTracker/GroupieTracker"
 	"fmt"
+	"strconv"
 
 	// "math/rand"
 	"net/http"
@@ -14,6 +15,7 @@ type api struct {
 	ApiDates     []GroupieTracker.Dates
 	ApiLocations []GroupieTracker.Locations
 	ApiRelations []GroupieTracker.Relations
+	Id           int
 }
 
 func main() {
@@ -33,7 +35,6 @@ func main() {
 	http.Handle("/ressources/", http.StripPrefix("/ressources/", fileServer))
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Println(Apis)
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
 		templateshtml.ExecuteTemplate(w, "index.html", Apis)
 
@@ -51,6 +52,14 @@ func main() {
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
 		templateshtml.ExecuteTemplate(w, "contact.html", "")
 	})
+	http.HandleFunc("/artiste/", func(w http.ResponseWriter, r *http.Request) {
+		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
+		Id_Api_page, _ := strconv.Atoi(r.URL.Path[8:])
+		Apis.Id = Id_Api_page - 1
+		fmt.Println(Apis.Id)
+		templateshtml.ExecuteTemplate(w, "page_artist.html", Apis)
+	})
+
 	http.HandleFunc("/connection", func(w http.ResponseWriter, r *http.Request) {
 		if _, err := r.Cookie("Token"); err == nil {
 			http.Redirect(w, r, "/profil", http.StatusFound)

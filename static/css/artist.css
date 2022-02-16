@@ -239,6 +239,9 @@ input {
     background-color: antiquewhite;
     color: #333;
 }
+.pA-img{
+    display: flex;
+}
 
 .pA-name {
     display: flex;
