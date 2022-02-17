@@ -13,7 +13,7 @@ type Artist struct {
 	Id           int
 	Image        string
 	Name         string
-	Members      string
+	Members      []string
 	CreationDate int
 }
 
