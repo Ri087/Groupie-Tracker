@@ -108,14 +108,12 @@
                         {{range .ApiArtist}}
                         <div class="div-artist">
                             <a href="/artiste/{{.Id}}" class="d-b-pageArtist">
-                                <div class="pA-name">
+                                <div class="pA-img">
                                     <img class="img-artist" src="{{.Image}}">
                                 </div>
-                                <div class="pA-img">
+                                <div class="pA-name">
                                     <h2 class="h2">{{.Name}}</h2>
-                                    <h2 class="h2">{{.CreationDate}}</h2>
                                 </div>
-
                             </a>
                         </div>
                         {{end}}

@@ -28,20 +28,20 @@
                     <h3 class="s-title">Top Artist</h3>
                 </div>
                 <div class="s-mid">
-                    {{range .ApiArtist}}
+                    {{$ID:=.Id}} {{range $index, $elements := .ApiArtist }} {{if (lt $index 3)}}
                     <div class="s-artist">
-                        <a href="" class="s-a-etiquette">
+                        <a href="/artiste/{{.Id}}" class="s-a-etiquette">
                             <div class="s-a-top">
                                 <div class="s-a-div-t">
-                                    <h3 class="s-a-title">{{.Name}}</h3>
+                                    <h3 class="s-a-title">{{$elements.Name}}</h3>
                                 </div>
                             </div>
                             <div class="s-a-bot">
-                                <img class="s-a-img" src="{{.Image}}">
+                                <img class="s-a-img" src="{{$elements.Image}}">
                             </div>
                         </a>
                     </div>
-                    {{end}}
+                    {{end}}{{end}}
                 </div>
                 <div class="s-bot">
                     <div class="s-b-next">

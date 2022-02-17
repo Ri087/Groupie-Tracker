@@ -172,8 +172,7 @@ input {
     align-items: center;
     height: 100%;
     width: 100%;
-    background: rgb(149, 91, 25);
-    background: radial-gradient(circle, rgba(149, 91, 25, 1) 0%, rgba(10, 1, 0, 1) 100%);
+    background: slateblue;
 }
 
 .m-divArtist {
@@ -216,14 +215,12 @@ input {
     margin-top: 2%;
     margin-bottom: 1%;
     height: 50%;
-    width: 25%;
+    width: 40%;
 }
 
 .d-b-pageArtist {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
     height: 95%;
     width: 95%;
     transition: 600ms;
@@ -239,14 +236,25 @@ input {
     background-color: antiquewhite;
     color: #333;
 }
-.pA-img{
+
+.pA-img {
     display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70%;
+    width: 100%;
+}
+
+.img-artist {
+    display: flex;
+    height: 90%;
 }
 
 .pA-name {
     display: flex;
-    flex-direction: column;
+    height: 40%;
+    width: 100%;
     justify-content: center;
+    flex-direction: column;
     align-items: center;
-    height: 30%;
 }
