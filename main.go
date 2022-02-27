@@ -57,6 +57,9 @@ func main() {
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
 		templateshtml.ExecuteTemplate(w, "contact.html", "")
 	})
+
+	// Profil pages
+
 	http.HandleFunc("/connection", func(w http.ResponseWriter, r *http.Request) {
 		if _, err := r.Cookie("Token"); err == nil {
 			http.Redirect(w, r, "/profil", http.StatusFound)
@@ -103,6 +106,8 @@ func main() {
 		}
 		http.Redirect(w, r, "/", http.StatusFound)
 	})
+
+	// End of profil pages
 
 	http.ListenAndServe(":8080", nil)
 }

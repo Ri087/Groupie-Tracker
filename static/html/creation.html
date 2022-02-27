@@ -8,16 +8,16 @@
         <div id="flex-page">
             <form action="/checkcreation" method="post">
                 <label for="name">Enter a name: </label>
-                <input type="text" name="name" id="name">
+                <input type="text" name="name" id="name" maxlength="32">
                 <br>
                 <label for="password">Enter your password: </label>
-                <input type="password" name="pwd" id="pwd">
+                <input type="password" name="pwd" id="pwd" maxlength="64">
                 <br>
                 <label for="password">Enter your password again: </label>
-                <input type="password" name="pwdc" id="pwdc">
+                <input type="password" name="pwdc" id="pwdc" maxlength="64">
                 <br>
                 <label for="text">Enter your email: </label>
-                <input type="text" name="mail" id="mail">
+                <input type="text" name="mail" id="mail" maxlength="160">
                 <br>
                 <input type="submit" value="Submit!">
             </form>

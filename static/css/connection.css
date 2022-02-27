@@ -1,6 +1,7 @@
 * {
     margin: 0;
     padding: 0;
+    font-family:'Cinzel';
 }
 
 #page-div {
@@ -35,7 +36,10 @@
 #co-text {
     display: flex;
     height: 18%;
-    width: 100%;
+    width: 47%;
+    font-size: 400%;
+    justify-content: center;
+    align-items: center;
 }
 
 #login {
@@ -52,19 +56,107 @@
 
 #login-placement {
     display: flex;
-    height: 100%;
+    height: 80%;
     width: 50%;
+}
+
+form {
+    display: flex;
+    height: 100%;
+    width: 100%;
     flex-direction: column;
+    justify-content: space-between;
 }
 
-#email {
+#userentry {
+    display: flex;
+    height: 63%;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+#etc {
+    display: flex;
+    height: 37%;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+input[type=text], input[type=password] {
+    background: unset;
+    border: none;
+    border-bottom: 3px solid rgb(70,70,70);
+    height: 35%;
+    text-align: center;
+    font-size: 165%;
+    transition: 500ms;
+}
+
+input[type=text]::placeholder, input[type=password]::placeholder {
+    color: black;
+    opacity: 0.70;
+    transition: 500ms;
+}
+
+input[type=text]:focus, input[type=text]:hover {
+    outline: none;
+    width: 50%;
+}
+
+input[type=password]:focus, input[type=password]:hover {
+    outline: none;
+    width: 65%;
+}
+
+input[type=text]:focus::placeholder, input[type=text]:hover::placeholder {
+    opacity: 0.35;
+}
+
+input[type=password]:focus::placeholder, input[type=password]:hover::placeholder {
+    opacity: 0.35;
+}
+
+#email, #password {
+    display: flex;
+    width: 100%;
+    height: 40%;
+    justify-content: center;
+    align-items: center;
+}
+
+input[type=text] {
+    width: 40%;
+}
+
+input[type=password] {
+    width: 55%;
+}
+
+#div-acc {
     display: flex;
 }
 
-#password {
-    display: flex;
+#createacc {
+    color: black;
 }
 
 #submit {
     display: flex;
+    width: 16%;
+    height: 60%;
+    background: none;
+}
+
+input[type="submit"] {
+    width: 100%;
+    height: 100%;
+    background: none;
+    background-image: url("/ressources/img/button-sub.png");
+    background-position: center;
+    background-size: cover;
+    border: none;
 }
