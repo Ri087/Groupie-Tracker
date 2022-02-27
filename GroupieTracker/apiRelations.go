@@ -18,7 +18,7 @@ type Relation struct {
 	DatesLocations map[string][]string
 }
 
-func ApiRelations() Relations{
+func ApiRelations() Relations {
 	var relAPi Relations
 	response, err := http.Get("https://groupietrackers.herokuapp.com/api/locations")
 

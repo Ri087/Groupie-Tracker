@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+</head>
+
+<body>
+    {{$ID:=.Id}}
+    <div class="div-artist">
+        <div class="pA-name">
+            <img class="img-artist" src="{{ (index .ApiArtist $ID).Image }}">
+        </div>
+        <div class="pA-img">
+            <h2 class="h2">Nom: {{ (index .ApiArtist $ID).Name }}</h2>
+            <h2 class="h2">Date de création: {{ (index .ApiArtist $ID).CreationDate }}</h2>
+            <h2 class="h2">Groupe:<br> {{ range (index .ApiArtist $ID).Members }} {{.}} <br> {{end}}</h2>
+
+
+
+        </div>
+    </div>
+</body>
+
+</html>
