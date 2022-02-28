@@ -10,7 +10,7 @@ import (
 	"text/template"
 )
 
-type api struct {
+type Api struct {
 	ApiArtist    []GroupieTracker.Artist
 	ApiDates     []GroupieTracker.Dates
 	ApiLocations []GroupieTracker.Locations
@@ -22,7 +22,7 @@ func main() {
 	CheckCreation := &GroupieTracker.CheckCreation{}
 	CheckConnection := &GroupieTracker.CheckCo{}
 	Acc := &GroupieTracker.Account{}
-	Apis := api{}
+	Apis := Api{}
 	Date := GroupieTracker.ApiDates()
 	Location := GroupieTracker.ApiLocations()
 	Relation := GroupieTracker.ApiRelations()

@@ -202,17 +202,24 @@ ul {
     width: 100%;
 }
 
+.search_bar{
+    
+}
+
 .s-b-next {
+    border: 2px solid red;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    /* justify-content: center; */
+    /* align-items: center; */
     height: 100%;
     width: 100%;
 }
 
 .next {
-    display: flex;
-    font-size: 60px;
+    position: absolute;
+    right : 5%;
+    /* margin-top: 80%; */
+    font-size: 40px;
     color: #fff;
     font-family: "Cinzel";
     transition: 300ms;
