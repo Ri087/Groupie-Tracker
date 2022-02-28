@@ -13,24 +13,20 @@ type Dates struct {
 	Index []Date
 }
 
-type Date struct {
-	Id    int
-	Dates []string
-}
-
-func ApiDates() Dates {
-	var dateAPi Dates
+func ApiDates(Api *Api) {
 	response, err := http.Get("https://groupietrackers.herokuapp.com/api/dates")
-
 	if err != nil {
 		fmt.Print(err.Error())
 		os.Exit(1)
 	}
-	responseData, err := ioutil.ReadAll(response.Body)
+
+	DatesInd, err := ioutil.ReadAll(response.Body)
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(1)
 	}
-	json.Unmarshal(responseData, &dateAPi)
-	return dateAPi
+
+	var DatesStruct Dates
+	json.Unmarshal(DatesInd, &DatesStruct)
+	Api.ApiDates = DatesStruct.Index
 }

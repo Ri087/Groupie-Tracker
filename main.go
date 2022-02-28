@@ -3,33 +3,25 @@ package main
 import (
 	"GroupieTracker/GroupieTracker"
 	"fmt"
-	"strconv"
-
-	// "math/rand"
 	"net/http"
+	"strconv"
 	"text/template"
 )
 
-type Api struct {
-	ApiArtist    []GroupieTracker.Artist
-	ApiDates     []GroupieTracker.Dates
-	ApiLocations []GroupieTracker.Locations
-	ApiRelations []GroupieTracker.Relations
-	Id           int
-}
-
 func main() {
+	Acc := &GroupieTracker.Account{}
 	CheckCreation := &GroupieTracker.CheckCreation{}
 	CheckConnection := &GroupieTracker.CheckCo{}
-	Acc := &GroupieTracker.Account{}
-	Apis := Api{}
-	Date := GroupieTracker.ApiDates()
-	Location := GroupieTracker.ApiLocations()
-	Relation := GroupieTracker.ApiRelations()
-	Apis.ApiArtist = GroupieTracker.ApiArtists()
-	Apis.ApiDates = append(Apis.ApiDates, Date)
-	Apis.ApiLocations = append(Apis.ApiLocations, Location)
-	Apis.ApiRelations = append(Apis.ApiRelations, Relation)
+
+	Apis := &GroupieTracker.Api{}
+	GroupieTracker.ApiArtists(Apis)
+	GroupieTracker.ApiDates(Apis)
+	GroupieTracker.ApiLocations(Apis)
+	// GroupieTracker.ApiRelations(Apis)
+
+	// for _, i := range Apis.ApiRelations {
+	// 	fmt.Println(i)
+	// }
 
 	fileServer := http.FileServer(http.Dir("./static"))
 	http.Handle("/ressources/", http.StripPrefix("/ressources/", fileServer))
