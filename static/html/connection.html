@@ -20,9 +20,15 @@
                             <div id="userentry">
                                 <div id="email">
                                     <input type="text" name="mail" id="mail" placeholder="e-mail" maxlength="160">
+                                    {{if .Mail}}
+                                    <p class="error">Mail inexistant</p>
+                                    {{end}}
                                 </div>
                                 <div id="password">
                                     <input type="password" name="pwd" id="pwd" placeholder="password" maxlength="64">
+                                    {{if .Pwd}}
+                                    <p class="error">Wrong password</p>
+                                    {{end}}
                                 </div>
                             </div>
                             <div id="etc">
@@ -30,7 +36,10 @@
                                     <a href="/creation" id="createacc">Create Account</a>
                                 </div>
                                 <div id="submit">
-                                    <input type="submit" value="/"></input>
+                                    <label id="labelsubmit">
+                                        <input type="submit" value="">
+                                    </input>
+                                    </label>
                                 </div>
                             </div>
                         </form>
