@@ -25,8 +25,3 @@ type Location struct {
 	Id        int
 	Locations []string
 }
-
-type Relation struct {
-	Id        int
-	Relations map[string][]string
-}

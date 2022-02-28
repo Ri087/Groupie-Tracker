@@ -9,6 +9,11 @@ import (
 	"os"
 )
 
+type Relation struct {
+	Id             int
+	DatesLocations map[string][]string
+}
+
 type Relations struct {
 	Index []Relation
 }
@@ -28,5 +33,5 @@ func ApiRelations(Api *Api) {
 
 	var RelationsStruct Relations
 	json.Unmarshal(RelationsInd, &RelationsStruct)
-	fmt.Println(RelationsStruct.Index)
+	Api.ApiRelations = RelationsStruct.Index
 }
