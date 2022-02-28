@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <head>
     <link rel="stylesheet" href="/ressources/css/connection.css"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com/%22%3E"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel&display=swap" rel="stylesheet">
     <title>Connection</title>
 </head>
 <body>
@@ -14,24 +17,28 @@
                     <div id="tab"></div>
                     <div id="login-placement">
                         <form action="/checkconnection" method="post">
-                            <div id="email">
-                                <input type="text" name="mail" id="mail" placeholder="Enter your email">
+                            <div id="userentry">
+                                <div id="email">
+                                    <input type="text" name="mail" id="mail" placeholder="e-mail" maxlength="160">
+                                </div>
+                                <div id="password">
+                                    <input type="password" name="pwd" id="pwd" placeholder="password" maxlength="64">
+                                </div>
                             </div>
-                            <div id="password">
-                                <input type="password" name="pwd" id="pwd" placeholder="Enter your password">
-                            </div>
-                            <div id="createacc">
-                                <a href="/creation">Click here if you don't have an account.</a>
-                            </div>
-                            <div id="submit">
-                                <input type="submit" value="Submit!">
+                            <div id="etc">
+                                <div id="div-acc">
+                                    <a href="/creation" id="createacc">Create Account</a>
+                                </div>
+                                <div id="submit">
+                                    <input type="submit" value="/"></input>
+                                </div>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
             <div id="art-div">
-                <p>lol</p>
+                <!-- <p>lol</p> -->
             </div>
         </div>
     </div>

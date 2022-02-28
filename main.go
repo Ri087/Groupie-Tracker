@@ -3,6 +3,7 @@ package main
 import (
 	"GroupieTracker/GroupieTracker"
 	"fmt"
+	"strconv"
 
 	// "math/rand"
 	"net/http"
@@ -14,41 +15,35 @@ type Api struct {
 	ApiDates     []GroupieTracker.Dates
 	ApiLocations []GroupieTracker.Locations
 	ApiRelations []GroupieTracker.Relations
+	Id           int
 }
 
 func main() {
 	CheckCreation := &GroupieTracker.CheckCreation{}
 	CheckConnection := &GroupieTracker.CheckCo{}
 	Acc := &GroupieTracker.Account{}
-	// Art := GroupieTracker.Artist{}
-	// GroupieTracker.ApiArtists()
+	Apis := Api{}
+	Date := GroupieTracker.ApiDates()
+	Location := GroupieTracker.ApiLocations()
+	Relation := GroupieTracker.ApiRelations()
+	Apis.ApiArtist = GroupieTracker.ApiArtists()
+	Apis.ApiDates = append(Apis.ApiDates, Date)
+	Apis.ApiLocations = append(Apis.ApiLocations, Location)
+	Apis.ApiRelations = append(Apis.ApiRelations, Relation)
+
 	fileServer := http.FileServer(http.Dir("./static"))
 	http.Handle("/ressources/", http.StripPrefix("/ressources/", fileServer))
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		Apis := Api{}
-		Apis.ApiArtist = GroupieTracker.ApiArtists()
-		Date := GroupieTracker.ApiDates()
-		Apis.ApiDates = append(Apis.ApiDates, Date)
-		Location := GroupieTracker.ApiLocations()
-		Apis.ApiLocations = append(Apis.ApiLocations, Location)
-		Relation := GroupieTracker.ApiRelations()
-		Apis.ApiRelations = append(Apis.ApiRelations, Relation)
-		fmt.Println(Apis.ApiArtist)
-		// N := rand.Intn(len(Artist) - 3)
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
 		templateshtml.ExecuteTemplate(w, "index.html", Apis)
 
 	})
 	//Page principal
 	http.HandleFunc("/artiste", func(w http.ResponseWriter, r *http.Request) {
-		artist := GroupieTracker.ApiArtists()
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
-		templateshtml.ExecuteTemplate(w, "artiste.html", artist)
+		templateshtml.ExecuteTemplate(w, "artiste.html", Apis)
 	})
-	// http.HandleFunc("/actionfiltre", func(w http.ResponseWriter, r *http.Request) {
-	// 	ActionFiltre(w, r, Art)
-	// })
 	http.HandleFunc("/event", func(w http.ResponseWriter, r *http.Request) {
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
 		templateshtml.ExecuteTemplate(w, "event.html", "")
@@ -57,6 +52,17 @@ func main() {
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
 		templateshtml.ExecuteTemplate(w, "contact.html", "")
 	})
+
+	http.HandleFunc("/artiste/", func(w http.ResponseWriter, r *http.Request) {
+		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
+		Id_Api_page, _ := strconv.Atoi(r.URL.Path[9:])
+		Apis.Id = Id_Api_page - 1
+		fmt.Println(Apis.Id)
+		templateshtml.ExecuteTemplate(w, "pages-artistes.html", Apis)
+	})
+
+	// Profil pages
+
 	http.HandleFunc("/connection", func(w http.ResponseWriter, r *http.Request) {
 		if _, err := r.Cookie("Token"); err == nil {
 			http.Redirect(w, r, "/profil", http.StatusFound)
@@ -104,6 +110,8 @@ func main() {
 		http.Redirect(w, r, "/", http.StatusFound)
 	})
 
+	// End of profil pages
+
 	http.ListenAndServe(":8080", nil)
 }
 
@@ -135,25 +143,3 @@ func SetCookie(w http.ResponseWriter, mail string, Acc *GroupieTracker.Account) 
 func Logout(Acc *GroupieTracker.Account) {
 	Acc.Mail, Acc.Password, Acc.Name = "", "", ""
 }
-
-// func ActionFiltre(w http.ResponseWriter, r *http.Request, a GroupieTracker.Artist) {
-// 	filtre := r.FormValue("filtre")
-// 	var NewArtistPrint []int
-// 	for _, x := range filtre {
-// 		for _, i := range string(a.CreationDate) {
-// 			if i > x {
-// 				NewArtistPrint = append(NewArtistPrint, a.Id)
-// 			}
-// 		}
-// 	}
-// 	Artist := GroupieTracker.ApiArtists()
-// 	for _, l := range NewArtistPrint {
-// 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
-// 		err := templateshtml.ExecuteTemplate(w, "index.html", Artist[l])
-// 		if err != nil {
-// 			http.Error(w, err.Error(), http.StatusInternalServerError)
-// 		}
-// 	}
-// 	http.Redirect(w, r, "/artiste", http.StatusFound)
-
-// }

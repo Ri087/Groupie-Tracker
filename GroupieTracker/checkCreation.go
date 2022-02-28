@@ -9,11 +9,11 @@ type CheckCreation struct {
 }
 
 func CheckCrea(name, pwd, pwdc, mail string, CC *CheckCreation, Acc *Account) bool {
-	if len(name) < 3 || len(name) > 18 {
+	if len(name) < 3 {
 		CC.Name = true
 		return true
 	}
-	if len(pwd) < 6 || len(pwd) > 32 {
+	if len(pwd) < 6 {
 		CC.Pwd = true
 		return true
 	}
