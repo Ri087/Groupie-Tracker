@@ -9,7 +9,7 @@ import (
 	"text/template"
 )
 
-type api struct {
+type Api struct {
 	ApiArtist    []GroupieTracker.Artist
 	ApiDates     []GroupieTracker.Dates
 	ApiLocations []GroupieTracker.Locations
@@ -26,7 +26,7 @@ func main() {
 	http.Handle("/ressources/", http.StripPrefix("/ressources/", fileServer))
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		Apis := api{}
+		Apis := Api{}
 		Apis.ApiArtist = GroupieTracker.ApiArtists()
 		Date := GroupieTracker.ApiDates()
 		Apis.ApiDates = append(Apis.ApiDates, Date)
@@ -34,7 +34,7 @@ func main() {
 		Apis.ApiLocations = append(Apis.ApiLocations, Location)
 		Relation := GroupieTracker.ApiRelations()
 		Apis.ApiRelations = append(Apis.ApiRelations, Relation)
-		fmt.Println(Apis)
+		fmt.Println(Apis.ApiArtist)
 		// N := rand.Intn(len(Artist) - 3)
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
 		templateshtml.ExecuteTemplate(w, "index.html", Apis)

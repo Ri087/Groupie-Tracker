@@ -10,7 +10,7 @@
 </head>
 
 <body>
-
+    
     <div id="main-flex">
         <div id="main-page">
             <div id="div-button-container">
@@ -28,30 +28,29 @@
                 <div class="s-top">
                     <h3 class="s-title">Top Artist</h3>
                 </div>
-
+                
                 <div class="s-mid">
-                    {{range .}}
                     <div class="s-artist">
                         <a href="" class="s-a-etiquette">
                             <div class="s-a-top">
                                 <div class="s-a-div-t">
-                                    <h3 class="s-a-title">{{.Name}}</h3>
+                                    <h3 class="s-a-title"></h3>
                                 </div>
-
                             </div>
-                            {{.Date}}
                             <div class="s-a-bot">
-                                <img class="s-a-img" src="{{.Image}}">
+                                <img class="s-a-img" src="">
                             </div>
                         </a>
                     </div>
-                    {{end}}
                 </div>
 
                 <div class="s-bot">
-                    <div class="s-b-next">
-                        <a href="/artiste" class="next">Next !</a>
+                    <div class="search_bar">
+                        <label for="site-search">Search the site:</label>
+                        <input type="search" id="site-search" name="q" aria-label="Search through site content">
+                        <button>Search</button>
                     </div>
+                    <a href="/artiste" class="next">Next</a>
                 </div>
             </div>
 
