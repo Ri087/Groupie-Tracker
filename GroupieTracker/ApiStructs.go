@@ -25,3 +25,8 @@ type Location struct {
 	Id        int
 	Locations []string
 }
+
+type Relation struct {
+	Id             int
+	DatesLocations map[string][]string
+}

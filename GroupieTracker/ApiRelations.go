@@ -9,11 +9,6 @@ import (
 	"os"
 )
 
-type Relation struct {
-	Id             int
-	DatesLocations map[string][]string
-}
-
 type Relations struct {
 	Index []Relation
 }
