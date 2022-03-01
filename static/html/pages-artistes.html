@@ -17,6 +17,7 @@
             <h2 class="h2">Groupe:<br> {{ range (index .A.ApiArtist $ID).Members }} {{.}} <br> {{end}}</h2>
             <h2 class="h2">Date:<br> {{ range (index .A.ApiDates $ID).Dates }} {{.}} <br> {{end}}</h2>
             <h2 class="h2">Locations:<br> {{ range (index .A.ApiLocations $ID).Locations }} {{.}} <br> {{end}}</h2>
+            <h2 class="h2">Rélation:<br> {{ range (index .A.ApiLocations $ID).Locations }} {{.}} <br> {{end}}</h2>
 
 
 
