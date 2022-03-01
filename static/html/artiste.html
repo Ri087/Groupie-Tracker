@@ -26,7 +26,7 @@
                     <h2 class="name-div-title">Votre séléction :</h2>
                 </div>
                 <div class="scroll-artist">
-                    {{range .ApiArtist}}
+                    {{range .A.ApiArtist}}
                     <a href="/artiste/{{.Id}}" class="artist">
                         <div class="img">
                             <img class="img-artist" src="{{.Image}}">
@@ -38,82 +38,41 @@
                     {{end}}
                 </div>
             </div>
-            <div class="section-artist">
-                <div class="name-div">
-                    <h2 class="name-div-title">Ecouté récement :</h2>
-                </div>
-                <div class="scroll-artist">
-                    {{range .ApiArtist}}
-                    <a href="/artiste/{{.Id}}" class="artist">
-                        <div class="img">
-                            <img class="img-artist" src="{{.Image}}">
-                        </div>
-                        <div class="name">
-                            <p class="scroll-artist-name">{{.Name}}</p>
-                        </div>
-                    </a>
-                    {{end}}
-                </div>
+            <div class="form">
+                <form class="filtre">
+                    <form class="f-form" method="post" action="/filtre">
+                        <div class="form-div-info">
+                            <div class="i-1">
+                                <h2 class="title-info">-Dates Créa</h2>
+                                <input type="checkbox" name="filtre_date" value="1960">1960 - 1969
+                                <br>
+                                <input type="checkbox" name="filtre_date" value="1970">1970 - 1979
+                                <br>
+                                <input type="checkbox" name="filtre_date" value="1980">1980
+                                <br>
+                                <input type="checkbox" name="filtre_date" value="1990">1990
+                                <br>
+                                <input type="checkbox" name="filtre_date" value="2000">2000
+                                <br>
+                                <input type="checkbox" name="filtre_date" value="2010">2010
+                                <br>
+                                <input type="checkbox" name="filtre_date" value="2020">2020
+                            </div>
+                            <div class="form-div-button">
+                                <button type="submit">OK</button>
+                            </div>
+
+                    </form>
+                    </div>
+
+
+
+
+
+
+
             </div>
-            <div class="section-artist">
-                <div class="name-div">
-                    <h2 class="name-div-title">Vos amis ecoutent :</h2>
-                </div>
-                <div class="scroll-artist">
-                    {{range .ApiArtist}}
-                    <a href="/artiste/{{.Id}}" class="artist">
-                        <div class="img">
-                            <img class="img-artist" src="{{.Image}}">
-                        </div>
-                        <div class="name">
-                            <p class="scroll-artist-name">{{.Name}}</p>
-                        </div>
-                    </a>
-                    {{end}}
-                </div>
-            </div>
-            <div class="section-artist">
-                <div class="name-div">
-                    <h2 class="name-div-title">Hip-hop/Rap :</h2>
-                </div>
-                <div class="scroll-artist">
-                    {{range .ApiArtist}}
-                    <a href="/artiste/{{.Id}}" class="artist">
-                        <div class="img">
-                            <img class="img-artist" src="{{.Image}}">
-                        </div>
-                        <div class="name">
-                            <p class="scroll-artist-name">{{.Name}}</p>
-                        </div>
-                    </a>
-                    {{end}}
-                </div>
-            </div>
-            <div class="section-artist">
-                <div class="name-div">
-                    <h2 class="name-div-title">Nouveaux artistes :</h2>
-                </div>
-                <div class="scroll-artist">
-                    {{range .ApiArtist}}
-                    <a href="/artiste/{{.Id}}" class="artist">
-                        <div class="img">
-                            <img class="img-artist" src="{{.Image}}">
-                        </div>
-                        <div class="name">
-                            <p class="scroll-artist-name">{{.Name}}</p>
-                        </div>
-                    </a>
-                    {{end}}
-                </div>
-            </div>
-
-
-
-
-
-
         </div>
-    </div>
 
 
 </body>

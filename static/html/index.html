@@ -3,6 +3,7 @@
 
 <head>
     <link rel="stylesheet" href="/ressources/css/style.css" />
+    <link rel="stylesheet" href="/ressources/css/searchbar.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel&display=swap" rel="stylesheet">
@@ -10,7 +11,7 @@
 </head>
 
 <body>
-    
+
     <div id="main-flex">
         <div id="main-page">
             <div id="div-button-container">
@@ -28,7 +29,7 @@
                     <h3 class="s-title">Top Artist</h3>
                 </div>
                 <div class="s-mid">
-                    {{$ID:=.Id}} {{range $index, $elements := .ApiArtist }} {{if (lt $index 3)}}
+                    {{$ID:=.A.Id}} {{range $index, $elements := .A.ApiArtist }} {{if (lt $index 3)}}
                     <div class="s-artist">
                         <a href="/artiste/{{.Id}}" class="s-a-etiquette">
                             <div class="s-a-top">
@@ -45,9 +46,12 @@
                 </div>
                 <div class="s-bot">
                     <div class="search_bar">
-                        <label for="site-search">Search the site:</label>
-                        <input type="search" id="site-search" name="q" aria-label="Search through site content">
-                        <button>Search</button>
+                        <form action="" class="search-bar">
+                            <input display="none" type="search" name="search" pattern=".*\S.*" required>
+                            <button class="search-btn" type="submit">
+                                <span>Search</span>
+                            </button>
+                        </form>
                     </div>
                     <a href="/artiste" class="next">Next</a>
                 </div>
