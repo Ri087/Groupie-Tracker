@@ -38,6 +38,10 @@ func main() {
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
 		templateshtml.ExecuteTemplate(w, "artiste.html", Apis)
 	})
+	http.HandleFunc("/search", func(w http.ResponseWriter, r *http.Request) {
+		id := Search(Apis, r.FormValue("search"))
+		http.Redirect(w, r, "/artiste/"+id, http.StatusFound)
+	})
 	http.HandleFunc("/event", func(w http.ResponseWriter, r *http.Request) {
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
 		templateshtml.ExecuteTemplate(w, "event.html", "")
@@ -125,6 +129,15 @@ func Login(w http.ResponseWriter, r *http.Request, CC *GroupieTracker.CheckCo, A
 	} else {
 		http.Redirect(w, r, "/connection", http.StatusFound)
 	}
+}
+
+func Search(api *GroupieTracker.Api, name string) string {
+	for _, i := range api.ApiArtist {
+		if i.Name == name {
+			return strconv.Itoa(i.Id)
+		}
+	}
+	return ""
 }
 
 func SetCookie(w http.ResponseWriter, mail string, Acc *GroupieTracker.Account) {

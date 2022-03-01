@@ -46,9 +46,16 @@
                 </div>
                 <div class="s-bot">
                     <div class="search_bar">
-                        <form action="" class="search-bar">
-                            <input display="none" type="search" name="search" pattern=".*\S.*" required>
-                            <button class="search-btn" type="submit">
+                        <form action="/search" class="search-bar" method="post">
+                            <input list="Artists" display="none" type="search" name="search">
+                            <datalist id="Artists">
+                                {{range .ApiArtist}}
+                                <option value= "{{.Name}}">
+                                <option value="{{.Locations}}">
+                                {{end}}
+                            </datalist>
+                            
+                            <button class="search-btn" type="submit" >
                                 <span>Search</span>
                             </button>
                         </form>
@@ -60,7 +67,7 @@
         </div>
         <div id="third-page">
             <h1 class="test">EVENT</h1>
-
+            
         </div>
     </div>
 
