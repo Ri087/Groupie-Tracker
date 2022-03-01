@@ -196,7 +196,6 @@ ul {
     height: 60%;
 }
 
-<<<<<<< HEAD
 .s-bot {
     display: flex;
     height: 10%;
@@ -205,8 +204,6 @@ ul {
 
 .search_bar {}
 
-=======
->>>>>>> 5f14cf285f08f302037ee3caa26f9aaa8cb3bd14
 .s-b-next {
     display: flex;
     /* justify-content: center; */
@@ -233,15 +230,10 @@ input[type="search"]::-webkit-search-cancel-button,
 input[type="search"]::-webkit-search-results-button,
 input[type="search"]::-webkit-search-results-decoration { display: none; }
 .next {
-<<<<<<< HEAD
-    position: absolute;
-    right: 5%;
-=======
     align-items: center;
     justify-content: center;
     width : 20%;
     display: flex;
->>>>>>> 5f14cf285f08f302037ee3caa26f9aaa8cb3bd14
     /* margin-top: 80%; */
     font-size: 40px;
     color: #fff;
