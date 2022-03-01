@@ -3,33 +3,26 @@ package main
 import (
 	"GroupieTracker/GroupieTracker"
 	"fmt"
-	"strconv"
-
-	// "math/rand"
 	"net/http"
+	"strconv"
 	"text/template"
 )
 
-type Api struct {
-	ApiArtist    []GroupieTracker.Artist
-	ApiDates     []GroupieTracker.Dates
-	ApiLocations []GroupieTracker.Locations
-	ApiRelations []GroupieTracker.Relations
-	Id           int
+func ApiInit() *GroupieTracker.Api {
+	Apis := &GroupieTracker.Api{}
+	GroupieTracker.ApiArtists(Apis)
+	GroupieTracker.ApiDates(Apis)
+	GroupieTracker.ApiLocations(Apis)
+	GroupieTracker.ApiRelations(Apis)
+	return Apis
 }
 
 func main() {
+	Acc := &GroupieTracker.Account{}
 	CheckCreation := &GroupieTracker.CheckCreation{}
 	CheckConnection := &GroupieTracker.CheckCo{}
-	Acc := &GroupieTracker.Account{}
-	Apis := Api{}
-	Date := GroupieTracker.ApiDates()
-	Location := GroupieTracker.ApiLocations()
-	Relation := GroupieTracker.ApiRelations()
-	Apis.ApiArtist = GroupieTracker.ApiArtists()
-	Apis.ApiDates = append(Apis.ApiDates, Date)
-	Apis.ApiLocations = append(Apis.ApiLocations, Location)
-	Apis.ApiRelations = append(Apis.ApiRelations, Relation)
+
+	Apis := ApiInit()
 
 	fileServer := http.FileServer(http.Dir("./static"))
 	http.Handle("/ressources/", http.StripPrefix("/ressources/", fileServer))
@@ -39,6 +32,7 @@ func main() {
 		templateshtml.ExecuteTemplate(w, "index.html", Apis)
 
 	})
+
 	//Page principal
 	http.HandleFunc("/artiste", func(w http.ResponseWriter, r *http.Request) {
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
@@ -62,7 +56,6 @@ func main() {
 	})
 
 	// Profil pages
-
 	http.HandleFunc("/connection", func(w http.ResponseWriter, r *http.Request) {
 		if _, err := r.Cookie("Token"); err == nil {
 			http.Redirect(w, r, "/profil", http.StatusFound)
@@ -109,7 +102,6 @@ func main() {
 		}
 		http.Redirect(w, r, "/", http.StatusFound)
 	})
-
 	// End of profil pages
 
 	http.ListenAndServe(":8080", nil)
