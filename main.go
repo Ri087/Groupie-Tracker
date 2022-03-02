@@ -10,14 +10,14 @@ import (
 
 type Main_struct struct {
 	A    *GroupieTracker.Api
-	F    Filtre_Artist
+	F    *GroupieTracker.Filtre_Artist
 	Bool bool
 }
 
-type Filtre_Artist struct {
-	Filtre    bool
-	DateStart int
-	DateEnd   int
+func FiltreInit(F *GroupieTracker.Filtre_Artist) {
+	F.Modif = false
+	F.DateStart = 0
+	F.DateEnd = 0
 }
 
 func ApiInit() *GroupieTracker.Api {
@@ -30,12 +30,15 @@ func ApiInit() *GroupieTracker.Api {
 }
 
 func main() {
+
+	Fil := &GroupieTracker.Filtre_Artist{}
 	Acc := &GroupieTracker.Account{}
 	CheckCreation := &GroupieTracker.CheckCreation{}
 	CheckConnection := &GroupieTracker.CheckCo{}
-	Filtre := &Filtre_Artist{}
 	Apis := ApiInit()
-	Main := Main_struct{A: Apis, F: *Filtre, Bool: false}
+	Main := Main_struct{A: Apis, F: Fil, Bool: false}
+	FiltreInit(Fil)
+
 	fileServer := http.FileServer(http.Dir("./static"))
 	http.Handle("/ressources/", http.StripPrefix("/ressources/", fileServer))
 
@@ -50,9 +53,12 @@ func main() {
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
 		templateshtml.ExecuteTemplate(w, "artiste.html", Main)
 	})
+	http.HandleFunc("/filtre", func(w http.ResponseWriter, r *http.Request) {
+		FuncFiltre(w, r, Fil)
+	})
 	http.HandleFunc("/search", func(w http.ResponseWriter, r *http.Request) {
 		if !Searchbool(Apis, r.FormValue("search")) {
-			http.Redirect(w, r, "/", http.StatusFound)
+			http.Redirect(w, r, "#second-page", http.StatusFound)
 		}
 		id := NametoId(Apis, r.FormValue("search"))
 		http.Redirect(w, r, "/artiste/"+id, http.StatusFound)
@@ -73,8 +79,6 @@ func main() {
 		fmt.Println(Apis.Id)
 		templateshtml.ExecuteTemplate(w, "pages-artistes.html", Main)
 	})
-
-	// Profil pages
 	http.HandleFunc("/connection", func(w http.ResponseWriter, r *http.Request) {
 		if _, err := r.Cookie("Token"); err == nil {
 			http.Redirect(w, r, "/profil", http.StatusFound)
@@ -121,8 +125,6 @@ func main() {
 		}
 		http.Redirect(w, r, "/", http.StatusFound)
 	})
-	// End of profil pages
-
 	http.ListenAndServe(":8080", nil)
 }
 
@@ -175,13 +177,27 @@ func Logout(Acc *GroupieTracker.Account) {
 	Acc.Mail, Acc.Password, Acc.Name = "", "", ""
 }
 
-// func Filtre(w http.ResponseWriter, r *http.Request, f Filtre_Artist) {
-// 	date_filtre := r.FormValue("filtre_date")
-// 	if len(date_filtre) == 0 {
-// 		f.Filtre = false
-// 	}
-// 	f.DateStart, _ = strconv.Atoi(date_filtre)
-// 	date_end, _ := strconv.Atoi(date_filtre)
-// 	f.DateEnd = date_end + 9
+func FuncFiltre(w http.ResponseWriter, r *http.Request, Fa *GroupieTracker.Filtre_Artist) {
+	date_filtre := r.FormValue("filtre_date")
+	fmt.Println(date_filtre)
+	if len(date_filtre) < 1 {
+		Fa.Modif = false
+		Fa.DateStart = 0
+		Fa.DateEnd = 2100
+	} else {
+		Fa.Modif = true
+		if date_filtre == "all" {
+			Fa.DateStart = 0
+			Fa.DateEnd = 2100
+		} else {
+			date, _ := strconv.Atoi(date_filtre)
+			Fa.DateStart = date
+			Fa.DateEnd = date + 9
+			fmt.Println(Fa.DateStart, "|", Fa.DateEnd)
+		}
 
-// }
+	}
+
+	http.Redirect(w, r, "/artiste", http.StatusFound)
+
+}
