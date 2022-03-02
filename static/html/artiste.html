@@ -26,42 +26,28 @@
                 <div class="name-div">
                     <h2 class="name-div-title">Votre séléction :</h2>
                 </div>
-                {{if .F.Modif}} {{$StartDate:= .F.DateStart}}{{$EndDate:= .F.DateEnd}}
+                {{if .F.ModifArtistCrea}} {{$StartDate:= .F.DateStart}}{{$EndDate:= .F.DateEnd}}
                 <div class="scroll-artist">
-                    {{range .A.ApiArtist}} {{if (ge .CreationDate $StartDate)}}{{if (le .CreationDate $EndDate)}}
-                    <a href="/artiste/{{.Id}}" class="artist">
-                        <div class="img">
-                            <img class="img-artist" src="{{.Image}}">
-                        </div>
-                        <div class="name">
-                            <p class="scroll-artist-name">{{.Name}}</p>
-                        </div>
-                    </a>
-                    {{end}} {{end}}{{end}}
+                    {{range .A.ApiArtist}} {{if (ge .CreationDate $StartDate)}}{{if (le .CreationDate $EndDate)}} {{template "ArtistRange" .}} {{end}} {{end}}{{end}}
+                </div>
+                {{else if .F.ModifDateAlbum }}{{$StartDateA:= .F.DateAlbumS}}{{$EndDateA:= .F.DateAlbumE}}
+                <div class="scroll-artist">
+                    {{range .A.ApiArtist}} {{if (ge .CreationDate $StartDateA)}}{{if (le .CreationDate $EndDateA)}} {{template "ArtistRange" .}} {{end}} {{end}}{{end}}
                 </div>
                 {{else}}
                 <div class="scroll-artist">
-                    {{range .A.ApiArtist}}
-                    <a href="/artiste/{{.Id}}" class="artist">
-                        <div class="img">
-                            <img class="img-artist" src="{{.Image}}">
-                        </div>
-                        <div class="name">
-                            <p class="scroll-artist-name">{{.Name}}</p>
-                        </div>
-                    </a>
-                    {{end}}
+                    {{range .A.ApiArtist}} {{template "ArtistRange" .}} {{end}}
                 </div>
                 {{end}}
 
             </div>
             <div>
-                <h1>{{.F.Modif}}</h1>
+                <h1>{{.F.ModifArtistCrea}}</h1>
                 <h1> {{.F.DateStart}} - {{.F.DateEnd}} :: </h1>
                 <h1> {{.F.DateAlbumS}} - {{.F.DateAlbumE}} :: </h1>
             </div>
             <div class="form">
-                <form class="filtre" method="post" action="/filtre-date-artiste" onChange="submit()">
+                <form class="filtre" method="get" action="/filtre-date-artiste" onChange="submit()">
                     <div class="form-div-info">
                         <div class="i-1">
                             <h2 class="title-info">-Dates Créa</h2>
@@ -83,8 +69,8 @@
                         </div>
                 </form>
                 </div>
-                <div class="form">
-                    <form class="filtre" method="post" action="/filtre-date-album" onChange="submit()">
+                <!-- <div class="form">
+                    <form class="filtre" method="get" action="/filtre-date-album" onChange="submit()">
                         <div class="form-div-info">
                             <div class="i-1">
                                 <h2 class="title-info">-Dates Créa</h2>
@@ -104,21 +90,33 @@
                                 <br>
                                 <input type="radio" name="filtre-date-album" value="2020">2020 - 2029
                             </div>
-                    </form>
-                    </div>
-                    <form class="filtre" method="post" action="/filtre-date-artiste" onChange="submit()">
+                    </form> -->
+                <!-- test de filtre a voire  -->
+                <!-- <form class="filtre" method="post" action="/filtre-date-album" onChange="submit()">
                         <div class="form-div-info">
                             <div class="i-1">
                                 <h2 class="title-info">-Dates Créa</h2>
-                                <input type="radio" name="filtre_date" value="all">all
+                                <input type="radio" name="filtre-date-album" value="all">all
                                 <br>
-                                <input type="range" name="filtre_date" value="1960" min="1960" max="2010" value="1960" step="1">1960 - 2020
+                                <input type="ratio" name="filtre-date-album" value="">Entrez votre la date de creation
                                 <br>
                             </div>
-                    </form>
-                    </div>
+                    </form> -->
+                <!-- </div> -->
+
+                <form class="filtre" method="post" action="/filtre-date-artiste" onChange="submit()">
+                    <div class="form-div-info">
+                        <div class="i-1">
+                            <h2 class="title-info">-Dates Créa</h2>
+                            <input type="radio" name="filtre_date" value="all">all
+                            <br>
+                            <input type="range" name="filtre_date" value="1960" min="1960" max="2010" value="1960" step="1">1960 - 2020
+                            <br>
+                        </div>
+                </form>
                 </div>
             </div>
+        </div>
 
 
 </body>

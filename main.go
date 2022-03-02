@@ -15,11 +15,13 @@ type Main_struct struct {
 }
 
 func FiltreInit(F *GroupieTracker.Filtre_Artist) {
-	F.Modif = false
+	F.ModifArtistCrea = false
+	F.ModifDateAlbum = false
 	F.DateStart = 0
 	F.DateEnd = 0
 	F.DateAlbumS = 0
 	F.DateAlbumE = 0
+	F.DateAlbumInt = 0
 }
 
 func ApiInit() *GroupieTracker.Api {
@@ -56,11 +58,12 @@ func main() {
 		templateshtml.ExecuteTemplate(w, "artiste.html", Main)
 	})
 	http.HandleFunc("/filtre-date-artiste", func(w http.ResponseWriter, r *http.Request) {
-		FuncFiltreDate(w, r, Fil)
+		GroupieTracker.FuncFiltreDate(w, r, Fil)
 	})
-	http.HandleFunc("/filtre-date-album", func(w http.ResponseWriter, r *http.Request) {
-		FuncFiltreAlbumCrea(w, r, Fil)
-	})
+	// Filtre date de creation premier album
+	// http.HandleFunc("/filtre-date-album", func(w http.ResponseWriter, r *http.Request) {
+	// 	GroupieTracker.FuncFiltreAlbumCrea(w, r, Fil)
+	// })
 	http.HandleFunc("/search", func(w http.ResponseWriter, r *http.Request) {
 		if !Searchbool(Apis, r.FormValue("search")) {
 			http.Redirect(w, r, "#second-page", http.StatusFound)
@@ -180,46 +183,4 @@ func SetCookie(w http.ResponseWriter, mail string, Acc *GroupieTracker.Account) 
 
 func Logout(Acc *GroupieTracker.Account) {
 	Acc.Mail, Acc.Password, Acc.Name = "", "", ""
-}
-
-func FuncFiltreDate(w http.ResponseWriter, r *http.Request, Fa *GroupieTracker.Filtre_Artist) {
-	date_filtre := r.FormValue("filtre_date")
-	if len(date_filtre) < 1 {
-		Fa.Modif = false
-		Fa.DateStart = 0
-		Fa.DateEnd = 2100
-	} else {
-		Fa.Modif = true
-		if date_filtre == "all" {
-			Fa.DateStart = 0
-			Fa.DateEnd = 2100
-		} else {
-			date, _ := strconv.Atoi(date_filtre)
-			Fa.DateStart = date
-			Fa.DateEnd = date + 9
-			fmt.Println(Fa.DateStart, "|", Fa.DateEnd)
-		}
-	}
-	http.Redirect(w, r, "/artiste", http.StatusFound)
-}
-
-func FuncFiltreAlbumCrea(w http.ResponseWriter, r *http.Request, Fa *GroupieTracker.Filtre_Artist) {
-	date_filtre := r.FormValue("filtre-date-album")
-	if len(date_filtre) < 1 {
-		Fa.Modif = false
-		Fa.DateAlbumS = 0
-		Fa.DateAlbumE = 2100
-	} else {
-		Fa.Modif = true
-		if date_filtre == "all" {
-			Fa.DateAlbumS = 0
-			Fa.DateAlbumE = 2100
-		} else {
-			date, _ := strconv.Atoi(date_filtre)
-			Fa.DateAlbumS = date
-			Fa.DateAlbumE = date + 9
-			fmt.Println(Fa.DateAlbumS, "|", Fa.DateAlbumE)
-		}
-	}
-	http.Redirect(w, r, "/artiste", http.StatusFound)
 }
