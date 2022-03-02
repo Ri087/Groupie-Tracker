@@ -18,6 +18,8 @@ func FiltreInit(F *GroupieTracker.Filtre_Artist) {
 	F.Modif = false
 	F.DateStart = 0
 	F.DateEnd = 0
+	F.DateAlbumS = 0
+	F.DateAlbumE = 0
 }
 
 func ApiInit() *GroupieTracker.Api {
@@ -53,8 +55,11 @@ func main() {
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
 		templateshtml.ExecuteTemplate(w, "artiste.html", Main)
 	})
-	http.HandleFunc("/filtre", func(w http.ResponseWriter, r *http.Request) {
-		FuncFiltre(w, r, Fil)
+	http.HandleFunc("/filtre-date-artiste", func(w http.ResponseWriter, r *http.Request) {
+		FuncFiltreDate(w, r, Fil)
+	})
+	http.HandleFunc("/filtre-date-album", func(w http.ResponseWriter, r *http.Request) {
+		FuncFiltreAlbumCrea(w, r, Fil)
 	})
 	http.HandleFunc("/search", func(w http.ResponseWriter, r *http.Request) {
 		if !Searchbool(Apis, r.FormValue("search")) {
@@ -177,9 +182,8 @@ func Logout(Acc *GroupieTracker.Account) {
 	Acc.Mail, Acc.Password, Acc.Name = "", "", ""
 }
 
-func FuncFiltre(w http.ResponseWriter, r *http.Request, Fa *GroupieTracker.Filtre_Artist) {
+func FuncFiltreDate(w http.ResponseWriter, r *http.Request, Fa *GroupieTracker.Filtre_Artist) {
 	date_filtre := r.FormValue("filtre_date")
-	fmt.Println(date_filtre)
 	if len(date_filtre) < 1 {
 		Fa.Modif = false
 		Fa.DateStart = 0
@@ -195,9 +199,27 @@ func FuncFiltre(w http.ResponseWriter, r *http.Request, Fa *GroupieTracker.Filtr
 			Fa.DateEnd = date + 9
 			fmt.Println(Fa.DateStart, "|", Fa.DateEnd)
 		}
-
 	}
-
 	http.Redirect(w, r, "/artiste", http.StatusFound)
+}
 
+func FuncFiltreAlbumCrea(w http.ResponseWriter, r *http.Request, Fa *GroupieTracker.Filtre_Artist) {
+	date_filtre := r.FormValue("filtre-date-album")
+	if len(date_filtre) < 1 {
+		Fa.Modif = false
+		Fa.DateAlbumS = 0
+		Fa.DateAlbumE = 2100
+	} else {
+		Fa.Modif = true
+		if date_filtre == "all" {
+			Fa.DateAlbumS = 0
+			Fa.DateAlbumE = 2100
+		} else {
+			date, _ := strconv.Atoi(date_filtre)
+			Fa.DateAlbumS = date
+			Fa.DateAlbumE = date + 9
+			fmt.Println(Fa.DateAlbumS, "|", Fa.DateAlbumE)
+		}
+	}
+	http.Redirect(w, r, "/artiste", http.StatusFound)
 }
