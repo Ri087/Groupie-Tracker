@@ -8,6 +8,7 @@
 
 <body>
     {{$ID:= .A.Id}}
+    <div class="bg"></div>
     <div class="div-artist">
         <div class="pA-img">
             <h2 class="h_name">Nom: {{ (index .A.ApiArtist $ID).Name }}</h2>
