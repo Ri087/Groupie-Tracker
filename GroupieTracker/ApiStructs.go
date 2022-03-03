@@ -14,6 +14,7 @@ type Artist struct {
 	Name         string
 	Members      []string
 	CreationDate int
+	FirstAlbum   string
 }
 
 type Date struct {

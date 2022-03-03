@@ -31,7 +31,6 @@ html {
     height: 200vh;
     width: 100%;
     flex-direction: column;
-    background-color: rgb(199, 158, 105);
 }
 
 .haut {
@@ -39,6 +38,9 @@ html {
     height: 10%;
     width: 100%;
     justify-content: center;
+    background-image: url("/ressources/img/test.png");
+    background-position: center;
+    background-size: cover;
 }
 
 .nav-bar {
@@ -62,6 +64,8 @@ html {
     width: 100%;
     flex-direction: column;
     align-items: center;
+    background: rgb(87, 31, 124);
+    background: linear-gradient(90deg, rgba(87, 31, 124, 1) 0%, rgba(29, 218, 253, 1) 50%, rgba(246, 196, 29, 1) 100%);
 }
 
 .section-artist {
