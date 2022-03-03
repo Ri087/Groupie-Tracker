@@ -2,7 +2,7 @@ package main
 
 import (
 	"GroupieTracker/GroupieTracker"
-	"fmt"
+	"encoding/base32"
 	"net/http"
 	"strconv"
 	"text/template"
@@ -51,13 +51,12 @@ func main() {
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
 		Id_Api_page, _ := strconv.Atoi(r.URL.Path[9:])
 		Apis.Id = Id_Api_page - 1
-		fmt.Println(Apis.Id)
 		templateshtml.ExecuteTemplate(w, "pages-artistes.html", Apis)
 	})
 
 	// Profil pages
 	http.HandleFunc("/connection", func(w http.ResponseWriter, r *http.Request) {
-		if _, err := r.Cookie("Token"); err == nil {
+		if _, err := r.Cookie("AUTHENTIFICATION_TOKEN"); err == nil {
 			http.Redirect(w, r, "/profil", http.StatusFound)
 			return
 		}
@@ -66,7 +65,7 @@ func main() {
 		CheckConnection.Mail, CheckConnection.Pwd = false, false
 	})
 	http.HandleFunc("/creation", func(w http.ResponseWriter, r *http.Request) {
-		if _, err := r.Cookie("Token"); err == nil {
+		if _, err := r.Cookie("AUTHENTIFICATION_TOKEN"); err == nil {
 			http.Redirect(w, r, "/profil", http.StatusFound)
 			return
 		}
@@ -75,7 +74,7 @@ func main() {
 		CheckCreation.Name, CheckCreation.Pwd, CheckCreation.Pwdc, CheckCreation.Mail, CheckCreation.Exist = false, false, false, false, false
 	})
 	http.HandleFunc("/profil", func(w http.ResponseWriter, r *http.Request) {
-		cookie, err := r.Cookie("Token")
+		cookie, err := r.Cookie("AUTHENTIFICATION_TOKEN")
 		if err != nil {
 			http.Redirect(w, r, "/connection", http.StatusFound)
 			return
@@ -95,8 +94,8 @@ func main() {
 	})
 
 	http.HandleFunc("/logout", func(w http.ResponseWriter, r *http.Request) {
-		if _, err := r.Cookie("Token"); err == nil {
-			cookie, _ := r.Cookie("Token")
+		if _, err := r.Cookie("AUTHENTIFICATION_TOKEN"); err == nil {
+			cookie, _ := r.Cookie("AUTHENTIFICATION_TOKEN")
 			cookie.MaxAge = -1
 			http.SetCookie(w, cookie)
 		}
@@ -112,7 +111,7 @@ func Creation(w http.ResponseWriter, r *http.Request, CC *GroupieTracker.CheckCr
 	if GroupieTracker.CheckCrea(name, pwd, pwdc, mail, CC, Acc) {
 		http.Redirect(w, r, "/creation", http.StatusFound)
 	} else {
-		SetCookie(w, mail, Acc)
+		SetCookie(w, mail, pwd, Acc)
 		http.Redirect(w, r, "/profil", http.StatusFound)
 	}
 }
@@ -120,18 +119,18 @@ func Creation(w http.ResponseWriter, r *http.Request, CC *GroupieTracker.CheckCr
 func Login(w http.ResponseWriter, r *http.Request, CC *GroupieTracker.CheckCo, Acc *GroupieTracker.Account) {
 	mail, pwd := r.FormValue("mail"), r.FormValue("pwd")
 	if GroupieTracker.CheckConnection(mail, pwd, CC, Acc) {
-		SetCookie(w, mail, Acc)
+		SetCookie(w, mail, pwd, Acc)
 		http.Redirect(w, r, "/profil", http.StatusFound)
 	} else {
 		http.Redirect(w, r, "/connection", http.StatusFound)
 	}
 }
 
-func SetCookie(w http.ResponseWriter, mail string, Acc *GroupieTracker.Account) {
-	http.SetCookie(w, &http.Cookie{Name: "Token", Value: GroupieTracker.IDMail(mail)})
+func SetCookie(w http.ResponseWriter, mail, pwd string, Acc *GroupieTracker.Account) {
+	http.SetCookie(w, &http.Cookie{Name: "AUTHENTIFICATION_TOKEN", Value: base32.StdEncoding.EncodeToString(GroupieTracker.Cryptage(mail))})
 	Logout(Acc)
 }
 
 func Logout(Acc *GroupieTracker.Account) {
-	Acc.Mail, Acc.Password, Acc.Name = "", "", ""
+	Acc.Mail, Acc.Password, Acc.Name = "", []byte{}, ""
 }
