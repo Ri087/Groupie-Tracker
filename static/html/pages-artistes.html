@@ -2,23 +2,22 @@
 <html>
 
 <head>
+    <link rel="stylesheet" href="/ressources/css/pages-artistes.css" />
 
 </head>
 
 <body>
-    {{$ID:=.Id}}
+    {{$ID:= .A.Id}}
     <div class="div-artist">
-        <div class="pA-name">
-            <img class="img-artist" src="{{ (index .ApiArtist $ID).Image }}">
-        </div>
         <div class="pA-img">
-            <h2 class="h2">Nom: {{ (index .ApiArtist $ID).Name }}</h2>
-            <h2 class="h2">Date de création: {{ (index .ApiArtist $ID).CreationDate }}</h2>
-            <h2 class="h2">Groupe:<br> {{ range (index .ApiArtist $ID).Members }} {{.}} <br> {{end}}</h2>
-            <h2 class="h2">Date:<br> {{ range (index .ApiDates $ID).Dates }} {{.}} <br> {{end}}</h2>
-            <h2 class="h2">Locations:<br> {{ range (index .ApiLocations $ID).Locations }} {{.}} <br> {{end}}</h2>
-
-
+            <h2 class="h_name">Nom: {{ (index .A.ApiArtist $ID).Name }}</h2>
+            <img class="img-artist" src="{{ (index .A.ApiArtist $ID).Image }}">
+            <h2 class="h2">Date de création: {{ (index .A.ApiArtist $ID).CreationDate }}</h2>
+            <h2 class="h2">Date du premier album: {{ (index .A.ApiArtist $ID).FirstAlbum }}</h2>
+            <h2 class="h2">Groupe:<br> {{ range (index .A.ApiArtist $ID).Members }} {{.}} <br> {{end}}</h2>
+            <h2 class="h2">Date:<br> {{ range (index .A.ApiDates $ID).Dates }} {{.}} <br> {{end}}</h2>
+            <h2 class="h2">Locations:<br> {{ range (index .A.ApiLocations $ID).Locations }} {{.}} <br> {{end}}</h2>
+            <h2 class="h2">Rélation:<br>{{ range $key, $value := (index .A.ApiRelations $ID).DatesLocations}} {{ $key }} <br> {{$value }}<br> {{ end }}</h2>
 
         </div>
     </div>

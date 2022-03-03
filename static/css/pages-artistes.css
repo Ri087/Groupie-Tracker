@@ -1,0 +1,22 @@
+
+.div-artist{
+    display: flex;
+    border : 2px solid red;
+    width: 100%;
+    justify-content: center;
+}
+
+
+.img-artist {
+    display : flex;
+    right: 0%;
+    height: 20%;
+}
+
+.h_name {
+    display: flex;
+    font-family: 'Cezlin';
+    font-size: 40px;
+    justify-content: center;
+
+}

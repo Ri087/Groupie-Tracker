@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    
+
     <div id="main-flex">
         <div id="main-page">
             <div id="div-button-container">
@@ -29,7 +29,7 @@
                     <h3 class="s-title">Top Artist</h3>
                 </div>
                 <div class="s-mid">
-                    {{$ID:=.Id}} {{range $index, $elements := .ApiArtist }} {{if (lt $index 3)}}
+                    {{$ID:=.A.Id}} {{range $index, $elements := .A.ApiArtist }} {{if (lt $index 3)}}
                     <div class="s-artist">
                         <a href="/artiste/{{.Id}}" class="s-a-etiquette">
                             <div class="s-a-top">
@@ -46,9 +46,15 @@
                 </div>
                 <div class="s-bot">
                     <div class="search_bar">
-                        <form action="" class="search-bar">
-                            <input display="none" type="search" name="search" pattern=".*\S.*" required>
-                            <button class="search-btn" type="submit">
+                        <form action="/search" class="search-bar" method="post">
+                            <input list="Artists" display="none" type="search" name="search">
+                            <datalist id="Artists">
+                                {{range .A.ApiArtist}}
+                                <option value= "{{.Name}}">
+                                {{end}}
+                            </datalist>
+                            
+                            <button class="search-btn" type="submit" >
                                 <span>Search</span>
                             </button>
                         </form>
@@ -60,7 +66,7 @@
         </div>
         <div id="third-page">
             <h1 class="test">EVENT</h1>
-
+            
         </div>
     </div>
 
