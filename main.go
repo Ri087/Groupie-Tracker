@@ -45,6 +45,7 @@ func main() {
 		GroupieTracker.FilterReset(Main.ADF)
 	})
 	http.HandleFunc("/filter", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Println(r.URL.Query())
 		GroupieTracker.FLT(r.URL.Query(), Apis, Main.ADF)
 		http.Redirect(w, r, "/artiste", http.StatusFound)
 	})

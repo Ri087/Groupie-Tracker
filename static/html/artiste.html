@@ -17,11 +17,9 @@
                 <a class="a" href="/">Home</a>
                 <a class="a" href="/connection">Account</a>
                 <a class="a" href="/contact">Contact</a>
-
             </div>
         </div>
         <div class="bas">
-
             <div class="section-artist">
                 <div class="name-div">
                     <h2 class="name-div-title">Votre séléction :</h2>
@@ -48,12 +46,12 @@
                             <br>
                             <input type="checkbox" name="art_date" value="2010" {{.ADF.ArtD201019}}>2010 - 2019
                         </div>
+                    </div>
 
-                
-                        <div class="form-div-info">
-                            <div class="i-1">
-                                <h2 class="title-info">-Dates Créa album</h2>
-                                <br>
+                    <div class="form-div-info">
+                        <div class="i-1">
+                            <h2 class="title-info">-Dates Créa album</h2>
+                            <br>
                             <input type="checkbox" name="alb_date" value="1960" {{.ADF.AlbD196069}}>1960 - 1969
                             <br>
                             <input type="checkbox" name="alb_date" value="1970" {{.ADF.AlbD197079}}>1970 - 1979
@@ -65,29 +63,21 @@
                             <input type="checkbox" name="alb_date" value="2000" {{.ADF.AlbD200009}}>2000 - 2009
                             <br>
                             <input type="checkbox" name="alb_date" value="2010" {{.ADF.AlbD201019}}>2010 - 2019
-                            </div>
-
-                            <!-- <div class="form-div-info">
-                                <div class="i-1">
-                                    <h2 class="title-info">nb mb groupe</h2>
-                                    <input type="checkbox" name="filtre_groupe" value="all">all
-                                    <br>
-                                    <input type="range" name="filtre_groupe" min="1" max="10" value="{{.F.Test}}" step="1">1 - 10
-                                    <br>
-                                </div>
-                  
-                                <div class="form-div-info">
-                                    <div class="i-1">
-                                        <input type="radio" name="clear" value="clear">
-                                        <br>
-
-                                    </div> -->
-                            </form>
-                            <!-- </div> -->
-                        </div>
                         </div>
                     </div>
-
+                    <div class="form-div-info">
+                        <div class="i-1">
+                            <h2 class="title-info">Nombre de membre</h2>
+                            <h2 class="title-info">0-10</h2>
+                            <br>
+                            <input type="range" value="{{.ADF.NbMember}}" name="nb_member" min="1" max="10" step="1" oninput="document.getElementById('AfficheRange').textContent=value" />
+                            <h1 id="AfficheRange">0</h1>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>

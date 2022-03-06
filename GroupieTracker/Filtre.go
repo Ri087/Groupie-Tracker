@@ -18,6 +18,7 @@ type Filter struct {
 	AlbD199099 string
 	AlbD200009 string
 	AlbD201019 string
+	NbMember   string
 }
 
 func FilterReset(ADF *Filter) {
@@ -33,6 +34,8 @@ func FilterReset(ADF *Filter) {
 	ADF.AlbD199099 = ""
 	ADF.AlbD200009 = ""
 	ADF.AlbD201019 = ""
+	ADF.NbMember = ""
+
 }
 
 func FLT(filters map[string][]string, Apis *Api, ADF *Filter) {
@@ -48,6 +51,9 @@ func FLT(filters map[string][]string, Apis *Api, ADF *Filter) {
 	if filters["alb_date"] == nil {
 		filters["alb_date"] = []string{"1960", "1970", "1980", "1990", "2000", "2010"}
 	}
+	if filters["nb_member"] == nil {
+		filters["nb_member"] = []string{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"}
+	}
 	for _, i := range Apis.ApiArtist {
 		for _, k := range filters["art_date"] {
 			artiste_date, _ := strconv.Atoi(k)
@@ -56,7 +62,12 @@ func FLT(filters map[string][]string, Apis *Api, ADF *Filter) {
 					albumCreationDate, _ := strconv.Atoi(strings.Split(i.FirstAlbum, "-")[2])
 					album_date, _ := strconv.Atoi(l)
 					if album_date <= albumCreationDate && albumCreationDate <= album_date+9 {
-						Apis.ApiFiltre = append(Apis.ApiFiltre, i)
+						for _, n := range filters["nb_member"] {
+							nb_member, _ := strconv.Atoi(n)
+							if len(i.Members) == nb_member {
+								Apis.ApiFiltre = append(Apis.ApiFiltre, i)
+							}
+						}
 					}
 				}
 			}
@@ -108,5 +119,8 @@ func FLTCheck(filters map[string][]string, ADF *Filter) {
 				ADF.AlbD201019 = "checked"
 			}
 		}
+	}
+	if filters["nb_member"] != nil {
+		ADF.NbMember = filters["nb_member"][0]
 	}
 }
