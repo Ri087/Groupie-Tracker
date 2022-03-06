@@ -5,6 +5,7 @@ type Api struct {
 	ApiDates     []Date
 	ApiLocations []Location
 	ApiRelations []Relation
+	ApiFiltre    []Artist
 	Id           int
 }
 
