@@ -71,7 +71,7 @@
                             <h2 class="title-info">0-10</h2>
                             <br>
                             <input type="range" value="{{.ADF.NbMember}}" name="nb_member" min="1" max="10" step="1" oninput="document.getElementById('AfficheRange').textContent=value" />
-                            <h1 id="AfficheRange">0</h1>
+                            <h1 id="AfficheRange">{{.ADF.NbMember}}</h1>
                         </div>
                     </div>
                 </form>
