@@ -13,7 +13,7 @@
             <h2 class="h_name">Nom: {{ (index .A.ApiArtist $ID).Name }}</h2>
             <img class="img-artist" src="{{ (index .A.ApiArtist $ID).Image }}">
             <h2 class="h2">Date de création: {{ (index .A.ApiArtist $ID).CreationDate }}</h2>
-            <h2 class="h2">Date du premier album: {{ (index .A.ApiArtist $ID).FirstAlbum }}</h2>
+            <h2 class="h2">Date ouououoououououuo du premier album: {{ (index .A.ApiArtist $ID).FirstAlbum }}</h2>
             <h2 class="h2">Groupe:<br> {{ range (index .A.ApiArtist $ID).Members }} {{.}} <br> {{end}}</h2>
             <h2 class="h2">Date:<br> {{ range (index .A.ApiDates $ID).Dates }} {{.}} <br> {{end}}</h2>
             <h2 class="h2">Locations:<br> {{ range (index .A.ApiLocations $ID).Locations }} {{.}} <br> {{end}}</h2>

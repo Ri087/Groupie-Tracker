@@ -18,11 +18,7 @@ type Main_struct struct {
 func FiltreInit(F *GroupieTracker.Filtre_Artist) {
 	F.ModifArtistCrea = false
 	F.ModifDateAlbum = false
-	F.DateStart = 0
-	F.DateEnd = 0
-	F.DateAlbumS = 0
-	F.DateAlbumE = 0
-	F.DateAlbumInt = 0
+	F.Test = "checked"
 }
 
 func ApiInit() *GroupieTracker.Api {
@@ -31,6 +27,7 @@ func ApiInit() *GroupieTracker.Api {
 	GroupieTracker.ApiDates(Apis)
 	GroupieTracker.ApiLocations(Apis)
 	GroupieTracker.ApiRelations(Apis)
+	Apis.ApiFiltre = Apis.ApiArtist
 	return Apis
 }
 
@@ -43,7 +40,6 @@ func main() {
 	Apis := ApiInit()
 	Main := Main_struct{A: Apis, F: Fil, Bool: false}
 	FiltreInit(Fil)
-
 	fileServer := http.FileServer(http.Dir("./static"))
 	http.Handle("/ressources/", http.StripPrefix("/ressources/", fileServer))
 
@@ -59,12 +55,18 @@ func main() {
 		templateshtml.ExecuteTemplate(w, "artiste.html", Main)
 	})
 	http.HandleFunc("/filtre-date-artiste", func(w http.ResponseWriter, r *http.Request) {
-		GroupieTracker.FuncFiltreDate(w, r, Fil)
+		GroupieTracker.Filtre(w, r, Fil, Apis)
 	})
-	// Filtre date de creation premier album
-	// http.HandleFunc("/filtre-date-album", func(w http.ResponseWriter, r *http.Request) {
-	// 	GroupieTracker.FuncFiltreAlbumCrea(w, r, Fil)
-	// })
+	http.HandleFunc("/filtre-date-album", func(w http.ResponseWriter, r *http.Request) {
+		GroupieTracker.Filtre(w, r, Fil, Apis)
+	})
+	http.HandleFunc("/filtre-nb-groupe", func(w http.ResponseWriter, r *http.Request) {
+		GroupieTracker.Filtre(w, r, Fil, Apis)
+	})
+	http.HandleFunc("/Clear-filtre", func(w http.ResponseWriter, r *http.Request) {
+		GroupieTracker.FiltreClear(w, r, Fil, Apis)
+	})
+
 	http.HandleFunc("/search", func(w http.ResponseWriter, r *http.Request) {
 		if !Searchbool(Apis, r.FormValue("search")) {
 			http.Redirect(w, r, "#second-page", http.StatusFound)
@@ -84,6 +86,7 @@ func main() {
 	http.HandleFunc("/artiste/", func(w http.ResponseWriter, r *http.Request) {
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
 		Id_Api_page, _ := strconv.Atoi(r.URL.Path[9:])
+		fmt.Println(Id_Api_page)
 		Apis.Id = Id_Api_page - 1
 		templateshtml.ExecuteTemplate(w, "pages-artistes.html", Main)
 	})
