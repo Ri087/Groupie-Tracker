@@ -23,12 +23,12 @@ func ApiInit() *GroupieTracker.Api {
 }
 
 func main() {
+	Apis := ApiInit()
 	Acc := &GroupieTracker.Account{}
 	CheckCreation := &GroupieTracker.CheckCreation{}
 	CheckConnection := &GroupieTracker.CheckCo{}
-	Apis := ApiInit()
-	Main := Main_struct{A: Apis, Bool: false}
-	Main.ADF = &GroupieTracker.Filter{}
+	Main := Main_struct{A: Apis, ADF: &GroupieTracker.Filter{}, Bool: false}
+
 	fileServer := http.FileServer(http.Dir("./static"))
 	http.Handle("/ressources/", http.StripPrefix("/ressources/", fileServer))
 
@@ -131,7 +131,7 @@ func main() {
 
 func Creation(w http.ResponseWriter, r *http.Request, CC *GroupieTracker.CheckCreation, Acc *GroupieTracker.Account) {
 	name, pwd, pwdc, mail := r.FormValue("name"), r.FormValue("pwd"), r.FormValue("pwdc"), r.FormValue("mail")
-	if GroupieTracker.CheckCrea(name, pwd, pwdc, mail, CC, Acc) {
+	if GroupieTracker.CheckGoodCreation(name, pwd, pwdc, mail, CC, Acc) {
 		http.Redirect(w, r, "/creation", http.StatusFound)
 	} else {
 		SetCookie(w, mail, pwd, Acc)
@@ -175,8 +175,4 @@ func Searchbool(api *GroupieTracker.Api, name string) bool {
 
 func Logout(Acc *GroupieTracker.Account) {
 	Acc.Mail, Acc.Password, Acc.Name = "", []byte{}, ""
-}
-
-func FiltreCookie() {
-	return
 }
