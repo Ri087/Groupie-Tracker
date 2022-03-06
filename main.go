@@ -11,14 +11,8 @@ import (
 
 type Main_struct struct {
 	A    *GroupieTracker.Api
-	F    *GroupieTracker.Filtre_Artist
+	ADF  *GroupieTracker.Filter
 	Bool bool
-}
-
-func FiltreInit(F *GroupieTracker.Filtre_Artist) {
-	F.ModifArtistCrea = false
-	F.ModifDateAlbum = false
-	F.Test = "checked"
 }
 
 func ApiInit() *GroupieTracker.Api {
@@ -32,14 +26,12 @@ func ApiInit() *GroupieTracker.Api {
 }
 
 func main() {
-
-	Fil := &GroupieTracker.Filtre_Artist{}
 	Acc := &GroupieTracker.Account{}
 	CheckCreation := &GroupieTracker.CheckCreation{}
 	CheckConnection := &GroupieTracker.CheckCo{}
 	Apis := ApiInit()
-	Main := Main_struct{A: Apis, F: Fil, Bool: false}
-	FiltreInit(Fil)
+	Main := Main_struct{A: Apis, Bool: false}
+	Main.ADF = &GroupieTracker.Filter{}
 	fileServer := http.FileServer(http.Dir("./static"))
 	http.Handle("/ressources/", http.StripPrefix("/ressources/", fileServer))
 
@@ -53,18 +45,11 @@ func main() {
 	http.HandleFunc("/artiste", func(w http.ResponseWriter, r *http.Request) {
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
 		templateshtml.ExecuteTemplate(w, "artiste.html", Main)
+		GroupieTracker.FilterReset(Main.ADF)
 	})
-	http.HandleFunc("/filtre-date-artiste", func(w http.ResponseWriter, r *http.Request) {
-		GroupieTracker.Filtre(w, r, Fil, Apis)
-	})
-	http.HandleFunc("/filtre-date-album", func(w http.ResponseWriter, r *http.Request) {
-		GroupieTracker.Filtre(w, r, Fil, Apis)
-	})
-	http.HandleFunc("/filtre-nb-groupe", func(w http.ResponseWriter, r *http.Request) {
-		GroupieTracker.Filtre(w, r, Fil, Apis)
-	})
-	http.HandleFunc("/Clear-filtre", func(w http.ResponseWriter, r *http.Request) {
-		GroupieTracker.FiltreClear(w, r, Fil, Apis)
+	http.HandleFunc("/filter", func(w http.ResponseWriter, r *http.Request) {
+		GroupieTracker.FLT(r.URL.Query(), Apis, Main.ADF)
+		http.Redirect(w, r, "/artiste", http.StatusFound)
 	})
 
 	http.HandleFunc("/search", func(w http.ResponseWriter, r *http.Request) {
@@ -193,4 +178,8 @@ func Searchbool(api *GroupieTracker.Api, name string) bool {
 
 func Logout(Acc *GroupieTracker.Account) {
 	Acc.Mail, Acc.Password, Acc.Name = "", []byte{}, ""
+}
+
+func FiltreCookie() {
+	return
 }
