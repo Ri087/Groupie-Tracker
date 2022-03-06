@@ -17,10 +17,7 @@ type Main_struct struct {
 
 func ApiInit() *GroupieTracker.Api {
 	Apis := &GroupieTracker.Api{}
-	GroupieTracker.ApiArtists(Apis)
-	GroupieTracker.ApiDates(Apis)
-	GroupieTracker.ApiLocations(Apis)
-	GroupieTracker.ApiRelations(Apis)
+	GroupieTracker.ApiInit(Apis)
 	Apis.ApiFiltre = Apis.ApiArtist
 	return Apis
 }
