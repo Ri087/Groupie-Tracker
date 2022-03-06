@@ -51,8 +51,8 @@ func FLT(filters map[string][]string, Apis *Api, ADF *Filter) {
 	if filters["alb_date"] == nil {
 		filters["alb_date"] = []string{"1960", "1970", "1980", "1990", "2000", "2010"}
 	}
-	if filters["nb_member"] == nil {
-		filters["nb_member"] = []string{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"}
+	if filters["nb_member"][0] == "0" {
+		filters["nb_member"] = []string{"1", "2", "3", "4", "5", "6", "7", "8"}
 	}
 	for _, i := range Apis.ApiArtist {
 		for _, k := range filters["art_date"] {
