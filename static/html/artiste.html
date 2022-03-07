@@ -67,11 +67,23 @@
                     </div>
                     <div class="form-div-info">
                         <div class="i-1">
+                            <select name="Location" id="pet-select">
+                                <option value="{{.ADF.CountryValue}}" selected>{{.ADF.CountryValue}}</option>
+                            {{range .ADF.Country_tab}}
+                            
+                            <option value="{{.}}">{{.}}</option>
+                              {{end}}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-div-info">
+                        <div class="i-1">
                             <h2 class="title-info">Nombre de membre</h2>
                             <h2 class="title-info">0-10</h2>
                             <br>
                             <h1>La valeur 0 permet de ne pas prendre en compte le nombre de membres</h1>
-                            <input type="range" value="{{.ADF.NbMember}}" name="nb_member" min="0" max="8" step="1"/>
+                            <input type="range" value="{{.ADF.NbMember}}" name="nb_member" min="0" max="8" step="1" />
                             <h1 id="AfficheRange">{{.ADF.NbMember}}</h1>
                         </div>
                     </div>

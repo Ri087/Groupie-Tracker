@@ -1,24 +1,27 @@
 package GroupieTracker
 
 import (
+	"fmt"
 	"strconv"
 	"strings"
 )
 
 type Filter struct {
-	ArtD196069 string
-	ArtD197079 string
-	ArtD198089 string
-	ArtD199099 string
-	ArtD200009 string
-	ArtD201019 string
-	AlbD196069 string
-	AlbD197079 string
-	AlbD198089 string
-	AlbD199099 string
-	AlbD200009 string
-	AlbD201019 string
-	NbMember   string
+	ArtD196069   string
+	ArtD197079   string
+	ArtD198089   string
+	ArtD199099   string
+	ArtD200009   string
+	ArtD201019   string
+	AlbD196069   string
+	AlbD197079   string
+	AlbD198089   string
+	AlbD199099   string
+	AlbD200009   string
+	AlbD201019   string
+	NbMember     string
+	Country_tab  []string
+	CountryValue string
 }
 
 func FilterReset(ADF *Filter) {
@@ -34,15 +37,17 @@ func FilterReset(ADF *Filter) {
 	ADF.AlbD199099 = ""
 	ADF.AlbD200009 = ""
 	ADF.AlbD201019 = ""
-	ADF.NbMember = ""
-
+	ADF.NbMember = "0"
+	ADF.CountryValue = "nil"
 }
 
 func FLT(filters map[string][]string, Apis *Api, ADF *Filter) {
+	fmt.Println(filters)
 	if len(filters) == 0 {
 		Apis.ApiFiltre = Apis.ApiArtist
 		return
 	}
+
 	Apis.ApiFiltre = []Artist{}
 	FLTCheck(filters, ADF)
 	if filters["art_date"] == nil {
@@ -54,24 +59,13 @@ func FLT(filters map[string][]string, Apis *Api, ADF *Filter) {
 	if filters["nb_member"][0] == "0" {
 		filters["nb_member"] = []string{"1", "2", "3", "4", "5", "6", "7", "8"}
 	}
+	if filters["Location"] == nil {
+		filters["Location"] = ADF.Country_tab
+	}
+	fmt.Println(filters)
+
 	for _, i := range Apis.ApiArtist {
-		for _, k := range filters["art_date"] {
-			artiste_date, _ := strconv.Atoi(k)
-			if artiste_date <= i.CreationDate && i.CreationDate <= artiste_date+9 {
-				for _, l := range filters["alb_date"] {
-					albumCreationDate, _ := strconv.Atoi(strings.Split(i.FirstAlbum, "-")[2])
-					album_date, _ := strconv.Atoi(l)
-					if album_date <= albumCreationDate && albumCreationDate <= album_date+9 {
-						for _, n := range filters["nb_member"] {
-							nb_member, _ := strconv.Atoi(n)
-							if len(i.Members) == nb_member {
-								Apis.ApiFiltre = append(Apis.ApiFiltre, i)
-							}
-						}
-					}
-				}
-			}
-		}
+		ntm(filters, Apis, ADF, i)
 	}
 }
 
@@ -122,5 +116,64 @@ func FLTCheck(filters map[string][]string, ADF *Filter) {
 	}
 	if filters["nb_member"] != nil {
 		ADF.NbMember = filters["nb_member"][0]
+	}
+	if filters["Location"] != nil {
+		ADF.CountryValue = filters["Location"][0]
+	}
+}
+
+func CountryTab(Api *Api, F *Filter) {
+
+	for _, i := range Api.ApiLocations {
+		for _, o := range i.Locations {
+			country := strings.Split(o, "-")[1]
+			if !CheckIfInTab(country, F) {
+				F.Country_tab = append(F.Country_tab, country)
+			} else if len(F.Country_tab) == 0 {
+				F.Country_tab = append(F.Country_tab, country)
+			}
+
+		}
+
+	}
+
+}
+
+func CheckIfInTab(country string, F *Filter) bool {
+	for _, y := range F.Country_tab {
+		if country == y {
+			return true
+		}
+	}
+	return false
+}
+
+func ntm(filters map[string][]string, Apis *Api, ADF *Filter, i Artist) {
+	for _, k := range filters["art_date"] {
+		artiste_date, _ := strconv.Atoi(k)
+		if artiste_date <= i.CreationDate && i.CreationDate <= artiste_date+9 {
+			for _, l := range filters["alb_date"] {
+				albumCreationDate, _ := strconv.Atoi(strings.Split(i.FirstAlbum, "-")[2])
+				album_date, _ := strconv.Atoi(l)
+				if album_date <= albumCreationDate && albumCreationDate <= album_date+9 {
+					for _, m := range filters["nb_member"] {
+						nb_member, _ := strconv.Atoi(m)
+						if len(i.Members) == nb_member {
+							for _, o := range Apis.ApiLocations {
+								for _, p := range o.Locations {
+									CountryLocation := strings.Split(p, "-")[1]
+									for _, q := range filters["Location"] {
+										if CountryLocation == q {
+											Apis.ApiFiltre = append(Apis.ApiFiltre, i)
+											return
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 }
