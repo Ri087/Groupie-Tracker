@@ -122,10 +122,8 @@ func main() {
 
 	// NE PAS SUPPR CEST DES TESTS
 	http.HandleFunc("/test", func(w http.ResponseWriter, r *http.Request) {
-		GroupieTracker.Test(w, r)
 	})
 	http.HandleFunc("/callback", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Println(r)
 	})
 	http.ListenAndServe(":8080", nil)
 }
