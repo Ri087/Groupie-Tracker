@@ -2,6 +2,7 @@ package main
 
 import (
 	"GroupieTracker/GroupieTracker"
+	"encoding/base32"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -10,38 +11,23 @@ import (
 
 type Main_struct struct {
 	A    *GroupieTracker.Api
-	F    *GroupieTracker.Filtre_Artist
+	ADF  *GroupieTracker.Filter
 	Bool bool
-}
-
-func FiltreInit(F *GroupieTracker.Filtre_Artist) {
-	F.ModifArtistCrea = false
-	F.ModifDateAlbum = false
-	F.DateStart = 0
-	F.DateEnd = 0
-	F.DateAlbumS = 0
-	F.DateAlbumE = 0
-	F.DateAlbumInt = 0
 }
 
 func ApiInit() *GroupieTracker.Api {
 	Apis := &GroupieTracker.Api{}
-	GroupieTracker.ApiArtists(Apis)
-	GroupieTracker.ApiDates(Apis)
-	GroupieTracker.ApiLocations(Apis)
-	GroupieTracker.ApiRelations(Apis)
+	GroupieTracker.ApiInit(Apis)
+	Apis.ApiFiltre = Apis.ApiArtist
 	return Apis
 }
 
 func main() {
-
-	Fil := &GroupieTracker.Filtre_Artist{}
+	Apis := ApiInit()
 	Acc := &GroupieTracker.Account{}
 	CheckCreation := &GroupieTracker.CheckCreation{}
 	CheckConnection := &GroupieTracker.CheckCo{}
-	Apis := ApiInit()
-	Main := Main_struct{A: Apis, F: Fil, Bool: false}
-	FiltreInit(Fil)
+	Main := Main_struct{A: Apis, ADF: &GroupieTracker.Filter{}, Bool: false}
 
 	fileServer := http.FileServer(http.Dir("./static"))
 	http.Handle("/ressources/", http.StripPrefix("/ressources/", fileServer))
@@ -56,14 +42,14 @@ func main() {
 	http.HandleFunc("/artiste", func(w http.ResponseWriter, r *http.Request) {
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
 		templateshtml.ExecuteTemplate(w, "artiste.html", Main)
+		GroupieTracker.FilterReset(Main.ADF)
 	})
-	http.HandleFunc("/filtre-date-artiste", func(w http.ResponseWriter, r *http.Request) {
-		GroupieTracker.FuncFiltreDate(w, r, Fil)
+	http.HandleFunc("/filter", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Println(r.URL.Query())
+		GroupieTracker.FLT(r.URL.Query(), Apis, Main.ADF)
+		http.Redirect(w, r, "/artiste", http.StatusFound)
 	})
-	// Filtre date de creation premier album
-	// http.HandleFunc("/filtre-date-album", func(w http.ResponseWriter, r *http.Request) {
-	// 	GroupieTracker.FuncFiltreAlbumCrea(w, r, Fil)
-	// })
+
 	http.HandleFunc("/search", func(w http.ResponseWriter, r *http.Request) {
 		if !Searchbool(Apis, r.FormValue("search")) {
 			http.Redirect(w, r, "#second-page", http.StatusFound)
@@ -83,12 +69,12 @@ func main() {
 	http.HandleFunc("/artiste/", func(w http.ResponseWriter, r *http.Request) {
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
 		Id_Api_page, _ := strconv.Atoi(r.URL.Path[9:])
+		fmt.Println(Id_Api_page)
 		Apis.Id = Id_Api_page - 1
-		fmt.Println(Apis.Id)
 		templateshtml.ExecuteTemplate(w, "pages-artistes.html", Main)
 	})
 	http.HandleFunc("/connection", func(w http.ResponseWriter, r *http.Request) {
-		if _, err := r.Cookie("Token"); err == nil {
+		if _, err := r.Cookie("AUTHENTIFICATION_TOKEN"); err == nil {
 			http.Redirect(w, r, "/profil", http.StatusFound)
 			return
 		}
@@ -97,7 +83,7 @@ func main() {
 		CheckConnection.Mail, CheckConnection.Pwd = false, false
 	})
 	http.HandleFunc("/creation", func(w http.ResponseWriter, r *http.Request) {
-		if _, err := r.Cookie("Token"); err == nil {
+		if _, err := r.Cookie("AUTHENTIFICATION_TOKEN"); err == nil {
 			http.Redirect(w, r, "/profil", http.StatusFound)
 			return
 		}
@@ -106,7 +92,7 @@ func main() {
 		CheckCreation.Name, CheckCreation.Pwd, CheckCreation.Pwdc, CheckCreation.Mail, CheckCreation.Exist = false, false, false, false, false
 	})
 	http.HandleFunc("/profil", func(w http.ResponseWriter, r *http.Request) {
-		cookie, err := r.Cookie("Token")
+		cookie, err := r.Cookie("AUTHENTIFICATION_TOKEN")
 		if err != nil {
 			http.Redirect(w, r, "/connection", http.StatusFound)
 			return
@@ -126,22 +112,30 @@ func main() {
 	})
 
 	http.HandleFunc("/logout", func(w http.ResponseWriter, r *http.Request) {
-		if _, err := r.Cookie("Token"); err == nil {
-			cookie, _ := r.Cookie("Token")
+		if _, err := r.Cookie("AUTHENTIFICATION_TOKEN"); err == nil {
+			cookie, _ := r.Cookie("AUTHENTIFICATION_TOKEN")
 			cookie.MaxAge = -1
 			http.SetCookie(w, cookie)
 		}
 		http.Redirect(w, r, "/", http.StatusFound)
+	})
+
+	// NE PAS SUPPR CEST DES TESTS
+	http.HandleFunc("/test", func(w http.ResponseWriter, r *http.Request) {
+		GroupieTracker.Test(w, r)
+	})
+	http.HandleFunc("/callback", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Println(r)
 	})
 	http.ListenAndServe(":8080", nil)
 }
 
 func Creation(w http.ResponseWriter, r *http.Request, CC *GroupieTracker.CheckCreation, Acc *GroupieTracker.Account) {
 	name, pwd, pwdc, mail := r.FormValue("name"), r.FormValue("pwd"), r.FormValue("pwdc"), r.FormValue("mail")
-	if GroupieTracker.CheckCrea(name, pwd, pwdc, mail, CC, Acc) {
+	if GroupieTracker.CheckGoodCreation(name, pwd, pwdc, mail, CC, Acc) {
 		http.Redirect(w, r, "/creation", http.StatusFound)
 	} else {
-		SetCookie(w, mail, Acc)
+		SetCookie(w, mail, pwd, Acc)
 		http.Redirect(w, r, "/profil", http.StatusFound)
 	}
 }
@@ -149,11 +143,15 @@ func Creation(w http.ResponseWriter, r *http.Request, CC *GroupieTracker.CheckCr
 func Login(w http.ResponseWriter, r *http.Request, CC *GroupieTracker.CheckCo, Acc *GroupieTracker.Account) {
 	mail, pwd := r.FormValue("mail"), r.FormValue("pwd")
 	if GroupieTracker.CheckConnection(mail, pwd, CC, Acc) {
-		SetCookie(w, mail, Acc)
+		SetCookie(w, mail, pwd, Acc)
 		http.Redirect(w, r, "/profil", http.StatusFound)
 	} else {
 		http.Redirect(w, r, "/connection", http.StatusFound)
 	}
+}
+
+func SetCookie(w http.ResponseWriter, mail, pwd string, Acc *GroupieTracker.Account) {
+	http.SetCookie(w, &http.Cookie{Name: "AUTHENTIFICATION_TOKEN", Value: base32.StdEncoding.EncodeToString(GroupieTracker.Cryptage(mail))})
 }
 
 func NametoId(api *GroupieTracker.Api, name string) string {
@@ -176,11 +174,6 @@ func Searchbool(api *GroupieTracker.Api, name string) bool {
 	return false
 }
 
-func SetCookie(w http.ResponseWriter, mail string, Acc *GroupieTracker.Account) {
-	http.SetCookie(w, &http.Cookie{Name: "Token", Value: GroupieTracker.IDMail(mail)})
-	Logout(Acc)
-}
-
 func Logout(Acc *GroupieTracker.Account) {
-	Acc.Mail, Acc.Password, Acc.Name = "", "", ""
+	Acc.Mail, Acc.Password, Acc.Name = "", []byte{}, ""
 }

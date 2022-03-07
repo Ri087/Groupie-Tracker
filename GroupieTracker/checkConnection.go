@@ -1,6 +1,8 @@
 package GroupieTracker
 
 import (
+	"bytes"
+	"encoding/base64"
 	"encoding/json"
 	"io/ioutil"
 	"log"
@@ -13,7 +15,7 @@ type CheckCo struct {
 }
 
 func CheckConnection(mail, pwd string, CC *CheckCo, Acc *Account) bool {
-	ID := IDMail(mail)
+	ID := string(base64.StdEncoding.EncodeToString(Cryptage(mail)))
 	files, err := ioutil.ReadDir("./GroupieTracker/Account/Login/")
 	if err != nil {
 		log.Fatal(err)
@@ -21,7 +23,7 @@ func CheckConnection(mail, pwd string, CC *CheckCo, Acc *Account) bool {
 	for _, f := range files {
 		if f.Name() == ID+".json" {
 			LoginAcc(ID, Acc)
-			if Acc.Password != pwd {
+			if !bytes.Equal(Acc.Password, Cryptage(pwd)) {
 				CC.Pwd = true
 				return false
 			}
