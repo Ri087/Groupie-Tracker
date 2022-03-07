@@ -28,7 +28,8 @@ func main() {
 	CheckCreation := &GroupieTracker.CheckCreation{}
 	CheckConnection := &GroupieTracker.CheckCo{}
 	Main := Main_struct{A: Apis, ADF: &GroupieTracker.Filter{}, Bool: false}
-
+	GroupieTracker.FilterReset(Main.ADF)
+	GroupieTracker.CountryTab(Apis, Main.ADF)
 	fileServer := http.FileServer(http.Dir("./static"))
 	http.Handle("/ressources/", http.StripPrefix("/ressources/", fileServer))
 
@@ -45,7 +46,6 @@ func main() {
 		GroupieTracker.FilterReset(Main.ADF)
 	})
 	http.HandleFunc("/filter", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Println(r.URL.Query())
 		GroupieTracker.FLT(r.URL.Query(), Apis, Main.ADF)
 		http.Redirect(w, r, "/artiste", http.StatusFound)
 	})
