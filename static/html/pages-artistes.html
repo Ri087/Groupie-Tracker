@@ -3,25 +3,37 @@
 
 <head>
     <link rel="stylesheet" href="/ressources/css/pages-artistes.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel&display=swap" rel="stylesheet">
 
 </head>
 
 <body>
     {{$ID:= .A.Id}}
-    <div class="bg"></div>
-    <div class="div-artist">
-        <div class="pA-img">
-            <h2 class="h_name">Nom: {{ (index .A.ApiArtist $ID).Name }}</h2>
-            <img class="img-artist" src="{{ (index .A.ApiArtist $ID).Image }}">
-            <h2 class="h2">Date de création: {{ (index .A.ApiArtist $ID).CreationDate }}</h2>
-            <h2 class="h2">Date du premier album: {{ (index .A.ApiArtist $ID).FirstAlbum }}</h2>
-            <h2 class="h2">Groupe:<br> {{ range (index .A.ApiArtist $ID).Members }} {{.}} <br> {{end}}</h2>
-            <h2 class="h2">Date:<br> {{ range (index .A.ApiDates $ID).Dates }} {{.}} <br> {{end}}</h2>
-            <h2 class="h2">Locations:<br> {{ range (index .A.ApiLocations $ID).Locations }} {{.}} <br> {{end}}</h2>
-            <h2 class="h2">Rélation:<br>{{ range $key, $value := (index .A.ApiRelations $ID).DatesLocations}} {{ $key }} <br> {{$value }}<br> {{ end }}</h2>
-
+    <div class="top-page"> 
+        <div class="sidebar">
+            <a class="back-to-home" href="/">back-to-home</a>
         </div>
+        <div class="popo"> 
+            <div class="left-text">
+                <img class="img-artist" src="{{ (index .A.ApiArtist $ID).Image }}">
+                <br>
+                <h2 class="h_name">{{ (index .A.ApiArtist $ID).Name }}</h2>
+                <h2 class="h2">{{ (index .A.ApiArtist $ID).CreationDate }}</h2>
+                <br>
+            </div>
+            <div class="pipi">
+                <a class="more-info" href="#pA-img" disabled> more info</a>
+        </div> 
     </div>
+    <div id="pA-img">
+        <div class="grp">
+            <h2 class="h2">Groupe:<br> {{ range (index .A.ApiArtist $ID).Members }} {{.}} <br> {{end}}</h2>
+            <h2 class="h2">Date du premier album: {{ (index .A.ApiArtist $ID).FirstAlbum }}</h2>
+                <div class="rel">
+                    <h2 class="h2">Rélation:<br>{{ range $key, $value := (index .A.ApiRelations $ID).DatesLocations}} {{ $key }} <br> {{$value }}<br> {{ end }}</h2>
+                </div>
+            </div>
+        </div>
 </body>
 
 </html>

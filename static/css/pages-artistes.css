@@ -5,31 +5,102 @@
 }
 
 body , html {
+    font-family: 'Cinzel';
     height: 100%;
+    background-color: white;
+    scroll-behavior: smooth;
+}
+.div-artist{
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 .bg {
     filter: blur(4px);
     -webkit-filter: blur(4px);
     height: 100%;
-    background-image: url("/ressources/img/Concert-img.jpg");
-}
-.div-artist{
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
-    color: white;
-    font-weight: bold;
-    border: 3px solid #f1f1f1;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 2;
-    width: 80%;
-    height: 80vh;
-    padding: 20px;
-
+    background-color: white;
 }
 
-.pA-img {
+.top-page{
+    border: 4px solid gold;
+    background-color: #232323;
     display: flex;
+    align-items: center;
+    height: 100vh;
 }
+.pA-img {
+    border: 2px solid blue;
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+}
+
+.h_name{
+    font-size: 24px;
+    font-weight: bold;
+}
+.img {
+    border: 6px solid purple;
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.sidebar{
+    align-items: center;
+    height: 100%;
+    width: 40%;
+    border: 5px solid red;
+}
+
+.img-artist{
+    width: 50%;
+    height: 50%
+    -webkit-box-shadow: 0px 0px 15px 2px beige; 
+    box-shadow: 0px 0px 15px 2px beige;
+}
+.left-text{
+
+    background-color: #2F2F2F;
+    border: 1px solid white;
+    -webkit-box-shadow: 0px 0px 15px 2px beige; 
+    box-shadow: 0px 0px 15px 2px beige;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 60%;
+    line-height: 50px;
+    height: 60%;
+    width: 30%;
+    margin-bottom: 20px;
+}
+ .grp {
+    border: 2px solid green;
+    height: 100vh;
+ }
+
+ .popo{
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     flex-direction: column;
+     width: 100%;
+     height: 100%;
+     border: 4px solid blue;
+ }
+
+ .more-info {
+    margin-top: 200px;
+    font-size:18px ;
+    color: white;
+    text-decoration: underline 0.15em rgba(0, 0, 0, 0);
+    text-underline-offset: 0.4em;
+ }
+
+ .more-info:hover {
+    text-decoration-color: white;
+    text-underline-offset: 0.4em;
+ }
