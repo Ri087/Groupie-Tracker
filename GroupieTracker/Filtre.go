@@ -1,7 +1,6 @@
 package GroupieTracker
 
 import (
-	"fmt"
 	"strconv"
 	"strings"
 )
@@ -38,16 +37,10 @@ func FilterReset(ADF *Filter) {
 	ADF.AlbD200009 = ""
 	ADF.AlbD201019 = ""
 	ADF.NbMember = "0"
-	ADF.CountryValue = "nil"
+	ADF.CountryValue = "All"
 }
 
 func FLT(filters map[string][]string, Apis *Api, ADF *Filter) {
-	fmt.Println(filters)
-	if len(filters) == 0 {
-		Apis.ApiFiltre = Apis.ApiArtist
-		return
-	}
-
 	Apis.ApiFiltre = []Artist{}
 	FLTCheck(filters, ADF)
 	if filters["art_date"] == nil {
@@ -59,13 +52,14 @@ func FLT(filters map[string][]string, Apis *Api, ADF *Filter) {
 	if filters["nb_member"][0] == "0" {
 		filters["nb_member"] = []string{"1", "2", "3", "4", "5", "6", "7", "8"}
 	}
-	if filters["Location"] == nil {
+	if filters["Location"][0] == "All" {
 		filters["Location"] = ADF.Country_tab
 	}
-	fmt.Println(filters)
-
 	for _, i := range Apis.ApiArtist {
 		ntm(filters, Apis, ADF, i)
+	}
+	if len(filters["Location"]) == len(ADF.Country_tab) {
+		ADF.CountryValue = "All"
 	}
 }
 
@@ -114,29 +108,24 @@ func FLTCheck(filters map[string][]string, ADF *Filter) {
 			}
 		}
 	}
-	if filters["nb_member"] != nil {
+	if filters["nb_member"][0] != "0" {
 		ADF.NbMember = filters["nb_member"][0]
 	}
-	if filters["Location"] != nil {
+	if filters["Location"][0] != "All" {
 		ADF.CountryValue = filters["Location"][0]
 	}
 }
 
 func CountryTab(Api *Api, F *Filter) {
-
+	F.Country_tab = append(F.Country_tab, "All")
 	for _, i := range Api.ApiLocations {
 		for _, o := range i.Locations {
 			country := strings.Split(o, "-")[1]
 			if !CheckIfInTab(country, F) {
 				F.Country_tab = append(F.Country_tab, country)
-			} else if len(F.Country_tab) == 0 {
-				F.Country_tab = append(F.Country_tab, country)
 			}
-
 		}
-
 	}
-
 }
 
 func CheckIfInTab(country string, F *Filter) bool {
@@ -159,14 +148,12 @@ func ntm(filters map[string][]string, Apis *Api, ADF *Filter, i Artist) {
 					for _, m := range filters["nb_member"] {
 						nb_member, _ := strconv.Atoi(m)
 						if len(i.Members) == nb_member {
-							for _, o := range Apis.ApiLocations {
-								for _, p := range o.Locations {
-									CountryLocation := strings.Split(p, "-")[1]
-									for _, q := range filters["Location"] {
-										if CountryLocation == q {
-											Apis.ApiFiltre = append(Apis.ApiFiltre, i)
-											return
-										}
+							for _, n := range Apis.ApiLocations[i.Id-1].Locations {
+								CountryLocation := strings.Split(n, "-")[1]
+								for _, q := range filters["Location"] {
+									if CountryLocation == q {
+										Apis.ApiFiltre = append(Apis.ApiFiltre, i)
+										return
 									}
 								}
 							}

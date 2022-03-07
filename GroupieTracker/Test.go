@@ -29,18 +29,23 @@ func Test(w http.ResponseWriter, r *http.Request) {
 
 	auth := fmt.Sprintf("Basic %s", encoded)
 
-	request := gorequest.New()
+	fmt.Println(auth)
+
+	// request := gorequest.New()
 	// request := http.
-	request.Post(ACCOUNTS_URL)
+
+	// request.Post(ACCOUNTS_URL)
 	// func (s *SuperAgent) Post(targetUrl string) *SuperAgent
 	// s.ClearSuperAgent()
 	// s.Method = POST
 	// s.Url = targetUrl
 	// s.Errors = nil
-	request.Set("Authorization", auth)
+
+	// request.Set("Authorization", auth)
 	// s.Header.Set(param, value)
 	// func (h Header) Set(key, value string)
-	request.Send("grant_type=client_credentials")
+
+	// request.Send("grant_type=client_credentials")
 }
 
 // client_id := "88fe57bfdc1f4fe18473613343bd419c"
