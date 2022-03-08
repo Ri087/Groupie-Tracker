@@ -3,7 +3,6 @@ package main
 import (
 	"GroupieTracker/GroupieTracker"
 	"encoding/base32"
-	"fmt"
 	"net/http"
 	"strconv"
 	"text/template"
@@ -28,7 +27,8 @@ func main() {
 	CheckCreation := &GroupieTracker.CheckCreation{}
 	CheckConnection := &GroupieTracker.CheckCo{}
 	Main := Main_struct{A: Apis, ADF: &GroupieTracker.Filter{}, Bool: false}
-
+	GroupieTracker.FilterReset(Main.ADF)
+	GroupieTracker.CountryTab(Apis, Main.ADF)
 	fileServer := http.FileServer(http.Dir("./static"))
 	http.Handle("/ressources/", http.StripPrefix("/ressources/", fileServer))
 
@@ -45,7 +45,6 @@ func main() {
 		GroupieTracker.FilterReset(Main.ADF)
 	})
 	http.HandleFunc("/filter", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Println(r.URL.Query())
 		GroupieTracker.FLT(r.URL.Query(), Apis, Main.ADF)
 		http.Redirect(w, r, "/artiste", http.StatusFound)
 	})
@@ -122,10 +121,8 @@ func main() {
 
 	// NE PAS SUPPR CEST DES TESTS
 	http.HandleFunc("/test", func(w http.ResponseWriter, r *http.Request) {
-		GroupieTracker.Test(w, r)
 	})
 	http.HandleFunc("/callback", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Println(r)
 	})
 	http.ListenAndServe(":8080", nil)
 }

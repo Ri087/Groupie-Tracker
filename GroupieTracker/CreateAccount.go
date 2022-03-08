@@ -4,7 +4,6 @@ import (
 	"crypto/sha256"
 	"encoding/base32"
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"log"
 )
@@ -78,7 +77,6 @@ func CreateAccount(name, pwd, mail, id string, Acc *Account) {
 	Acc.Password = Cryptage(pwd)
 	Acc.Mail = mail
 	b, _ := json.Marshal(Acc)
-	fmt.Println(id)
 	ioutil.WriteFile("./GroupieTracker/Account/Login/"+id+".json", b, 0644)
 }
 
