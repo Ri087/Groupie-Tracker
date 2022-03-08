@@ -4,35 +4,58 @@
 <head>
     <link rel="stylesheet" href="/ressources/css/pages-artistes.css" />
     <link href="https://fonts.googleapis.com/css2?family=Cinzel&display=swap" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
 </head>
 
 <body>
     {{$ID:= .A.Id}}
-    <div class="top-page"> 
-        <div class="sidebar">
-            <a class="back-to-home" href="/">back-to-home</a>
-        </div>
-        <div class="popo"> 
-            <div class="left-text">
-                <img class="img-artist" src="{{ (index .A.ApiArtist $ID).Image }}">
-                <br>
-                <h2 class="h_name">{{ (index .A.ApiArtist $ID).Name }}</h2>
-                <h2 class="h2">{{ (index .A.ApiArtist $ID).CreationDate }}</h2>
-                <br>
+        <div class="top-page"> 
+            <div class="sidebar">
+                <a class="back-to-home" href="/">back-to-home</a>
+                <a class="back-to-artist" href="/artiste">Back to list of artists</a>
             </div>
-            <div class="pipi">
-                <a class="more-info" href="#pA-img" disabled> more info</a>
-        </div> 
-    </div>
-    <div id="pA-img">
-        <div class="grp">
-            <h2 class="h2">Groupe:<br> {{ range (index .A.ApiArtist $ID).Members }} {{.}} <br> {{end}}</h2>
-            <h2 class="h2">Date du premier album: {{ (index .A.ApiArtist $ID).FirstAlbum }}</h2>
-                <div class="rel">
-                    <h2 class="h2">Rélation:<br>{{ range $key, $value := (index .A.ApiRelations $ID).DatesLocations}} {{ $key }} <br> {{$value }}<br> {{ end }}</h2>
+            <div class="popo"> 
+                <div class="left-text">
+                    <img class="img-artist" src="{{ (index .A.ApiArtist $ID).Image }}">
+                    <br>
+                    <h2 class="h_name">{{ (index .A.ApiArtist $ID).Name }}</h2>
+                    <h2 class="h2">{{ (index .A.ApiArtist $ID).CreationDate }}</h2>
+                    <br>
                 </div>
+                <div class="pipi">
+                    <a class="more-info" href="#pA-img" disabled> more info</a>
+            
+                </div> 
             </div>
+        </div>
+        <div id="pA-img">
+            <div class="grp">
+                <div class="bottom-info">
+                    <h2>Group members : <br> {{ range (index .A.ApiArtist $ID).Members }} {{.}} <br> {{end}}</h2>
+                </div>
+                <h2 class="FA">First album : {{ (index .A.ApiArtist $ID).FirstAlbum }}</h2>
+            </div>
+        </div>
+        <div class="concert-map">
+            <div class="rel">
+                <h2 class="h2">Concerts:<br>{{ range $key, $value := (index .A.ApiRelations $ID).DatesLocations}} {{ $key }} <br> {{$value }}<br> {{ end }}</h2>
+            </div>
+            <div id="map"></div>
+        <script>
+            var map = L.map('map').setView([45.96583,4.00194], 13);
+            var marker = L.marker([51.5, -0.09]).addTo(map);
+            L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+            maxZoom: 18,
+            id: 'mapbox/streets-v11',
+            tileSize: 512,
+            zoomOffset: -1,
+            accessToken: 'pk.eyJ1IjoiYm9udGFheiIsImEiOiJjbDBnajQwazYwMGFqM2VxdnJkdDdpZmgxIn0.Cjpn9M5HiKAvVynLZbPlaQ'
+}).addTo(map);
+        </script>
         </div>
 </body>
 

@@ -68,8 +68,8 @@ func main() {
 
 	http.HandleFunc("/artiste/", func(w http.ResponseWriter, r *http.Request) {
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
+		GroupieTracker.Mapapi(Apis)
 		Id_Api_page, _ := strconv.Atoi(r.URL.Path[9:])
-		fmt.Println(Id_Api_page)
 		Apis.Id = Id_Api_page - 1
 		templateshtml.ExecuteTemplate(w, "pages-artistes.html", Main)
 	})
@@ -155,10 +155,9 @@ func SetCookie(w http.ResponseWriter, mail, pwd string, Acc *GroupieTracker.Acco
 }
 
 func NametoId(api *GroupieTracker.Api, name string) string {
-	var id_of_artist string
 	for _, i := range api.ApiArtist {
 		if i.Name == name {
-			id_of_artist = strconv.Itoa(i.Id)
+			id_of_artist := strconv.Itoa(i.Id)
 			return id_of_artist
 		}
 	}
