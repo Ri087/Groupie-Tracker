@@ -26,7 +26,8 @@ html {
     scroll-behavior: smooth;
 }
 
-.main-flex {
+
+/* .main-flex {
     display: flex;
     height: 200vh;
     width: 100%;
@@ -121,4 +122,218 @@ html {
     display: flex;
     height: 10%;
     justify-content: flex-start;
+} */
+
+.main-flex {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    flex-direction: column;
+    background-color: #252C39;
+}
+
+.haut {
+    display: flex;
+    height: 7%;
+    width: 100%;
+    justify-content: center;
+}
+
+.nav-bar {
+    display: flex;
+    height: 100%;
+    width: 40%;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #B8B6B2;
+}
+
+.a {
+    text-decoration: none;
+    color: #f1f1f1;
+    font-family: 'Cinzel';
+    font-size: 130%;
+}
+
+.a:hover {
+    text-decoration: underline;
+}
+
+.bas {
+    display: flex;
+    height: 93%;
+    width: 100%;
+    flex-direction: column;
+}
+
+.b-haut {
+    display: flex;
+    height: 20%;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    text-decoration: underline;
+    color: #fff;
+}
+
+.h1-all-artist {
+    color: #fff;
+    font-family: 'Cinzel';
+}
+
+.b-bas {
+    display: flex;
+    justify-content: center;
+    height: 80%;
+    width: 100%;
+}
+
+.elements {
+    display: flex;
+    flex-direction: column;
+    height: 95%;
+    width: 95%;
+}
+
+.filtre {
+    display: flex;
+    flex-direction: column;
+    height: 40%;
+    width: 100%;
+    box-shadow: 5px 5px 5px black;
+}
+
+.filtre-name {
+    display: flex;
+    align-items: center;
+    height: 20%;
+    width: 100%;
+    background-color: #B8B6B2;
+}
+
+.h2-filter {
+    margin-left: 2%;
+    font-family: 'Cinzel';
+    color: #fff;
+    text-decoration: underline;
+}
+
+.element-filtre {
+    display: flex;
+    height: 80%;
+    width: 100%;
+}
+
+.form-div {
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+
+.i {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+.name-filtre-element {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    color: #fff;
+    font-family: 'Cinzel';
+    font-size: 90%;
+    height: 20%;
+    width: 100%;
+}
+
+.input-div {
+    height: 80%;
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+}
+
+form {
+    color: aliceblue;
+    background-color: rgba(0, 0, 0, 0.33);
+}
+
+.scroll-artist {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60%;
+    width: 100%;
+}
+
+.element-div-artiste {
+    display: flex;
+    flex-direction: column;
+    height: 70%;
+    width: 90%;
+    background-color: rgba(0, 0, 0, 0.33);
+    box-shadow: 5px 5px 5px black;
+}
+
+.name-div {
+    display: flex;
+    align-items: center;
+    height: 25%;
+    width: 100%;
+    background-color: #B8B6B2;
+}
+
+.h2-scroll {
+    color: #fff;
+    font-family: 'Cinzel';
+    margin-left: 2%;
+    text-decoration: underline;
+}
+
+.artist-div {
+    display: flex;
+    height: 75%;
+    width: 100%;
+    overflow-x: scroll;
+    overflow-y: hidden;
+}
+
+.artist {
+    display: flex;
+    justify-content: space-around;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: #333;
+    font-family: 'Cinzel';
+}
+
+.name-div-title {
+    font-family: 'Cinzel';
+    color: #f1f1f1;
+    margin-left: 2%;
+}
+
+.img {
+    display: flex;
+    height: 80%;
+    justify-content: center;
+    transition: 600ms;
+}
+
+.img:hover {
+    height: 83%;
+}
+
+.name {
+    display: flex;
+    height: 10%;
+    justify-content: flex-start;
+}
+
+.scroll-artist-name {
+    color: #f1f1f1;
 }
