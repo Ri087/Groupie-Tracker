@@ -51,12 +51,27 @@ func main() {
 	})
 
 	http.HandleFunc("/search", func(w http.ResponseWriter, r *http.Request) {
-		if !Searchbool(Apis, r.FormValue("search")) {
-			http.Redirect(w, r, "#second-page", http.StatusFound)
+		if len(r.FormValue("search-artist")) > 0 {
+			GroupieTracker.SearchNameArtsit(w, r, *Apis)
 		}
-		id := NametoId(Apis, r.FormValue("search"))
-		http.Redirect(w, r, "/artiste/"+id, http.StatusFound)
+		if len(r.FormValue("search-crea-artist")) > 0 {
+			GroupieTracker.SearchDateArtsit(w, r, *Apis)
+		}
+		if len(r.FormValue("search-crea-album")) > 0 {
+			GroupieTracker.SearchDateAlbum(w, r, *Apis)
+		}
+		if len(r.FormValue("search-membre")) > 0 {
+			GroupieTracker.SearchMemberArtsit(w, r, *Apis)
+		}
+		if len(r.FormValue("search-location")) > 0 {
+			GroupieTracker.SearchMemberArtsit(w, r, *Apis)
+		}
+
 	})
+	http.HandleFunc("/filtre-search-bar", func(w http.ResponseWriter, r *http.Request) {
+		GroupieTracker.FiltreSearchBar(w, r, Main.ADF)
+	})
+
 	http.HandleFunc("/event", func(w http.ResponseWriter, r *http.Request) {
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
 		templateshtml.ExecuteTemplate(w, "event.html", Main)
@@ -155,25 +170,6 @@ func Login(w http.ResponseWriter, r *http.Request, CC *GroupieTracker.CheckCo, A
 
 func SetCookie(w http.ResponseWriter, mail, pwd string, Acc *GroupieTracker.Account) {
 	http.SetCookie(w, &http.Cookie{Name: "AUTHENTIFICATION_TOKEN", Value: base32.StdEncoding.EncodeToString(GroupieTracker.Cryptage(mail))})
-}
-
-func NametoId(api *GroupieTracker.Api, name string) string {
-	for _, i := range api.ApiArtist {
-		if i.Name == name {
-			id_of_artist := strconv.Itoa(i.Id)
-			return id_of_artist
-		}
-	}
-	return ""
-}
-
-func Searchbool(api *GroupieTracker.Api, name string) bool {
-	for _, i := range api.ApiArtist {
-		if i.Name == name {
-			return true
-		}
-	}
-	return false
 }
 
 func Logout(Acc *GroupieTracker.Account) {

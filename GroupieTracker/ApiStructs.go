@@ -16,7 +16,6 @@ type Artist struct {
 	Members      []string
 	CreationDate int
 	FirstAlbum   string
-	TLocations   []Locations
 }
 
 type Date struct {

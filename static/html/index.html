@@ -29,7 +29,7 @@
                     <h3 class="s-title">Top Artist</h3>
                 </div>
                 <div class="s-mid">
-                    {{$ID:=.A.Id}} {{range $index, $elements := .A.ApiArtist }} {{if (lt $index 3)}}
+                    {{range $index, $elements := .A.ApiArtist }} {{if (lt $index 3)}}
                     <div class="s-artist">
                         <a href="/artiste/{{.Id}}" class="s-a-etiquette">
                             <div class="s-a-top">
@@ -45,18 +45,52 @@
                     {{end}}{{end}}
                 </div>
                 <div class="s-bot">
+                    <form action="/filtre-search-bar" method="post" onChange="submit()">
+                        <select name="select-option">
+                            <option value="">-- {{.ADF.SearchBar}} --</option>
+                            <option value="artiste">Artistes</option>
+                            <option value="date_crea_artist">Dates Créations Artiste</option>
+                            <option value="date_crea_album">Dates Créations Album</option>
+                            <option value="membre">Membres</option>
+                            <option value="location">Location</option>
+                        </select>
+                    </form>
                     <div class="search_bar">
-                        <form action="/search" class="search-bar" method="post">
-                            <input list="Artists" display="none" type="search" name="search">
+                        <form action="/search" class="search-bar" method="post" onChange="submit()">
+                            {{if (eq .ADF.SearchBar "artiste")}}
+                            <input class="search__input" list="Artists" display="none" type="text" name="search-artist" placeholder="Search">
                             <datalist id="Artists">
                                 {{range .A.ApiArtist}}
-                                <option value= "{{.Name}}">
+                                <option value= "{{.Name}}">                  
                                 {{end}}
-                            </datalist>
-
-                            <button class="search-btn" type="submit">
+                            </datalist> {{else if (eq .ADF.SearchBar "date_crea_artist")}}
+                            <input class="search__input" list="Dates" display="none" type="search" name="search-crea-artist">
+                            <datalist id="Dates">
+                                {{range .A.ApiArtist}}
+                                <option value= "{{.CreationDate}} - {{.Name}}">      
+                                {{end}}
+                                {{else if (eq .ADF.SearchBar "date_crea_album")}}
+                            <input class="search__input" list="Dates" display="none" type="search" name="search-crea-album">
+                            <datalist id="Dates">
+                                {{range .A.ApiArtist}}
+                                <option value= "{{.FirstAlbum}} - {{.Name}}">  
+                                {{end}}
+                            </datalist> {{else if (eq .ADF.SearchBar "location")}}
+                            <input class="search__input" list="location" display="none" type="search" name="search-location">
+                            <datalist id="location">
+                                {{range $index, $elements :=.A.ApiLocations}} {{range .Locations}}
+                                <option value="{{.}} - {{$elements.Name}}">
+                                {{end}} {{end}}
+                            </datalist>{{else if (eq .ADF.SearchBar "membre")}}
+                            <input class="search__input" list="membre" display="none" type="search" name="search-membre">
+                            <datalist id="membre">
+                                {{range $index, $elements :=.A.ApiArtist}} {{range .Members}}
+                                <option value="{{.}} - {{$elements.Name}}">
+                                {{end}} {{end}}
+                            </datalist> {{end}}
+                            <!-- <button class="search-btn" type="submit">
                                 <span>Search</span>
-                            </button>
+                            </button> -->
                         </form>
                     </div>
                     <a href="/artiste" class="next">Next</a>

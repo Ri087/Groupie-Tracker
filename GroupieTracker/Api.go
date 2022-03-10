@@ -10,6 +10,8 @@ import (
 )
 
 func ApiInit(Api *Api) {
+
+	
 	ApiTab := []string{"artists", "dates", "locations", "relation"}
 	for _, i := range ApiTab {
 		response, err := http.Get("https://groupietrackers.herokuapp.com/api/" + i)
