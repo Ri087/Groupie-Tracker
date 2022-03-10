@@ -181,51 +181,12 @@ func FiltreSearchBar(w http.ResponseWriter, r *http.Request, F *Filter) {
 
 func SearchNameArtsit(w http.ResponseWriter, r *http.Request, api Api) {
 	var id_of_artist string
-	name := r.FormValue("search-artist")
+	value := r.FormValue("search-artist")
 	for _, i := range api.ApiArtist {
-		if i.Name == name {
+		if i.Name == value {
 			id_of_artist = strconv.Itoa(i.Id)
 			http.Redirect(w, r, "/artiste/"+id_of_artist, http.StatusFound)
 		}
-	}
-	http.Redirect(w, r, "/#second-page", http.StatusFound)
-}
-func SearchDateArtsit(w http.ResponseWriter, r *http.Request, api Api) {
-	var id_of_artist string
-	date := r.FormValue("search-date")
-	for _, i := range api.ApiArtist {
-		date_string := strconv.Itoa(i.CreationDate)
-		if date_string == date {
-			id_of_artist = strconv.Itoa(i.Id)
-			http.Redirect(w, r, "/artiste/"+id_of_artist, http.StatusFound)
-		}
-
-	}
-	http.Redirect(w, r, "/#second-page", http.StatusFound)
-}
-func SearchMemberArtsit(w http.ResponseWriter, r *http.Request, api Api) {
-	var id_of_artist string
-	membre := r.FormValue("search-membre")
-	for _, i := range api.ApiArtist {
-		for _, l := range i.Members {
-			if l == membre {
-				id_of_artist = strconv.Itoa(i.Id)
-				http.Redirect(w, r, "/artiste/"+id_of_artist, http.StatusFound)
-			}
-		}
-
-	}
-	http.Redirect(w, r, "/#second-page", http.StatusFound)
-}
-func SearchDateAlbum(w http.ResponseWriter, r *http.Request, api Api) {
-	var id_of_artist string
-	date_album := r.FormValue("search-crea-album")
-	for _, i := range api.ApiArtist {
-		if i.FirstAlbum == date_album {
-			id_of_artist = strconv.Itoa(i.Id)
-			http.Redirect(w, r, "/artiste/"+id_of_artist, http.StatusFound)
-		}
-
 	}
 	http.Redirect(w, r, "/#second-page", http.StatusFound)
 }

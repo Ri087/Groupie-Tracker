@@ -11,6 +11,7 @@ import (
 type Main_struct struct {
 	A    *GroupieTracker.Api
 	ADF  *GroupieTracker.Filter
+	ACC  *GroupieTracker.Account
 	Bool bool
 }
 
@@ -50,25 +51,7 @@ func main() {
 	})
 
 	http.HandleFunc("/search", func(w http.ResponseWriter, r *http.Request) {
-		if len(r.FormValue("search-artist")) > 0 {
-			GroupieTracker.SearchNameArtsit(w, r, *Apis)
-		}
-		if len(r.FormValue("search-crea-artist")) > 0 {
-			GroupieTracker.SearchDateArtsit(w, r, *Apis)
-		}
-		if len(r.FormValue("search-crea-album")) > 0 {
-			GroupieTracker.SearchDateAlbum(w, r, *Apis)
-		}
-		if len(r.FormValue("search-membre")) > 0 {
-			GroupieTracker.SearchMemberArtsit(w, r, *Apis)
-		}
-		if len(r.FormValue("search-location")) > 0 {
-			GroupieTracker.SearchMemberArtsit(w, r, *Apis)
-		}
-
-	})
-	http.HandleFunc("/filtre-search-bar", func(w http.ResponseWriter, r *http.Request) {
-		GroupieTracker.FiltreSearchBar(w, r, Main.ADF)
+		GroupieTracker.SearchNameArtsit(w, r, *Apis)
 	})
 
 	http.HandleFunc("/event", func(w http.ResponseWriter, r *http.Request) {
@@ -112,16 +95,16 @@ func main() {
 		}
 		GroupieTracker.LoginAcc(cookie.Value, Acc)
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
-		templateshtml.ExecuteTemplate(w, "profil.html", Acc)
+		templateshtml.ExecuteTemplate(w, "profil.html", Main.ACC)
 		Logout(Acc)
 	})
 
 	http.HandleFunc("/checkcreation", func(w http.ResponseWriter, r *http.Request) {
-		Creation(w, r, CheckCreation, Acc)
+		Creation(w, r, CheckCreation, Main.ACC)
 	})
 
 	http.HandleFunc("/checkconnection", func(w http.ResponseWriter, r *http.Request) {
-		Login(w, r, CheckConnection, Acc)
+		Login(w, r, CheckConnection, Main.ACC)
 	})
 
 	http.HandleFunc("/logout", func(w http.ResponseWriter, r *http.Request) {
