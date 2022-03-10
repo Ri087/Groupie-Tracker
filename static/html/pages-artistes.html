@@ -7,17 +7,16 @@
 </head>
 
 <body>
-    {{$ID:= .A.Id}}
     <div class="div-artist">
         <div class="pA-img">
-            <h2 class="h_name">Nom: {{ (index .A.ApiArtist $ID).Name }}</h2>
-            <img class="img-artist" src="{{ (index .A.ApiArtist $ID).Image }}">
-            <h2 class="h2">Date de création: {{ (index .A.ApiArtist $ID).CreationDate }}</h2>
-            <h2 class="h2">Date du premier album: {{ (index .A.ApiArtist $ID).FirstAlbum }}</h2>
-            <h2 class="h2">Groupe:<br> {{ range (index .A.ApiArtist $ID).Members }} {{.}} <br> {{end}}</h2>
-            <h2 class="h2">Date:<br> {{ range (index .A.ApiDates $ID).Dates }} {{.}} <br> {{end}}</h2>
-            <h2 class="h2">Locations:<br> {{ range (index .A.ApiLocations $ID).Locations }} {{.}} <br> {{end}}</h2>
-            <h2 class="h2">Rélation:<br>{{ range $key, $value := (index .A.ApiRelations $ID).DatesLocations}} {{ $key }} <br> {{$value }}<br> {{ end }}</h2>
+            <h2 class="h_name">Nom: {{ .ApiStruct.SpecificApiPageArtiste.Artists.Name }}</h2>
+            <img class="img-artist" src="{{ .ApiStruct.SpecificApiPageArtiste.Artists.Image }}">
+            <h2 class="h2">Date de création: {{ .ApiStruct.SpecificApiPageArtiste.Artists.CreationDate }}</h2>
+            <h2 class="h2">Date du premier album: {{ .ApiStruct.SpecificApiPageArtiste.Artists.FirstAlbum }}</h2>
+            <h2 class="h2">Groupe:<br> {{ range .ApiStruct.SpecificApiPageArtiste.Artists.Members }} {{.}} <br> {{end}}</h2>
+            <h2 class="h2">Date:<br> {{ range .ApiStruct.SpecificApiPageArtiste.Dates.Dates }} {{.}} <br> {{end}}</h2>
+            <h2 class="h2">Locations:<br> {{ range .ApiStruct.SpecificApiPageArtiste.Locations.Locations }} {{.}} <br> {{end}}</h2>
+            <h2 class="h2">Relations:<br>{{ range $key, $value := .ApiStruct.SpecificApiPageArtiste.Relations.DatesLocations}} {{ $key }} <br> {{$value }}<br> {{ end }}</h2>
 
         </div>
     </div>
