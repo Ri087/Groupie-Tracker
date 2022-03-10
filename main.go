@@ -3,7 +3,9 @@ package main
 import (
 	"GroupieTracker/GroupieTracker"
 	"encoding/base32"
+	"fmt"
 	"net/http"
+	"strconv"
 	"text/template"
 )
 
@@ -20,15 +22,15 @@ func MainStructureInit() *MainStructure {
 
 func main() {
 	MainStructureMain := MainStructureInit()
-	Acc := &GroupieTracker.Account{}
-	CheckCreation := &GroupieTracker.CheckCreation{}
-	CheckConnection := &GroupieTracker.CheckCo{}
+	// Acc := &GroupieTracker.Account{}
+	// CheckCreation := &GroupieTracker.CheckCreation{}
+	// CheckConnection := &GroupieTracker.CheckCo{}
 	fileServer := http.FileServer(http.Dir("./static"))
 
 	http.Handle("/ressources/", http.StripPrefix("/ressources/", fileServer))
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		MainStructureMain.ApiStruct.TabApiAccueil = GroupieTracker.ApiArtistsAccueil()
+		MainStructureMain.ApiStruct.TabApiArtiste, MainStructureMain.ApiStruct.TabApiArtisteLocations = GroupieTracker.ApiArtistsArtiste()
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
 		templateshtml.ExecuteTemplate(w, "index.html", MainStructureMain)
 	})
@@ -47,7 +49,14 @@ func main() {
 	})
 
 	http.HandleFunc("/search", func(w http.ResponseWriter, r *http.Request) {
+		id := GroupieTracker.SearchNameArtsit(r.FormValue("search-artist"), MainStructureMain.ApiStruct)
+		if id == "" {
+			http.Redirect(w, r, "/#second-page", http.StatusFound)
+		} else {
+			http.Redirect(w, r, "/artiste/"+id, http.StatusFound)
+		}
 	})
+
 	http.HandleFunc("/event", func(w http.ResponseWriter, r *http.Request) {
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
 		templateshtml.ExecuteTemplate(w, "event.html", MainStructureMain)
@@ -58,57 +67,64 @@ func main() {
 	})
 
 	http.HandleFunc("/artiste/", func(w http.ResponseWriter, r *http.Request) {
-		IDArtist := r.URL.Path[len(r.URL.Path)-1:]
+		IDArtist := r.URL.Path[9:]
 		MainStructureMain.ApiStruct.SpecificApiPageArtiste = GroupieTracker.ApiArtistsPageArtiste(IDArtist)
+		id, _ := strconv.Atoi(r.URL.Path[len(r.URL.Path)-1:])
+		locs := GroupieTracker.Mapapi(MainStructureMain.ApiStruct, id)
+		fmt.Println(locs)
+		data := struct {
+			Main MainStructure
+			Locs [][]float64
+		}{Main: *MainStructureMain, Locs: locs}
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
-		templateshtml.ExecuteTemplate(w, "pages-artistes.html", MainStructureMain)
+		templateshtml.ExecuteTemplate(w, "pages-artistes.html", data)
 	})
-	http.HandleFunc("/connection", func(w http.ResponseWriter, r *http.Request) {
-		if _, err := r.Cookie("AUTHENTIFICATION_TOKEN"); err == nil {
-			http.Redirect(w, r, "/profil", http.StatusFound)
-			return
-		}
-		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
-		templateshtml.ExecuteTemplate(w, "connection.html", CheckConnection)
-		CheckConnection.Mail, CheckConnection.Pwd = false, false
-	})
-	http.HandleFunc("/creation", func(w http.ResponseWriter, r *http.Request) {
-		if _, err := r.Cookie("AUTHENTIFICATION_TOKEN"); err == nil {
-			http.Redirect(w, r, "/profil", http.StatusFound)
-			return
-		}
-		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
-		templateshtml.ExecuteTemplate(w, "creation.html", CheckCreation)
-		CheckCreation.Name, CheckCreation.Pwd, CheckCreation.Pwdc, CheckCreation.Mail, CheckCreation.Exist = false, false, false, false, false
-	})
-	http.HandleFunc("/profil", func(w http.ResponseWriter, r *http.Request) {
-		cookie, err := r.Cookie("AUTHENTIFICATION_TOKEN")
-		if err != nil {
-			http.Redirect(w, r, "/connection", http.StatusFound)
-			return
-		}
-		GroupieTracker.LoginAcc(cookie.Value, Acc)
-		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
-		templateshtml.ExecuteTemplate(w, "profil.html", Acc)
-		Logout(Acc)
-	})
+	// http.HandleFunc("/connection", func(w http.ResponseWriter, r *http.Request) {
+	// 	if _, err := r.Cookie("AUTHENTIFICATION_TOKEN"); err == nil {
+	// 		http.Redirect(w, r, "/profil", http.StatusFound)
+	// 		return
+	// 	}
+	// 	var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
+	// 	templateshtml.ExecuteTemplate(w, "connection.html", CheckConnection)
+	// 	CheckConnection.Mail, CheckConnection.Pwd = false, false
+	// })
+	// http.HandleFunc("/creation", func(w http.ResponseWriter, r *http.Request) {
+	// 	if _, err := r.Cookie("AUTHENTIFICATION_TOKEN"); err == nil {
+	// 		http.Redirect(w, r, "/profil", http.StatusFound)
+	// 		return
+	// 	}
+	// 	var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
+	// 	templateshtml.ExecuteTemplate(w, "creation.html", CheckCreation)
+	// 	CheckCreation.Name, CheckCreation.Pwd, CheckCreation.Pwdc, CheckCreation.Mail, CheckCreation.Exist = false, false, false, false, false
+	// })
+	// http.HandleFunc("/profil", func(w http.ResponseWriter, r *http.Request) {
+	// 	cookie, err := r.Cookie("AUTHENTIFICATION_TOKEN")
+	// 	if err != nil {
+	// 		http.Redirect(w, r, "/connection", http.StatusFound)
+	// 		return
+	// 	}
+	// 	GroupieTracker.LoginAcc(cookie.Value, Acc)
+	// 	var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
+	// 	templateshtml.ExecuteTemplate(w, "profil.html", Main.ACC)
+	// 	Logout(Acc)
+	// })
 
-	http.HandleFunc("/checkcreation", func(w http.ResponseWriter, r *http.Request) {
-		Creation(w, r, CheckCreation, Acc)
-	})
+	// http.HandleFunc("/checkcreation", func(w http.ResponseWriter, r *http.Request) {
+	// 	Creation(w, r, CheckCreation, Main.ACC)
+	// })
 
-	http.HandleFunc("/checkconnection", func(w http.ResponseWriter, r *http.Request) {
-		Login(w, r, CheckConnection, Acc)
-	})
+	// http.HandleFunc("/checkconnection", func(w http.ResponseWriter, r *http.Request) {
+	// 	Login(w, r, CheckConnection, Main.ACC)
+	// })
 
-	http.HandleFunc("/logout", func(w http.ResponseWriter, r *http.Request) {
-		if _, err := r.Cookie("AUTHENTIFICATION_TOKEN"); err == nil {
-			cookie, _ := r.Cookie("AUTHENTIFICATION_TOKEN")
-			cookie.MaxAge = -1
-			http.SetCookie(w, cookie)
-		}
-		http.Redirect(w, r, "/", http.StatusFound)
-	})
+	// http.HandleFunc("/logout", func(w http.ResponseWriter, r *http.Request) {
+	// 	if _, err := r.Cookie("AUTHENTIFICATION_TOKEN"); err == nil {
+	// 		cookie, _ := r.Cookie("AUTHENTIFICATION_TOKEN")
+	// 		cookie.MaxAge = -1
+	// 		http.SetCookie(w, cookie)
+	// 	}
+	// 	http.Redirect(w, r, "/", http.StatusFound)
+	// })
 
 	// NE PAS SUPPR CEST DES TESTS
 	http.HandleFunc("/test", func(w http.ResponseWriter, r *http.Request) {

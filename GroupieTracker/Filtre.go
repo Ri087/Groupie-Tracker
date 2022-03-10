@@ -1,9 +1,12 @@
 package GroupieTracker
 
 import (
+	"net/http"
 	"strconv"
 	"strings"
 )
+
+//filtre des Artsites
 
 type Filter struct {
 	ArtD196069   string
@@ -21,6 +24,8 @@ type Filter struct {
 	NbMember     string
 	CountryValue string
 	CountryTab   []string
+	MembersTab   []string
+	SearchBar    string
 }
 
 func FilterReset(ApiStruct *ApiStructure) {
@@ -38,6 +43,7 @@ func FilterReset(ApiStruct *ApiStructure) {
 	ApiStruct.Filtres.AlbD201019 = ""
 	ApiStruct.Filtres.NbMember = "0"
 	ApiStruct.Filtres.CountryValue = "All"
+	ApiStruct.Filtres.SearchBar = "artiste"
 }
 
 func FLT(filters map[string][]string, ApiStruct *ApiStructure) {
@@ -163,4 +169,20 @@ func TabAppend(filters map[string][]string, ApiStruct *ApiStructure, i ApiArtist
 			}
 		}
 	}
+}
+
+//Filtre de la "search bar"
+func FiltreSearchBar(w http.ResponseWriter, r *http.Request, F *Filter) {
+	filtre := r.FormValue("select-option")
+	F.SearchBar = filtre
+	http.Redirect(w, r, "/#second-page", http.StatusFound)
+}
+
+func SearchNameArtsit(value string, ApiStruct *ApiStructure) string {
+	for _, i := range ApiStruct.TabApiArtiste {
+		if i.Name == value {
+			return strconv.Itoa(i.Id)
+		}
+	}
+	return ""
 }

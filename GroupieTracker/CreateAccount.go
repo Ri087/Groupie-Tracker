@@ -12,6 +12,7 @@ type Account struct {
 	Name     string
 	Password []byte
 	Mail     string
+	// Selection []Artist
 }
 
 type CheckCreation struct {

@@ -10,7 +10,6 @@ import (
 )
 
 type ApiStructure struct {
-	TabApiAccueil          []ApiAccueil
 	TabApiArtiste          []ApiArtiste
 	TabApiArtisteLocations []ApiArtisteLocations
 	TabApiFiltre           []ApiAccueil
@@ -44,7 +43,8 @@ func LinkApi() ApiWApi {
 // Accueil
 
 type StructApiAccueil struct {
-	TabApiAccueil []ApiAccueil
+	TabApiAccueil          []ApiAccueil
+	TabApiAccueilLocations []ApiArtisteLocations
 }
 
 type ApiAccueil struct {
@@ -143,7 +143,6 @@ func ApiArtistsPageArtiste(id string) ArtistsApiPageArtiste {
 
 func ApiStructInit() *ApiStructure {
 	ApiStruct := &ApiStructure{}
-	ApiStruct.TabApiAccueil = ApiArtistsAccueil()
 	ApiStruct.TabApiArtiste, ApiStruct.TabApiArtisteLocations = ApiArtistsArtiste()
 	ApiStruct.TabApiFiltre = ApiArtistsAccueil()
 	ApiStruct.Filtres = Filter{}
