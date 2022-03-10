@@ -33,3 +33,9 @@ type Relation struct {
 	Id             int
 	DatesLocations map[string][]string
 }
+
+type MapStruct struct {
+	Features []struct {
+		Center []float64 `json:"center"`
+	} `json:"features"`
+}

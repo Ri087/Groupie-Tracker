@@ -3,6 +3,7 @@ package main
 import (
 	"GroupieTracker/GroupieTracker"
 	"encoding/base32"
+	"fmt"
 	"net/http"
 	"strconv"
 	"text/template"
@@ -67,10 +68,15 @@ func main() {
 
 	http.HandleFunc("/artiste/", func(w http.ResponseWriter, r *http.Request) {
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
-		GroupieTracker.Mapapi(Apis)
 		Id_Api_page, _ := strconv.Atoi(r.URL.Path[9:])
 		Apis.Id = Id_Api_page - 1
-		templateshtml.ExecuteTemplate(w, "pages-artistes.html", Main)
+		locs := GroupieTracker.Mapapi(Apis)
+		fmt.Println(locs)
+		data := struct {
+			Main Main_struct
+			Locs [][]float64
+		}{Main: Main, Locs: locs}
+		templateshtml.ExecuteTemplate(w, "pages-artistes.html", data)
 	})
 	http.HandleFunc("/connection", func(w http.ResponseWriter, r *http.Request) {
 		if _, err := r.Cookie("AUTHENTIFICATION_TOKEN"); err == nil {
