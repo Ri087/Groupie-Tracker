@@ -23,7 +23,8 @@ func main() {
 	MainStructureMain := MainStructureInit()
 
 	fileServer := http.FileServer(http.Dir("./static"))
-
+	var s GroupieTracker.Spotify = GroupieTracker.New("6b053d7dfcbe4c69a576561f8c098391", "d00791e8792a4f13bc1bb8b95197505d")
+	s.Authorize()
 	http.Handle("/ressources/", http.StripPrefix("/ressources/", fileServer))
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
@@ -145,7 +146,7 @@ func main() {
 
 	// NE PAS SUPPR CEST DES TESTS
 	http.HandleFunc("/test", func(w http.ResponseWriter, r *http.Request) {
-		GroupieTracker.Test(w, r)
+		// GroupieTracker.Test(w, r)
 	})
 	http.HandleFunc("/callback", func(w http.ResponseWriter, r *http.Request) {
 	})
