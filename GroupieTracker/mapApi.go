@@ -30,11 +30,9 @@ func Mapapi(ApiStruct *ApiStructure, id int) [][]float64 {
 		if err != nil {
 			log.Fatal(err)
 		}
-		fmt.Println(string(responseData))
 
 		var MapStruct MapStruct
 		json.Unmarshal(responseData, &MapStruct)
-		fmt.Println(MapStruct.Features[0].Center)
 		geolocationCities = append(geolocationCities, MapStruct.Features[0].Center)
 	}
 	return geolocationCities

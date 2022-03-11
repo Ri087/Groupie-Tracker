@@ -186,3 +186,15 @@ func SearchNameArtsit(value string, ApiStruct *ApiStructure) string {
 	}
 	return ""
 }
+
+func ArtisteNotFound(id int, ApiStruct *ApiStructure) bool {
+	if id < 1 || id > ApiStruct.TabApiArtiste[len(ApiStruct.TabApiArtiste)-1].Id {
+		return true
+	}
+	for _, i := range ApiStruct.TabApiArtiste {
+		if i.Id == id {
+			return false
+		}
+	}
+	return true
+}

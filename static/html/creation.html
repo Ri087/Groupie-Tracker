@@ -9,8 +9,8 @@
     <div id="main-page">
         <div id="flex-page">
             <form action="/checkcreation" method="post">
-                <label for="name">Enter a name: </label>
-                <input type="text" name="name" id="name" maxlength="32">
+                <label for="text">Enter your email: </label>
+                <input type="text" name="mail" id="mail" maxlength="160">
                 <br>
                 <label for="password">Enter love you jereme your password: </label>
                 <input type="password" name="pwd" id="pwd" maxlength="64">
@@ -18,14 +18,11 @@
                 <label for="password">Enter your password again: </label>
                 <input type="password" name="pwdc" id="pwdc" maxlength="64">
                 <br>
-                <label for="text">Enter your email: espece de noir </label>
-                <input type="text" name="mail" id="mail" maxlength="160">
-                <br>
                 <input type="submit" value="Submit!">
             </form>
             <br>
             <p>Click <a href="/connection">here</a> if you already have an account.</p>
-            <p>{{if .Name}} NOM NUL {{else if .Pwd}} PASSWORD NUL {{else if .Pwdc}} PASSWORD CHECK NUL {{else if .Mail}} MAIL NUL {{else if .Exist}} DEJA EXISTANT {{else}} YO {{end}}</p>
+            <p>{{if .AccStruct.GoodCreation.Mail}} MAIL NUL {{else if .AccStruct.GoodCreation.Pwd}} PASSWORD NUL {{else if .AccStruct.GoodCreation.Pwdc}} PASSWORD CHECK NUL {{else if .AccStruct.GoodCreation.Exist}} DEJA EXISTANT {{else}} YO {{end}}</p>
         </div>
     </div>
 </body>
