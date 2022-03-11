@@ -3,7 +3,6 @@ package main
 import (
 	"GroupieTracker/GroupieTracker"
 	"encoding/base32"
-	"fmt"
 	"net/http"
 	"strconv"
 	"text/template"
@@ -26,7 +25,8 @@ func main() {
 	// CheckCreation := &GroupieTracker.CheckCreation{}
 	// CheckConnection := &GroupieTracker.CheckCo{}
 	fileServer := http.FileServer(http.Dir("./static"))
-
+	var s GroupieTracker.Spotify = GroupieTracker.New("6b053d7dfcbe4c69a576561f8c098391", "d00791e8792a4f13bc1bb8b95197505d")
+	s.Authorize()
 	http.Handle("/ressources/", http.StripPrefix("/ressources/", fileServer))
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
@@ -71,7 +71,6 @@ func main() {
 		MainStructureMain.ApiStruct.SpecificApiPageArtiste = GroupieTracker.ApiArtistsPageArtiste(IDArtist)
 		id, _ := strconv.Atoi(r.URL.Path[len(r.URL.Path)-1:])
 		locs := GroupieTracker.Mapapi(MainStructureMain.ApiStruct, id)
-		fmt.Println(locs)
 		data := struct {
 			Main MainStructure
 			Locs [][]float64
@@ -128,7 +127,7 @@ func main() {
 
 	// NE PAS SUPPR CEST DES TESTS
 	http.HandleFunc("/test", func(w http.ResponseWriter, r *http.Request) {
-		GroupieTracker.Test(w, r)
+		// GroupieTracker.Test(w, r)
 	})
 	http.HandleFunc("/callback", func(w http.ResponseWriter, r *http.Request) {
 	})
