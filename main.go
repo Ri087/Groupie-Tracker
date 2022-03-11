@@ -20,7 +20,7 @@ func MainStructureInit() *MainStructure {
 }
 
 func main() {
-	MainStructureMain := MainStructureInit()
+	Main := MainStructureInit()
 
 	fileServer := http.FileServer(http.Dir("./static"))
 	var s GroupieTracker.Spotify = GroupieTracker.New("6b053d7dfcbe4c69a576561f8c098391", "d00791e8792a4f13bc1bb8b95197505d")
@@ -28,26 +28,26 @@ func main() {
 	http.Handle("/ressources/", http.StripPrefix("/ressources/", fileServer))
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		MainStructureMain.ApiStruct.TabApiArtiste, MainStructureMain.ApiStruct.TabApiArtisteLocations = GroupieTracker.ApiArtistsArtiste()
+		Main.ApiStruct.TabApiArtiste, Main.ApiStruct.TabApiArtisteLocations = GroupieTracker.ApiArtistsArtiste()
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
-		templateshtml.ExecuteTemplate(w, "index.html", MainStructureMain)
+		templateshtml.ExecuteTemplate(w, "index.html", Main)
 	})
 
 	//Page principal
 	http.HandleFunc("/artiste", func(w http.ResponseWriter, r *http.Request) {
-		MainStructureMain.ApiStruct.TabApiArtiste, MainStructureMain.ApiStruct.TabApiArtisteLocations = GroupieTracker.ApiArtistsArtiste()
-		GroupieTracker.TabCountry(MainStructureMain.ApiStruct)
+		Main.ApiStruct.TabApiArtiste, Main.ApiStruct.TabApiArtisteLocations = GroupieTracker.ApiArtistsArtiste()
+		GroupieTracker.TabCountry(Main.ApiStruct)
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
-		templateshtml.ExecuteTemplate(w, "artiste.html", MainStructureMain)
-		GroupieTracker.FilterReset(MainStructureMain.ApiStruct)
+		templateshtml.ExecuteTemplate(w, "artiste.html", Main)
+		GroupieTracker.FilterReset(Main.ApiStruct)
 	})
 	http.HandleFunc("/filter", func(w http.ResponseWriter, r *http.Request) {
-		GroupieTracker.FLT(r.URL.Query(), MainStructureMain.ApiStruct)
+		GroupieTracker.FLT(r.URL.Query(), Main.ApiStruct)
 		http.Redirect(w, r, "/artiste", http.StatusFound)
 	})
 
 	http.HandleFunc("/search", func(w http.ResponseWriter, r *http.Request) {
-		id := GroupieTracker.SearchNameArtsit(r.FormValue("search-artist"), MainStructureMain.ApiStruct)
+		id := GroupieTracker.SearchNameArtsit(r.FormValue("search-artist"), Main.ApiStruct)
 		if id == "" {
 			http.Redirect(w, r, "/#second-page", http.StatusFound)
 		} else {
@@ -57,26 +57,26 @@ func main() {
 
 	http.HandleFunc("/event", func(w http.ResponseWriter, r *http.Request) {
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
-		templateshtml.ExecuteTemplate(w, "event.html", MainStructureMain)
+		templateshtml.ExecuteTemplate(w, "event.html", Main)
 	})
 	http.HandleFunc("/contact", func(w http.ResponseWriter, r *http.Request) {
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
-		templateshtml.ExecuteTemplate(w, "contact.html", MainStructureMain)
+		templateshtml.ExecuteTemplate(w, "contact.html", Main)
 	})
 
 	http.HandleFunc("/artiste/", func(w http.ResponseWriter, r *http.Request) {
 		IDArtist := r.URL.Path[9:]
 		id, _ := strconv.Atoi(IDArtist)
-		if GroupieTracker.ArtisteNotFound(id, MainStructureMain.ApiStruct) {
+		if GroupieTracker.ArtisteNotFound(id, Main.ApiStruct) {
 			http.Redirect(w, r, "/artiste", http.StatusFound)
 			return
 		}
-		MainStructureMain.ApiStruct.SpecificApiPageArtiste = GroupieTracker.ApiArtistsPageArtiste(IDArtist)
-		locs := GroupieTracker.Mapapi(MainStructureMain.ApiStruct, id)
+		Main.ApiStruct.SpecificApiPageArtiste = GroupieTracker.ApiArtistsPageArtiste(IDArtist)
+		locs := GroupieTracker.Mapapi(Main.ApiStruct, id)
 		data := struct {
 			Main MainStructure
 			Locs [][]float64
-		}{Main: *MainStructureMain, Locs: locs}
+		}{Main: *Main, Locs: locs}
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
 		templateshtml.ExecuteTemplate(w, "pages-artistes.html", data)
 	})
@@ -87,8 +87,8 @@ func main() {
 			return
 		}
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
-		templateshtml.ExecuteTemplate(w, "creation.html", MainStructureMain)
-		GroupieTracker.GoodCreationReset(MainStructureMain.AccStruct)
+		templateshtml.ExecuteTemplate(w, "creation.html", Main)
+		GroupieTracker.GoodCreationReset(Main.AccStruct)
 	})
 
 	http.HandleFunc("/connection", func(w http.ResponseWriter, r *http.Request) {
@@ -97,7 +97,7 @@ func main() {
 			return
 		}
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
-		templateshtml.ExecuteTemplate(w, "connection.html", MainStructureMain)
+		templateshtml.ExecuteTemplate(w, "connection.html", Main)
 		// 	CheckConnection.Mail, CheckConnection.Pwd = false, false
 	})
 
@@ -107,9 +107,9 @@ func main() {
 			return
 		}
 		mail, pwd := r.FormValue("mail"), r.FormValue("pwd")
-		if GroupieTracker.VerifEntryUser(mail, pwd, r.FormValue("pwdc"), MainStructureMain.AccStruct) {
-			GroupieTracker.CreateAccount(mail, pwd, MainStructureMain.AccStruct)
-			GroupieTracker.AuthentificationToken(mail, MainStructureMain.AccStruct, w)
+		if GroupieTracker.VerifEntryUser(mail, pwd, r.FormValue("pwdc"), Main.AccStruct) {
+			GroupieTracker.CreateAccount(mail, pwd, Main.AccStruct)
+			GroupieTracker.AuthentificationToken(mail, Main.AccStruct, w)
 			http.Redirect(w, r, "/profil", http.StatusFound)
 			return
 		}
@@ -132,7 +132,7 @@ func main() {
 		}
 		// 	GroupieTracker.LoginAcc(cookie.Value, Acc)
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
-		templateshtml.ExecuteTemplate(w, "profil.html", MainStructureMain)
+		templateshtml.ExecuteTemplate(w, "profil.html", Main)
 	})
 
 	http.HandleFunc("/logout", func(w http.ResponseWriter, r *http.Request) {
