@@ -12,9 +12,10 @@ import (
 )
 
 type AccountStruct struct {
-	GoodCreation GoodCreation
-	EveryAccount map[string][]byte
-	AuthToken    map[string]string
+	GoodCreation   GoodCreation
+	GoodConnection GoodConnection
+	EveryAccount   map[string][]byte
+	AuthToken      map[string]string
 }
 
 type GoodCreation struct {
@@ -22,6 +23,11 @@ type GoodCreation struct {
 	Pwd   bool
 	Pwdc  bool
 	Exist bool
+}
+
+type GoodConnection struct {
+	Mail bool
+	Pwd  bool
 }
 
 func AccStructureInit() *AccountStruct {
@@ -131,4 +137,33 @@ func GoodCreationReset(AccStruct *AccountStruct) {
 	AccStruct.GoodCreation.Pwd = false
 	AccStruct.GoodCreation.Pwdc = false
 	AccStruct.GoodCreation.Exist = false
+}
+
+func VerifConnectionUser(mail, pwd string, AccStruct *AccountStruct) bool {
+	if len(AccStruct.EveryAccount[mail]) == 0 {
+		AccStruct.GoodConnection.Mail = true
+		return false
+	}
+	if VerifNotSamePwd(Cryptage(pwd), AccStruct.EveryAccount[mail]) {
+		AccStruct.GoodConnection.Pwd = true
+		return false
+	}
+	return true
+}
+
+func VerifNotSamePwd(pwd []byte, AccPwd []byte) bool {
+	if len(pwd) != len(AccPwd) {
+		return true
+	}
+	for k, i := range pwd {
+		if i != AccPwd[k] {
+			return true
+		}
+	}
+	return false
+}
+
+func GoodConnectionReset(AccStruct *AccountStruct) {
+	AccStruct.GoodConnection.Mail = false
+	AccStruct.GoodConnection.Pwd = false
 }

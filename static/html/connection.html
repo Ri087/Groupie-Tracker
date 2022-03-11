@@ -20,13 +20,13 @@
                             <div id="userentry">
                                 <div id="email">
                                     <input type="text" name="mail" id="mail" placeholder="e-mail" maxlength="160">
-                                    {{if .Mail}}
+                                    {{if .AccStruct.GoodConnection.Mail}}
                                     <p class="error">Mail inexistant</p>
                                     {{end}}
                                 </div>
                                 <div id="password">
                                     <input type="password" name="pwd" id="pwd" placeholder="password" maxlength="64">
-                                    {{if .Pwd}}
+                                    {{if .AccStruct.GoodConnection.Pwd}}
                                     <p class="error">Wrong password</p>
                                     {{end}}
                                 </div>
