@@ -23,9 +23,10 @@ func main() {
 	Main := MainStructureInit()
 
 	var s GroupieTracker.Spotify = GroupieTracker.New("6b053d7dfcbe4c69a576561f8c098391", "d00791e8792a4f13bc1bb8b95197505d")
+	s.Authorize()
 
 	fileServer := http.FileServer(http.Dir("./static"))
-	s.Authorize()
+
 	http.Handle("/ressources/", http.StripPrefix("/ressources/", fileServer))
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
@@ -132,10 +133,22 @@ func main() {
 	})
 
 	http.HandleFunc("/profil", func(w http.ResponseWriter, r *http.Request) {
-		_, err := r.Cookie("AUTHENTIFICATION_TOKEN")
+		cookie, err := r.Cookie("AUTHENTIFICATION_TOKEN")
 		if err != nil {
 			http.Redirect(w, r, "/connection", http.StatusFound)
 			return
+		}
+		if Main.AccStruct.AuthToken[cookie.Value] == "" {
+			cookie.MaxAge = -1
+			http.SetCookie(w, cookie)
+			http.Redirect(w, r, "/connection", http.StatusFound)
+			return
+		}
+		GroupieTracker.GetUserInfos(cookie.Value, Main.AccStruct)
+		if Main.AccStruct.User.Pseudo == "" {
+			Main.AccStruct.PseudoNotOk = true
+		} else {
+			Main.AccStruct.PseudoNotOk = false
 		}
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
 		templateshtml.ExecuteTemplate(w, "profil.html", Main)
@@ -144,9 +157,10 @@ func main() {
 	http.HandleFunc("/logout", func(w http.ResponseWriter, r *http.Request) {
 		if _, err := r.Cookie("AUTHENTIFICATION_TOKEN"); err == nil {
 			cookie, _ := r.Cookie("AUTHENTIFICATION_TOKEN")
+			GroupieTracker.DeleteToken(cookie.Value, Main.AccStruct)
 			cookie.MaxAge = -1
 			http.SetCookie(w, cookie)
-			// ENLEVER TOKEN DANS FICHIER TOKEN.JSON
+
 		}
 		http.Redirect(w, r, "/", http.StatusFound)
 	})

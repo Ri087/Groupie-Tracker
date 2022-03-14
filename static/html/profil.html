@@ -4,7 +4,15 @@
     <title>Profil</title>
 </head>
 <body>
-    {{ .AccStruct.Name}}
+    {{ .AccStruct.User.Pseudo}}
     <br>
-    {{ .AccStruct.Mail}}
+    {{ .AccStruct.User.Mail}}
+    <br>
+    {{ .AccStruct.PseudoNotOk}}
+    <br>
+    {{ if .AccStruct.PseudoNotOk}}
+    PSEUDO VIDE PDSOGJHIJH
+    {{ else}}
+    PSEUDO PAS VIDE PTDRMKDGJHLSKFHJQFPI
+    {{end}}
 </body>

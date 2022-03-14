@@ -16,6 +16,11 @@ type AccountStruct struct {
 	GoodConnection GoodConnection
 	EveryAccount   map[string][]byte
 	AuthToken      map[string]string
+	EveryUserInfos map[int]InfosUser
+	EveryId        map[string]int
+	User           InfosUser
+	PseudoNotOk    bool
+	IdUsers        int
 }
 
 type GoodCreation struct {
@@ -30,11 +35,22 @@ type GoodConnection struct {
 	Pwd  bool
 }
 
+type InfosUser struct {
+	Pseudo string
+	Mail   string
+	// SelectArtistes map[int]Artists
+	// Friends map[int]InfosUser
+}
+
 func AccStructureInit() *AccountStruct {
 	AccStruct := &AccountStruct{}
 	GoodCreationReset(AccStruct)
 	AccStruct.EveryAccount = TakeEveryAccount()
 	AccStruct.AuthToken = TakeEveryToken()
+	AccStruct.EveryUserInfos = TakeEveryInfosUser()
+	AccStruct.EveryId = TakeEveryId()
+	AccStruct.IdUsers = len(AccStruct.EveryAccount)
+	AccStruct.PseudoNotOk = false
 	return AccStruct
 }
 
@@ -78,6 +94,13 @@ func CreateAccount(mail, pwd string, AccStruct *AccountStruct) {
 	AccStruct.EveryAccount[mail] = Cryptage(pwd)
 	b, _ := json.Marshal(AccStruct.EveryAccount)
 	ioutil.WriteFile("./GroupieTracker/Account/Acc.json", b, 0644)
+	AccStruct.IdUsers += 1
+	AccStruct.EveryUserInfos[AccStruct.IdUsers] = InfosUser{"", mail}
+	c, _ := json.Marshal(AccStruct.EveryUserInfos)
+	ioutil.WriteFile("./GroupieTracker/Account/InfoUsers.json", c, 0644)
+	AccStruct.EveryId[mail] = AccStruct.IdUsers
+	d, _ := json.Marshal(AccStruct.EveryId)
+	ioutil.WriteFile("./GroupieTracker/Account/IdByMail.json", d, 0644)
 }
 
 func Cryptage(pwd string) []byte {
@@ -116,9 +139,42 @@ func TakeEveryAccount() map[string][]byte {
 	return EveryAcc
 }
 
+func TakeEveryInfosUser() map[int]InfosUser {
+	save, err := ioutil.ReadFile("./GroupieTracker/Account/InfoUsers.json")
+	if err != nil {
+		log.Fatalf("Error when opening file: %s", err)
+		os.Exit(1)
+	}
+	var EveryInfosUser map[int]InfosUser
+	err = json.Unmarshal(save, &EveryInfosUser)
+	if err != nil {
+		log.Fatalf("Error with the file: %s", err)
+		os.Exit(1)
+	}
+	return EveryInfosUser
+}
+
+func TakeEveryId() map[string]int {
+	save, err := ioutil.ReadFile("./GroupieTracker/Account/IdByMail.json")
+	if err != nil {
+		log.Fatalf("Error when opening file: %s", err)
+		os.Exit(1)
+	}
+	var EveryId map[string]int
+	err = json.Unmarshal(save, &EveryId)
+	if err != nil {
+		log.Fatalf("Error with the file: %s", err)
+		os.Exit(1)
+	}
+	return EveryId
+}
+
 func AuthentificationToken(mail string, AccStruct *AccountStruct, w http.ResponseWriter) {
 	TabForToken := []string{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"}
-	Token := "FirstOne"
+	Token := ""
+	for i := 0; i < 33; i++ {
+		Token += TabForToken[rand.Intn(len(TabForToken))]
+	}
 	rand.Seed(time.Now().UnixNano())
 	for AccStruct.AuthToken[Token] != "" {
 		Token = ""
@@ -166,4 +222,18 @@ func VerifNotSamePwd(pwd []byte, AccPwd []byte) bool {
 func GoodConnectionReset(AccStruct *AccountStruct) {
 	AccStruct.GoodConnection.Mail = false
 	AccStruct.GoodConnection.Pwd = false
+}
+
+func DeleteToken(value string, AccStruct *AccountStruct) {
+	delete(AccStruct.AuthToken, value)
+	b, _ := json.Marshal(AccStruct.AuthToken)
+	ioutil.WriteFile("./GroupieTracker/Account/Token.json", b, 0644)
+}
+
+func GetUserInfos(value string, AccStruct *AccountStruct) {
+	GetUserById(AccStruct.EveryId[AccStruct.AuthToken[value]], AccStruct)
+}
+
+func GetUserById(id int, AccStruct *AccountStruct) {
+	AccStruct.User = AccStruct.EveryUserInfos[id]
 }
