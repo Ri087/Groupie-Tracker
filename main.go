@@ -234,5 +234,22 @@ func main() {
 		http.Redirect(w, r, "/profil", http.StatusFound)
 	})
 
+	http.HandleFunc("/showprofil", func(w http.ResponseWriter, r *http.Request) {
+		cookie, err := r.Cookie("AUTHENTIFICATION_TOKEN")
+		if err != nil {
+			http.Redirect(w, r, "/connection", http.StatusFound)
+			return
+		}
+		if Main.AccStruct.AuthToken[cookie.Value] == "" {
+			cookie.MaxAge = -1
+			http.SetCookie(w, cookie)
+			http.Redirect(w, r, "/connection", http.StatusFound)
+			return
+		}
+		GroupieTracker.GetUserInfos(cookie.Value, Main.AccStruct)
+		GroupieTracker.ParametersProfil(r.FormValue("showprofil"), r.FormValue("showprofilfriend"), Main.AccStruct)
+		http.Redirect(w, r, "/profil", http.StatusFound)
+	})
+
 	http.ListenAndServe(":8080", nil)
 }

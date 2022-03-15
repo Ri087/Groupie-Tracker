@@ -320,3 +320,24 @@ func ShowedFriends(AccStruct *AccountStruct) {
 		AccStruct.AuthorizeVisit.ShowFriends = true
 	}
 }
+
+func ParametersProfil(profil, profilfriend string, AccStruct *AccountStruct) {
+	if profil == "public" {
+		AccStruct.User.Public = true
+	} else if profil == "friends" {
+		AccStruct.User.Public = false
+	} else if profilfriend == "public" {
+		AccStruct.User.ShowFriendsToPublic = true
+		AccStruct.User.ShowFriendsToFriend = false
+	} else if profilfriend == "friends" {
+		AccStruct.User.ShowFriendsToFriend = true
+		AccStruct.User.ShowFriendsToPublic = false
+	} else if profilfriend == "none" {
+		AccStruct.User.ShowFriendsToFriend = false
+		AccStruct.User.ShowFriendsToPublic = false
+	}
+	id := AccStruct.EveryId[AccStruct.User.Mail]
+	AccStruct.EveryUserInfos[id] = AccStruct.User
+	c, _ := json.Marshal(AccStruct.EveryUserInfos)
+	ioutil.WriteFile("./GroupieTracker/Account/InfoUsers.json", c, 0644)
+}

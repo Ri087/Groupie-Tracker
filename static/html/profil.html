@@ -22,11 +22,49 @@
     <br>
     {{ .AccStruct.User.Mail}}
     <br>
-    <!-- <form method="get" action="/showprofil" onChange="submit()">
-        <input type="radio" name="showprofil" value="public"/>
+    <br>
+    Who can see ur profil ?
+    <br>
+    <form method="get" action="/showprofil" onChange="submit()">
+        {{if .AccStruct.User.Public}}
+        <input type="radio" name="showprofil" value="public" checked/>
+        <label>Everyone</label>
         <input type="radio" name="showprofil" value="friends"/>
-        <input type="radio" name="showprofil" value="none"/>
-    </form> -->
+        <label>Friends</label>
+        {{else}}
+        <input type="radio" name="showprofil" value="public"/>
+        <label>Everyone</label>
+        <input type="radio" name="showprofil" value="friends" checked/>
+        <label>Friends</label>
+        {{end}}
+    </form>
+    <br>
+    Who can see ur friends ?
+    <br>
+    <form method="get" action="/showprofil" onChange="submit()">
+        {{if .AccStruct.User.ShowFriendsToPublic}}
+        <input type="radio" name="showprofilfriend" value="public" checked/>
+        <label>Everyone</label>
+        <input type="radio" name="showprofilfriend" value="friends"/>
+        <label>Friends</label>
+        <input type="radio" name="showprofilfriend" value="none"/>
+        <label>None</label>
+        {{else if .AccStruct.User.ShowFriendsToFriend}}
+        <input type="radio" name="showprofilfriend" value="public"/>
+        <label>Everyone</label>
+        <input type="radio" name="showprofilfriend" value="friends" checked/>
+        <label>Friends</label>
+        <input type="radio" name="showprofilfriend" value="none"/>
+        <label>None</label>
+        {{else}}
+        <input type="radio" name="showprofilfriend" value="public"/>
+        <label>Everyone</label>
+        <input type="radio" name="showprofilfriend" value="friends"/>
+        <label>Friends</label>
+        <input type="radio" name="showprofilfriend" value="none" checked/>
+        <label>None</label>
+        {{end}}
+    </form>
     <br>
     Add Friend 
     <form method="get" action="/addfriend">
