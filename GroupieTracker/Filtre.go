@@ -61,12 +61,17 @@ func FLT(filters map[string][]string, ApiStruct *ApiStructure) {
 	if filters["Location"][0] == "All" {
 		filters["Location"] = ApiStruct.Filtres.CountryTab
 	}
+	if filters["genres"] == nil {
+		filters["genres"] = []string{}
+	}
 	for _, i := range ApiStruct.TabApiArtiste {
 		TabAppend(filters, ApiStruct, i)
 	}
 	if len(filters["Location"]) == len(ApiStruct.Filtres.CountryTab) {
 		ApiStruct.Filtres.CountryValue = "All"
 	}
+	// FiltreArtistSpotify(&Spotify{}, &SpotifyStruct{}, &TokenSpotify{}, ApiStruct, filters)
+
 }
 
 func FLTCheck(filters map[string][]string, ApiStruct *ApiStructure) {

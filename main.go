@@ -2,6 +2,7 @@ package main
 
 import (
 	"GroupieTracker/GroupieTracker"
+	"fmt"
 	"net/http"
 	"strconv"
 	"text/template"
@@ -21,9 +22,7 @@ func MainStructureInit() *MainStructure {
 
 func main() {
 	Main := MainStructureInit()
-
 	fileServer := http.FileServer(http.Dir("./static"))
-	var s GroupieTracker.Spotify = GroupieTracker.New("6b053d7dfcbe4c69a576561f8c098391", "d00791e8792a4f13bc1bb8b95197505d")
 	http.Handle("/ressources/", http.StripPrefix("/ressources/", fileServer))
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
@@ -39,11 +38,14 @@ func main() {
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
 		templateshtml.ExecuteTemplate(w, "artiste.html", Main)
 		GroupieTracker.FilterReset(Main.ApiStruct)
-		s.Authorize(w, r)
+		Ats := GroupieTracker.TokenSpotify{}
+		fmt.Println(Ats)
+
 	})
 	http.HandleFunc("/filter", func(w http.ResponseWriter, r *http.Request) {
 		GroupieTracker.FLT(r.URL.Query(), Main.ApiStruct)
 		http.Redirect(w, r, "/artiste", http.StatusFound)
+
 	})
 
 	http.HandleFunc("/search", func(w http.ResponseWriter, r *http.Request) {
@@ -65,7 +67,6 @@ func main() {
 	})
 
 	http.HandleFunc("/artiste/", func(w http.ResponseWriter, r *http.Request) {
-
 		IDArtist := r.URL.Path[9:]
 		id, _ := strconv.Atoi(IDArtist)
 		if GroupieTracker.ArtisteNotFound(id, Main.ApiStruct) {
@@ -73,8 +74,6 @@ func main() {
 			return
 		}
 		Main.ApiStruct.SpecificApiPageArtiste = GroupieTracker.ApiArtistsPageArtiste(IDArtist)
-		s.Authorize(w, r)
-		// fmt.Println("-------------", Main.SpotifyStruct.Artists.Items[0].Name)
 		locs := GroupieTracker.Mapapi(Main.ApiStruct, id)
 		data := struct {
 			Main MainStructure

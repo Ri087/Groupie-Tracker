@@ -21,6 +21,24 @@ type TokenSpotify struct {
 	Token_type   string
 	Expires_in   int
 }
+type SpotifyStruct struct {
+	Artists struct {
+		Items []struct {
+			ExternalUrls struct {
+				Spotify string `json:"spotify"`
+			} `json:"external_urls"`
+			Followers struct {
+				Total int `json:"total"`
+			} `json:"followers"`
+			Genres     []string `json:"genres"`
+			Href       string   `json:"href"`
+			ID         string   `json:"id"`
+			Name       string   `json:"name"`
+			Popularity int      `json:"popularity"`
+			URI        string   `json:"uri"`
+		} `json:"items"`
+	} `json:"artists"`
+}
 
 const (
 	BASE_URL     = "https://api.spotify.com"
@@ -37,78 +55,66 @@ func initialize(clientID, clientSecret string) Spotify {
 	return spot
 }
 
-func (spotify *Spotify) Authorize(w http.ResponseWriter, r *http.Request) {
-	IDArtist := r.URL.Path[9:]
-	// id, _ := strconv.Atoi(IDArtist)
-	// Main.ApiStruct.SpecificApiPageArtiste = ApiArtistsPageArtiste(IDArtist)
-	SpecificApiPageArtiste := ApiArtistsPageArtiste(IDArtist)
-	nameArtsit := SpecificApiPageArtiste.Artists.Name
+func (spotify *Spotify) Authorize() TokenSpotify {
+	ATS := TokenSpotify{}
 	client := http.Client{}
-	auth := fmt.Sprintf("Basic %s", spotify.getEncodedKeys())
 	data := url.Values{}
+	auth := fmt.Sprintf("Basic %s", spotify.getEncodedKeys())
 	data.Set("grant_type", "client_credentials")
 	req, _ := http.NewRequest("POST", ACCOUNTS_URL, strings.NewReader(data.Encode()))
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	req.Header.Set("Authorization", auth)
 	response, _ := client.Do(req)
 	body, _ := ioutil.ReadAll(response.Body)
-	ATS := &TokenSpotify{}
-	json.Unmarshal(body, ATS)
-
-	RequestSpotify(&Spotify{}, ATS, &SpotifyStruct{}, nameArtsit)
+	json.Unmarshal(body, &ATS)
+	return ATS
 }
+
 func (spotify *Spotify) getEncodedKeys() string {
 	data := fmt.Sprintf("%v:%v", spotify.clientID, spotify.clientSecret)
 	encoded := base64.StdEncoding.EncodeToString([]byte(data))
 	return encoded
 }
 
-type SpotifyStruct struct {
-	Artists struct {
-		Href  string `json:"href"`
-		Items []struct {
-			ExternalUrls struct {
-				Spotify string `json:"spotify"`
-			} `json:"external_urls"`
-			Followers struct {
-				Total int `json:"total"`
-			} `json:"followers"`
-			Genres []string `json:"genres"`
-			Href   string   `json:"href"`
-			ID     string   `json:"id"`
-			Images []struct {
-				Height int    `json:"height"`
-				URL    string `json:"url"`
-				Width  int    `json:"width"`
-			} `json:"images"`
-			Name       string `json:"name"`
-			Popularity int    `json:"popularity"`
-			Type       string `json:"type"`
-			URI        string `json:"uri"`
-		} `json:"items"`
-	} `json:"artists"`
+type SpotifyPageArtiste struct {
+	Name      string
+	Followers int
+	Genres    []string
+	Id        string
+	Href      string
 }
 
-func RequestSpotify(spotify *Spotify, TS *TokenSpotify, spotifyArtist *SpotifyStruct, nameArtist string) {
-	var name string
+func PageArtistSpotify(ID string, nameArtist string, ATS *TokenSpotify) *SpotifyPageArtiste {
+	ApiSpotify := SpotifyStruct{}
+	Artist := &SpotifyPageArtiste{}
 	data := url.Values{}
 	client := http.Client{}
+	name := NameNoSpace(nameArtist)
+	base_url := "https://api.spotify.com/v1/search?q=" + name + "&type=artist"
+	req, _ := http.NewRequest("GET", base_url, strings.NewReader(data.Encode()))
+	req.Header.Set("Authorization", "Bearer "+ATS.Access_token)
+	req.Header.Set("Content-Type", "application/json")
+	response, _ := client.Do(req)
+	body, _ := ioutil.ReadAll(response.Body)
+	json.Unmarshal(body, &ApiSpotify)
+	Artist.Name = ApiSpotify.Artists.Items[0].Name
+	Artist.Followers = ApiSpotify.Artists.Items[0].Followers.Total
+	Artist.Genres = ApiSpotify.Artists.Items[0].Genres
+	Artist.Name = ApiSpotify.Artists.Items[0].Name
+	Artist.Id = ApiSpotify.Artists.Items[0].ID
+	Artist.Href = ApiSpotify.Artists.Items[0].Href
+	return Artist
+}
+func NameNoSpace(nameArtist string) string {
+	var name string
 	for _, i := range nameArtist {
 		if i != ' ' {
 			name += string(i)
 		}
 	}
-	base_url := "https://api.spotify.com/v1/search?q=" + name + "&type=artist"
-	req, _ := http.NewRequest("GET", base_url, strings.NewReader(data.Encode()))
-	fmt.Println("Access Token = ", TS.Access_token)
-	req.Header.Set("Authorization", "Bearer "+TS.Access_token)
-	req.Header.Set("Content-Type", "application/json")
-	response, _ := client.Do(req)
-	body, _ := ioutil.ReadAll(response.Body)
-	json.Unmarshal(body, spotifyArtist)
-	fmt.Println(spotifyArtist.Artists.Items[0].Name)
-	fmt.Println(spotifyArtist.Artists.Items[0].Followers.Total)
-	fmt.Println(spotifyArtist.Artists.Items[0].Genres)
-	fmt.Println(spotifyArtist.Artists.Items[0].ID)
-	fmt.Println(spotifyArtist.Artists.Items[0].Type)
+	return name
+}
+
+func FiltreArtsitSpotify() {
+
 }
