@@ -22,11 +22,8 @@ func MainStructureInit() *MainStructure {
 func main() {
 	Main := MainStructureInit()
 
-	// var s GroupieTracker.Spotify = GroupieTracker.New("6b053d7dfcbe4c69a576561f8c098391", "d00791e8792a4f13bc1bb8b95197505d")
-	// s.Authorize()
-
 	fileServer := http.FileServer(http.Dir("./static"))
-
+	var s GroupieTracker.Spotify = GroupieTracker.New("6b053d7dfcbe4c69a576561f8c098391", "d00791e8792a4f13bc1bb8b95197505d")
 	http.Handle("/ressources/", http.StripPrefix("/ressources/", fileServer))
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
@@ -42,6 +39,7 @@ func main() {
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
 		templateshtml.ExecuteTemplate(w, "artiste.html", Main)
 		GroupieTracker.FilterReset(Main.ApiStruct)
+		s.Authorize(w, r)
 	})
 	http.HandleFunc("/filter", func(w http.ResponseWriter, r *http.Request) {
 		GroupieTracker.FLT(r.URL.Query(), Main.ApiStruct)
@@ -67,6 +65,7 @@ func main() {
 	})
 
 	http.HandleFunc("/artiste/", func(w http.ResponseWriter, r *http.Request) {
+
 		IDArtist := r.URL.Path[9:]
 		id, _ := strconv.Atoi(IDArtist)
 		if GroupieTracker.ArtisteNotFound(id, Main.ApiStruct) {
@@ -74,6 +73,8 @@ func main() {
 			return
 		}
 		Main.ApiStruct.SpecificApiPageArtiste = GroupieTracker.ApiArtistsPageArtiste(IDArtist)
+		s.Authorize(w, r)
+		// fmt.Println("-------------", Main.SpotifyStruct.Artists.Items[0].Name)
 		locs := GroupieTracker.Mapapi(Main.ApiStruct, id)
 		data := struct {
 			Main MainStructure
@@ -93,6 +94,16 @@ func main() {
 		GroupieTracker.GoodCreationReset(Main.AccStruct)
 	})
 
+	http.HandleFunc("/connection", func(w http.ResponseWriter, r *http.Request) {
+		if _, err := r.Cookie("AUTHENTIFICATION_TOKEN"); err == nil {
+			http.Redirect(w, r, "/profil", http.StatusFound)
+			return
+		}
+		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
+		templateshtml.ExecuteTemplate(w, "connection.html", Main)
+		// 	CheckConnection.Mail, CheckConnection.Pwd = false, false
+	})
+
 	http.HandleFunc("/checkcreation", func(w http.ResponseWriter, r *http.Request) {
 		if _, err := r.Cookie("AUTHENTIFICATION_TOKEN"); err == nil {
 			http.Redirect(w, r, "/profil", http.StatusFound)
@@ -108,28 +119,12 @@ func main() {
 		http.Redirect(w, r, "/creation", http.StatusFound)
 	})
 
-	http.HandleFunc("/connection", func(w http.ResponseWriter, r *http.Request) {
-		if _, err := r.Cookie("AUTHENTIFICATION_TOKEN"); err == nil {
-			http.Redirect(w, r, "/profil", http.StatusFound)
-			return
-		}
-		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
-		templateshtml.ExecuteTemplate(w, "connection.html", Main)
-		GroupieTracker.GoodConnectionReset(Main.AccStruct)
-	})
-
 	http.HandleFunc("/checkconnection", func(w http.ResponseWriter, r *http.Request) {
 		if _, err := r.Cookie("AUTHENTIFICATION_TOKEN"); err == nil {
 			http.Redirect(w, r, "/profil", http.StatusFound)
 			return
 		}
-		mail, pwd := r.FormValue("mail"), r.FormValue("pwd")
-		if GroupieTracker.VerifConnectionUser(mail, pwd, Main.AccStruct) {
-			GroupieTracker.AuthentificationToken(mail, Main.AccStruct, w)
-			http.Redirect(w, r, "/profil", http.StatusFound)
-			return
-		}
-		http.Redirect(w, r, "/connection", http.StatusFound)
+		// Login(w, r, CheckConnection, Main.ACC)
 	})
 
 	http.HandleFunc("/profil", func(w http.ResponseWriter, r *http.Request) {
@@ -177,10 +172,8 @@ func main() {
 	http.HandleFunc("/logout", func(w http.ResponseWriter, r *http.Request) {
 		if _, err := r.Cookie("AUTHENTIFICATION_TOKEN"); err == nil {
 			cookie, _ := r.Cookie("AUTHENTIFICATION_TOKEN")
-			GroupieTracker.DeleteToken(cookie.Value, Main.AccStruct)
 			cookie.MaxAge = -1
 			http.SetCookie(w, cookie)
-
 		}
 		http.Redirect(w, r, "/", http.StatusFound)
 	})
