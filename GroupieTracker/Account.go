@@ -19,7 +19,10 @@ type AccountStruct struct {
 	EveryUserInfos map[int]InfosUser
 	EveryId        map[string]int
 	User           InfosUser
-	PseudoNotOk    bool
+	Friend         UserFriend
+	PseudoCheck    PseudoCheck
+	FriendCheck    FriendCheck
+	AuthorizeVisit AuthorizeVisit
 	IdUsers        int
 }
 
@@ -36,10 +39,35 @@ type GoodConnection struct {
 }
 
 type InfosUser struct {
+	Public bool
 	Pseudo string
 	Mail   string
 	// SelectArtistes map[int]Artists
-	// Friends map[int]InfosUser
+	Friends             map[int]UserFriend
+	ShowFriendsToPublic bool
+	ShowFriendsToFriend bool
+}
+
+type UserFriend struct {
+	Pseudo string
+	Mail   string
+}
+
+type PseudoCheck struct {
+	PseudoNotOk bool
+	WrongPseudo bool
+}
+
+type FriendCheck struct {
+	WrongFriend bool
+	ThatsU      bool
+}
+
+type AuthorizeVisit struct {
+	User        InfosUser
+	ShowFriends bool
+	Authorize   bool
+	Existant    bool
 }
 
 func AccStructureInit() *AccountStruct {
@@ -50,8 +78,23 @@ func AccStructureInit() *AccountStruct {
 	AccStruct.EveryUserInfos = TakeEveryInfosUser()
 	AccStruct.EveryId = TakeEveryId()
 	AccStruct.IdUsers = len(AccStruct.EveryAccount)
-	AccStruct.PseudoNotOk = false
+	AccStruct.PseudoCheck = PseudoCheck{false, false}
+	AccStruct.FriendCheck = FriendCheck{false, false}
 	return AccStruct
+}
+
+func VisitAuthorizeReset(AccStruct *AccountStruct) {
+	AccStruct.AuthorizeVisit.ShowFriends = false
+	AccStruct.AuthorizeVisit.Authorize = false
+	AccStruct.AuthorizeVisit.Existant = false
+	AccStruct.AuthorizeVisit.User = InfosUser{}
+}
+
+func PseudoAndFriendReset(AccStruct *AccountStruct) {
+	AccStruct.PseudoCheck.PseudoNotOk = false
+	AccStruct.PseudoCheck.WrongPseudo = false
+	AccStruct.FriendCheck.ThatsU = false
+	AccStruct.FriendCheck.WrongFriend = false
 }
 
 func VerifEntryUser(mail, pwd, pwdc string, AccStruct *AccountStruct) bool {
@@ -95,7 +138,7 @@ func CreateAccount(mail, pwd string, AccStruct *AccountStruct) {
 	b, _ := json.Marshal(AccStruct.EveryAccount)
 	ioutil.WriteFile("./GroupieTracker/Account/Acc.json", b, 0644)
 	AccStruct.IdUsers += 1
-	AccStruct.EveryUserInfos[AccStruct.IdUsers] = InfosUser{"", mail}
+	AccStruct.EveryUserInfos[AccStruct.IdUsers] = InfosUser{false, "", mail, map[int]UserFriend{}, false, false}
 	c, _ := json.Marshal(AccStruct.EveryUserInfos)
 	ioutil.WriteFile("./GroupieTracker/Account/InfoUsers.json", c, 0644)
 	AccStruct.EveryId[mail] = AccStruct.IdUsers
@@ -236,4 +279,44 @@ func GetUserInfos(value string, AccStruct *AccountStruct) {
 
 func GetUserById(id int, AccStruct *AccountStruct) {
 	AccStruct.User = AccStruct.EveryUserInfos[id]
+}
+
+func SavePseudo(value, pseudo string, AccStruct *AccountStruct) {
+	GetUserInfos(value, AccStruct)
+	if AccStruct.User.Pseudo != "" {
+		return
+	}
+	AccStruct.User.Pseudo = pseudo
+	id := AccStruct.EveryId[AccStruct.User.Mail]
+	AccStruct.EveryUserInfos[id] = AccStruct.User
+	c, _ := json.Marshal(AccStruct.EveryUserInfos)
+	ioutil.WriteFile("./GroupieTracker/Account/InfoUsers.json", c, 0644)
+}
+
+func GetFriendById(id int, AccStruct *AccountStruct) {
+	user := AccStruct.EveryUserInfos[id]
+	AccStruct.Friend.Mail = user.Mail
+	AccStruct.Friend.Pseudo = user.Pseudo
+}
+
+func AddFriend(id int, AccStruct *AccountStruct) {
+	AccStruct.User.Friends[id] = AccStruct.Friend
+	c, _ := json.Marshal(AccStruct.EveryUserInfos)
+	ioutil.WriteFile("./GroupieTracker/Account/InfoUsers.json", c, 0644)
+}
+
+func VisitProfil(AccStruct *AccountStruct) {
+	if AccStruct.AuthorizeVisit.User.Public {
+		AccStruct.AuthorizeVisit.Authorize = true
+	} else if id := AccStruct.EveryId[AccStruct.User.Mail]; AccStruct.User.Mail != "" && AccStruct.AuthorizeVisit.User.Friends[id].Mail == AccStruct.User.Mail {
+		AccStruct.AuthorizeVisit.Authorize = true
+	}
+}
+
+func ShowedFriends(AccStruct *AccountStruct) {
+	if AccStruct.AuthorizeVisit.User.ShowFriendsToPublic {
+		AccStruct.AuthorizeVisit.ShowFriends = true
+	} else if id := AccStruct.EveryId[AccStruct.User.Mail]; AccStruct.User.Mail != "" && AccStruct.AuthorizeVisit.User.ShowFriendsToFriend && AccStruct.AuthorizeVisit.User.Friends[id].Mail == AccStruct.User.Mail {
+		AccStruct.AuthorizeVisit.ShowFriends = true
+	}
 }

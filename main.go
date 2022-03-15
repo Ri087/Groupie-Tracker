@@ -22,8 +22,8 @@ func MainStructureInit() *MainStructure {
 func main() {
 	Main := MainStructureInit()
 
-	var s GroupieTracker.Spotify = GroupieTracker.New("6b053d7dfcbe4c69a576561f8c098391", "d00791e8792a4f13bc1bb8b95197505d")
-	s.Authorize()
+	// var s GroupieTracker.Spotify = GroupieTracker.New("6b053d7dfcbe4c69a576561f8c098391", "d00791e8792a4f13bc1bb8b95197505d")
+	// s.Authorize()
 
 	fileServer := http.FileServer(http.Dir("./static"))
 
@@ -146,12 +146,32 @@ func main() {
 		}
 		GroupieTracker.GetUserInfos(cookie.Value, Main.AccStruct)
 		if Main.AccStruct.User.Pseudo == "" {
-			Main.AccStruct.PseudoNotOk = true
-		} else {
-			Main.AccStruct.PseudoNotOk = false
+			Main.AccStruct.PseudoCheck.PseudoNotOk = true
 		}
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
 		templateshtml.ExecuteTemplate(w, "profil.html", Main)
+		GroupieTracker.PseudoAndFriendReset(Main.AccStruct)
+	})
+
+	http.HandleFunc("/pseudo", func(w http.ResponseWriter, r *http.Request) {
+		cookie, err := r.Cookie("AUTHENTIFICATION_TOKEN")
+		if err != nil {
+			http.Redirect(w, r, "/connection", http.StatusFound)
+			return
+		}
+		if Main.AccStruct.AuthToken[cookie.Value] == "" {
+			cookie.MaxAge = -1
+			http.SetCookie(w, cookie)
+			http.Redirect(w, r, "/connection", http.StatusFound)
+			return
+		}
+		TempPseudo := r.FormValue("pseudo")
+		if len(TempPseudo) < 3 {
+			Main.AccStruct.PseudoCheck.WrongPseudo = true
+		} else {
+			GroupieTracker.SavePseudo(cookie.Value, TempPseudo, Main.AccStruct)
+		}
+		http.Redirect(w, r, "/profil", http.StatusFound)
 	})
 
 	http.HandleFunc("/logout", func(w http.ResponseWriter, r *http.Request) {
@@ -163,6 +183,62 @@ func main() {
 
 		}
 		http.Redirect(w, r, "/", http.StatusFound)
+	})
+
+	http.HandleFunc("/profil/", func(w http.ResponseWriter, r *http.Request) {
+		id, _ := strconv.Atoi(r.URL.Path[8:])
+		Main.AccStruct.AuthorizeVisit.User = Main.AccStruct.EveryUserInfos[id]
+		if Main.AccStruct.AuthorizeVisit.User.Mail != "" {
+			Main.AccStruct.AuthorizeVisit.Existant = true
+			if cookie, err := r.Cookie("AUTHENTIFICATION_TOKEN"); err == nil && Main.AccStruct.AuthToken[cookie.Value] == "" {
+				cookie.MaxAge = -1
+				http.SetCookie(w, cookie)
+			}
+			if cookie, err := r.Cookie("AUTHENTIFICATION_TOKEN"); err == nil {
+				GroupieTracker.GetUserInfos(cookie.Value, Main.AccStruct)
+			} else {
+				Main.AccStruct.User = GroupieTracker.InfosUser{}
+			}
+			if Main.AccStruct.AuthorizeVisit.User.Mail == Main.AccStruct.User.Mail {
+				http.Redirect(w, r, "/profil", http.StatusFound)
+				return
+			}
+			GroupieTracker.VisitProfil(Main.AccStruct)
+			if Main.AccStruct.AuthorizeVisit.Authorize {
+				GroupieTracker.ShowedFriends(Main.AccStruct)
+			}
+		}
+		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
+		templateshtml.ExecuteTemplate(w, "profil-visite.html", Main)
+		GroupieTracker.VisitAuthorizeReset(Main.AccStruct)
+	})
+
+	http.HandleFunc("/addfriend", func(w http.ResponseWriter, r *http.Request) {
+		cookie, err := r.Cookie("AUTHENTIFICATION_TOKEN")
+		if err != nil {
+			http.Redirect(w, r, "/connection", http.StatusFound)
+			return
+		}
+		if Main.AccStruct.AuthToken[cookie.Value] == "" {
+			cookie.MaxAge = -1
+			http.SetCookie(w, cookie)
+			http.Redirect(w, r, "/connection", http.StatusFound)
+			return
+		}
+		id := Main.AccStruct.EveryId[r.FormValue("mail")]
+		if id == 0 {
+			Main.AccStruct.FriendCheck.WrongFriend = true
+			http.Redirect(w, r, "/profil", http.StatusFound)
+			return
+		}
+		GroupieTracker.GetFriendById(id, Main.AccStruct)
+		GroupieTracker.GetUserInfos(cookie.Value, Main.AccStruct)
+		if Main.AccStruct.User.Mail == Main.AccStruct.Friend.Mail {
+			Main.AccStruct.FriendCheck.ThatsU = true
+		} else if Main.AccStruct.Friend.Pseudo != "" {
+			GroupieTracker.AddFriend(id, Main.AccStruct)
+		}
+		http.Redirect(w, r, "/profil", http.StatusFound)
 	})
 
 	http.ListenAndServe(":8080", nil)

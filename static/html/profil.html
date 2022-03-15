@@ -4,15 +4,45 @@
     <title>Profil</title>
 </head>
 <body>
+    {{if .AccStruct.PseudoCheck.PseudoNotOk}}
+    Choisissez un pseudo
+    <form method="get" action="/pseudo">
+        <input type="text" name="pseudo"/>
+    </form>
+    {{if .AccStruct.PseudoCheck.WrongPseudo}}
+    MET UN BON PSEUDO
+    {{end}}
+    {{else}}
+    <h1><a href="/logout">ldfhk</a></h1>
     {{ .AccStruct.User.Pseudo}}
+    <br>
+    {{if .AccStruct.PseudoCheck.WrongPseudo}}
+    MET UN BON PSEUDO
+    {{end}}
     <br>
     {{ .AccStruct.User.Mail}}
     <br>
-    {{ .AccStruct.PseudoNotOk}}
+    <!-- <form method="get" action="/showprofil" onChange="submit()">
+        <input type="radio" name="showprofil" value="public"/>
+        <input type="radio" name="showprofil" value="friends"/>
+        <input type="radio" name="showprofil" value="none"/>
+    </form> -->
     <br>
-    {{ if .AccStruct.PseudoNotOk}}
-    PSEUDO VIDE PDSOGJHIJH
-    {{ else}}
-    PSEUDO PAS VIDE PTDRMKDGJHLSKFHJQFPI
+    Add Friend 
+    <form method="get" action="/addfriend">
+        <input type="text" name="mail"/>
+    </form>
+    {{if .AccStruct.FriendCheck.WrongFriend}}
+    <br>
+    L'ami n'existe pas
+    {{else if .AccStruct.FriendCheck.ThatsU}}
+    <br>
+    Vous allez avoir un ami un jour...
+    {{end}}
+    <br>
+    {{ range .AccStruct.User.Friends}}
+    {{ .Pseudo}} {{ .Mail}}
+    <br>
+    {{end}}
     {{end}}
 </body>

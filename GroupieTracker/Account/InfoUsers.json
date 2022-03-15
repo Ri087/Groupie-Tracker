@@ -1,1 +1,1 @@
-{"1":{"Pseudo":"","Mail":"aze@aze.aze"},"2":{"Pseudo":"","Mail":"azeaze@aze.aze"}}
+{"1":{"Public":false,"Pseudo":"aze","Mail":"aze@aze.aze","Friends":{},"ShowFriendsToPublic":false,"ShowFriendsToFriend":false},"2":{"Public":true,"Pseudo":"azeaze","Mail":"azeaze@aze.aze","Friends":{"1":{"Pseudo":"aze","Mail":"aze@aze.aze"}},"ShowFriendsToPublic":true,"ShowFriendsToFriend":true}}
