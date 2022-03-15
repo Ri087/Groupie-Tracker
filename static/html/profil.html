@@ -4,15 +4,83 @@
     <title>Profil</title>
 </head>
 <body>
+    {{if .AccStruct.PseudoCheck.PseudoNotOk}}
+    Choisissez un pseudo
+    <form method="get" action="/pseudo">
+        <input type="text" name="pseudo"/>
+    </form>
+    {{if .AccStruct.PseudoCheck.WrongPseudo}}
+    MET UN BON PSEUDO
+    {{end}}
+    {{else}}
+    <h1><a href="/logout">ldfhk</a></h1>
     {{ .AccStruct.User.Pseudo}}
+    <br>
+    {{if .AccStruct.PseudoCheck.WrongPseudo}}
+    MET UN BON PSEUDO
+    {{end}}
     <br>
     {{ .AccStruct.User.Mail}}
     <br>
-    {{ .AccStruct.PseudoNotOk}}
     <br>
-    {{ if .AccStruct.PseudoNotOk}}
-    PSEUDO VIDE PDSOGJHIJH
-    {{ else}}
-    PSEUDO PAS VIDE PTDRMKDGJHLSKFHJQFPI
+    Who can see ur profil ?
+    <br>
+    <form method="get" action="/showprofil" onChange="submit()">
+        {{if .AccStruct.User.Public}}
+        <input type="radio" name="showprofil" value="public" checked/>
+        <label>Everyone</label>
+        <input type="radio" name="showprofil" value="friends"/>
+        <label>Friends</label>
+        {{else}}
+        <input type="radio" name="showprofil" value="public"/>
+        <label>Everyone</label>
+        <input type="radio" name="showprofil" value="friends" checked/>
+        <label>Friends</label>
+        {{end}}
+    </form>
+    <br>
+    Who can see ur friends ?
+    <br>
+    <form method="get" action="/showprofil" onChange="submit()">
+        {{if .AccStruct.User.ShowFriendsToPublic}}
+        <input type="radio" name="showprofilfriend" value="public" checked/>
+        <label>Everyone</label>
+        <input type="radio" name="showprofilfriend" value="friends"/>
+        <label>Friends</label>
+        <input type="radio" name="showprofilfriend" value="none"/>
+        <label>None</label>
+        {{else if .AccStruct.User.ShowFriendsToFriend}}
+        <input type="radio" name="showprofilfriend" value="public"/>
+        <label>Everyone</label>
+        <input type="radio" name="showprofilfriend" value="friends" checked/>
+        <label>Friends</label>
+        <input type="radio" name="showprofilfriend" value="none"/>
+        <label>None</label>
+        {{else}}
+        <input type="radio" name="showprofilfriend" value="public"/>
+        <label>Everyone</label>
+        <input type="radio" name="showprofilfriend" value="friends"/>
+        <label>Friends</label>
+        <input type="radio" name="showprofilfriend" value="none" checked/>
+        <label>None</label>
+        {{end}}
+    </form>
+    <br>
+    Add Friend 
+    <form method="get" action="/addfriend">
+        <input type="text" name="mail"/>
+    </form>
+    {{if .AccStruct.FriendCheck.WrongFriend}}
+    <br>
+    L'ami n'existe pas
+    {{else if .AccStruct.FriendCheck.ThatsU}}
+    <br>
+    Vous allez avoir un ami un jour...
+    {{end}}
+    <br>
+    {{ range .AccStruct.User.Friends}}
+    {{ .Pseudo}} {{ .Mail}}
+    <br>
+    {{end}}
     {{end}}
 </body>
