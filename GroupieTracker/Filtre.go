@@ -1,6 +1,7 @@
 package GroupieTracker
 
 import (
+	"encoding/json"
 	"net/http"
 	"strconv"
 	"strings"
@@ -33,6 +34,7 @@ type Filter struct {
 	GenresEmo               string
 	NbMember                string
 	CountryValue            string
+	GenresValue             string
 	CountryTab              []string
 	GenresTab               []string
 	MembersTab              []string
@@ -63,14 +65,15 @@ func FilterReset(ApiStruct *ApiStructure) {
 	ApiStruct.Filtres.GenresMetal = ""
 	ApiStruct.Filtres.GenresEmo = ""
 	ApiStruct.Filtres.NbMember = "0"
+	ApiStruct.Filtres.GenresValue = "All"
 	ApiStruct.Filtres.CountryValue = "All"
 	ApiStruct.Filtres.SearchBar = "artiste"
 }
 
-func FLT(filters map[string][]string, ApiStruct *ApiStructure) {
-	var s = New("6b053d7dfcbe4c69a576561f8c098391", "d00791e8792a4f13bc1bb8b95197505d")
+func FLT(filters map[string][]string, ApiStruct *ApiStructure, ATS *TokenSpotify) {
+
 	ApiStruct.TabApiFiltre = []ApiAccueil{}
-	Token := s.Authorize()
+
 	FLTCheck(filters, ApiStruct)
 	if filters["art_date"] == nil {
 		filters["art_date"] = []string{"1960", "1970", "1980", "1990", "2000", "2010"}
@@ -84,6 +87,9 @@ func FLT(filters map[string][]string, ApiStruct *ApiStructure) {
 	if filters["Location"][0] == "All" {
 		filters["Location"] = ApiStruct.Filtres.CountryTab
 	}
+	if filters["genres"][0] == "All" {
+		filters["genres"] = ApiStruct.Filtres.GenresTab
+	}
 
 	for _, i := range ApiStruct.TabApiArtiste {
 		TabAppend(filters, ApiStruct, i)
@@ -93,7 +99,7 @@ func FLT(filters map[string][]string, ApiStruct *ApiStructure) {
 	}
 	// fmt.Println(ApiStruct.TabApiFiltre)
 	if filters["genres"] != nil {
-		FiltreArtsitSpotify(ApiStruct, &Token, filters)
+		FiltreArtsitSpotify(ApiStruct, ATS, filters)
 	}
 
 }
@@ -143,45 +149,15 @@ func FLTCheck(filters map[string][]string, ApiStruct *ApiStructure) {
 			}
 		}
 	}
-	if filters["genres"] != nil {
-		for _, i := range filters["genres"] {
-			if i == "rap" {
-				ApiStruct.Filtres.GenresRap = "checked"
-			}
-			if i == "rock" {
-				ApiStruct.Filtres.GenresRock = "checked"
-			}
-			if i == "hip hop" {
-				ApiStruct.Filtres.GenresHipHop = "checked"
-			}
-			if i == "reggae" {
-				ApiStruct.Filtres.GenresReggae = "checked"
-			}
-			if i == "hard rock" {
-				ApiStruct.Filtres.GenresHardRock = "checked"
-			}
-			if i == "grunge" {
-				ApiStruct.Filtres.GenresGrunge = "checked"
-			}
-			if i == "pop" {
-				ApiStruct.Filtres.GenresPop = "checked"
-			}
-			if i == "urban contemporary" {
-				ApiStruct.Filtres.GenresUrbanContemporary = "checked"
-			}
-			if i == "metal" {
-				ApiStruct.Filtres.GenresMetal = "checked"
-			}
-			if i == "emo" {
-				ApiStruct.Filtres.GenresEmo = "checked"
-			}
-		}
-	}
+
 	if filters["nb_member"][0] != "0" {
 		ApiStruct.Filtres.NbMember = filters["nb_member"][0]
 	}
 	if filters["Location"][0] != "All" {
 		ApiStruct.Filtres.CountryValue = filters["Location"][0]
+	}
+	if filters["genres"][0] != "All" {
+		ApiStruct.Filtres.GenresValue = filters["genres"][0]
 	}
 }
 
@@ -200,6 +176,30 @@ func TabCountry(ApiStruct *ApiStructure) {
 func CheckIfInTabCountry(country string, CountryTab []string) bool {
 	for _, i := range CountryTab {
 		if i == country {
+			return true
+		}
+	}
+	return false
+}
+func TabGenres(ApiStruct *ApiStructure, ATS *TokenSpotify) {
+	ApiStruct.Filtres.GenresTab = []string{"All"}
+	for _, i := range ApiStruct.TabApiArtiste {
+		ApiSpotify := SpotifyStruct{}
+		name := NameNoSpace(i.Name)
+		body := Request(name, ATS)
+		json.Unmarshal(body, &ApiSpotify)
+		for _, k := range ApiSpotify.Artists.Items[0].Genres {
+			if !CheckIfInTabGenres(k, ApiStruct.Filtres.CountryTab) {
+				ApiStruct.Filtres.GenresTab = append(ApiStruct.Filtres.GenresTab, k)
+			}
+		}
+
+	}
+}
+
+func CheckIfInTabGenres(genres string, GenresTab []string) bool {
+	for _, i := range GenresTab {
+		if i == genres {
 			return true
 		}
 	}

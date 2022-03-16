@@ -21,6 +21,9 @@ func MainStructureInit() *MainStructure {
 
 func main() {
 	Main := MainStructureInit()
+	var s = GroupieTracker.New("6b053d7dfcbe4c69a576561f8c098391", "d00791e8792a4f13bc1bb8b95197505d")
+	Token := s.Authorize()
+	GroupieTracker.TabGenres(Main.ApiStruct, &Token)
 	fileServer := http.FileServer(http.Dir("./static"))
 	http.Handle("/ressources/", http.StripPrefix("/ressources/", fileServer))
 
@@ -40,7 +43,7 @@ func main() {
 
 	})
 	http.HandleFunc("/filter", func(w http.ResponseWriter, r *http.Request) {
-		GroupieTracker.FLT(r.URL.Query(), Main.ApiStruct)
+		GroupieTracker.FLT(r.URL.Query(), Main.ApiStruct, &Token)
 		http.Redirect(w, r, "/artiste", http.StatusFound)
 
 	})

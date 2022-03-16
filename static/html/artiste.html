@@ -88,36 +88,12 @@
                                     </div>
                                     <div class="input-div">
                                         <br>
-
-                                        <input class="input" type="checkbox" name="genres" value="rap" {{.ApiStruct.Filtres.GenresRap}}>
-                                        <label>rap</label>
-                                        <br>
-                                        <input class="input" type="checkbox" name="genres" value="rock" {{.ApiStruct.Filtres.GenresRock}}>
-                                        <label>rock</label>
-                                        <br>
-                                        <input class="input" type="checkbox" name="genres" value="hip hop" {{.ApiStruct.Filtres.GenresHipHop}}>
-                                        <label>hip hop</label>
-                                        <br>
-                                        <input class="input" type="checkbox" name="genres" value="reggae" {{.ApiStruct.Filtres.GenresReggae}}>
-                                        <label>reggae</label>
-                                        <br>
-                                        <input class="input" type="checkbox" name="genres" value="hard rock" {{.ApiStruct.Filtres.GenresHardRock}}>
-                                        <label>hard rock</label>
-                                        <br>
-                                        <input class="input" type="checkbox" name="genres" value="grunge" {{.ApiStruct.Filtres.GenresGrunge}}>
-                                        <label>grunge</label>
-                                        <br>
-                                        <input class="input" type="checkbox" name="genres" value="pop" {{.ApiStruct.Filtres.GenresPop}}>
-                                        <label>pop</label>
-                                        <br>
-                                        <input class="input" type="checkbox" name="genres" value="urban contemporary" {{.ApiStruct.Filtres.GenresUrbanContemporary}}>
-                                        <label>urban contemporary</label>
-                                        <br>
-                                        <input class="input" type="checkbox" name="genres" value="metal" {{.ApiStruct.Filtres.GenresMetal}}>
-                                        <label>metal</label>
-                                        <br>
-                                        <input class="input" type="checkbox" name="genres" value="emo" {{.ApiStruct.Filtres.GenresEmo}}>
-                                        <label>emo</label>
+                                        <select name="genres">
+                                            <option value="{{.ApiStruct.Filtres.GenresValue}}" selected>{{.ApiStruct.Filtres.GenresValue}}</option>
+                                        {{range .ApiStruct.Filtres.GenresTab}}
+                                        <option value="{{.}}">{{.}}</option>
+                                          {{end}}
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="i">
