@@ -1,27 +1,17 @@
 <!DOCTYPE html>
+
 <head>
-    <link rel="stylesheet" href="/ressources/css/profil.css"/>
+    <link rel="stylesheet" href="/ressources/css/profil.css" />
     <title>Profil</title>
 </head>
+
 <body>
-    {{if .AccStruct.AuthorizeVisit.Existant}}
-    {{if .AccStruct.AuthorizeVisit.Authorize}}
-    {{ .AccStruct.AuthorizeVisit.User.Pseudo}}
-    <br>
-    {{ .AccStruct.AuthorizeVisit.User.Mail}}
-    <br>
-    {{if .AccStruct.AuthorizeVisit.ShowFriends}}
-    {{ range .AccStruct.AuthorizeVisit.User.Friends}}
-    {{ .Pseudo}} {{ .Mail}}
-    <br>
-    {{end}}
-    {{else}}
-    Les amis de cette personne ne vous sont pas accessible
-    {{end}}
-    {{else}}
+    {{if .AccStruct.AuthorizeVisit.Existant}} {{if .AccStruct.AuthorizeVisit.Authorize}} {{ .AccStruct.AuthorizeVisit.User.Pseudo}}
+    <br> {{ .AccStruct.AuthorizeVisit.User.Mail}}
+    <br> {{if .AccStruct.AuthorizeVisit.ShowFriends}} {{ range .AccStruct.AuthorizeVisit.User.Friends}} {{ .Pseudo}} {{ .Mail}}
+    <br> {{end}} {{else}} Les amis de cette personne ne vous sont pas accessible {{end}} {{else}}
     <h1>TU N'AS PAS LE DROIT DE VOIR</h1>
-    {{end}}
-    {{else}}
+    {{end}} {{else}}
     <h1>IL N'EXISTE PAS</h1>
     {{end}}
 </body>

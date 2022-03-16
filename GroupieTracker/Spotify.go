@@ -90,12 +90,7 @@ func PageArtistSpotify(ID string, nameArtist string, ATS *TokenSpotify) *Spotify
 	data := url.Values{}
 	client := http.Client{}
 	name := NameNoSpace(nameArtist)
-	base_url := "https://api.spotify.com/v1/search?q=" + name + "&type=artist"
-	req, _ := http.NewRequest("GET", base_url, strings.NewReader(data.Encode()))
-	req.Header.Set("Authorization", "Bearer "+ATS.Access_token)
-	req.Header.Set("Content-Type", "application/json")
-	response, _ := client.Do(req)
-	body, _ := ioutil.ReadAll(response.Body)
+	body := Request(name, data, client, ATS)
 	json.Unmarshal(body, &ApiSpotify)
 	Artist.Name = ApiSpotify.Artists.Items[0].Name
 	Artist.Followers = ApiSpotify.Artists.Items[0].Followers.Total
@@ -113,6 +108,15 @@ func NameNoSpace(nameArtist string) string {
 		}
 	}
 	return name
+}
+func Request(name string, data url.Values, client http.Client, ATS *TokenSpotify) []byte {
+	base_url := "https://api.spotify.com/v1/search?q=" + name + "&type=artist"
+	req, _ := http.NewRequest("GET", base_url, strings.NewReader(data.Encode()))
+	req.Header.Set("Authorization", "Bearer "+ATS.Access_token)
+	req.Header.Set("Content-Type", "application/json")
+	response, _ := client.Do(req)
+	body, _ := ioutil.ReadAll(response.Body)
+	return body
 }
 
 func FiltreArtsitSpotify() {
