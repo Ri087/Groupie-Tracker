@@ -97,7 +97,7 @@ func main() {
 		}
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
 		templateshtml.ExecuteTemplate(w, "connection.html", Main)
-		// 	CheckConnection.Mail, CheckConnection.Pwd = false, false
+		GroupieTracker.GoodConnectionReset(Main.AccStruct)
 	})
 
 	http.HandleFunc("/checkcreation", func(w http.ResponseWriter, r *http.Request) {
@@ -120,7 +120,14 @@ func main() {
 			http.Redirect(w, r, "/profil", http.StatusFound)
 			return
 		}
-		// Login(w, r, CheckConnection, Main.ACC)
+		mail, pwd := r.FormValue("mail"), r.FormValue("pwd")
+		if GroupieTracker.VerifConnectionUser(mail, pwd, Main.AccStruct) {
+			GroupieTracker.AuthentificationToken(mail, Main.AccStruct, w)
+			http.Redirect(w, r, "/profil", http.StatusFound)
+			return
+		}
+		http.Redirect(w, r, "/connection", http.StatusFound)
+
 	})
 
 	http.HandleFunc("/profil", func(w http.ResponseWriter, r *http.Request) {

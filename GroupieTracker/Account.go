@@ -261,7 +261,6 @@ func VerifNotSamePwd(pwd []byte, AccPwd []byte) bool {
 	}
 	return false
 }
-
 func GoodConnectionReset(AccStruct *AccountStruct) {
 	AccStruct.GoodConnection.Mail = false
 	AccStruct.GoodConnection.Pwd = false
