@@ -20,7 +20,7 @@
                 <br>
                 <h2 class="h_name">{{ .Main.ApiStruct.SpecificApiPageArtiste.Artists.Name }}</h2>
                 <h2 class="h2">{{ .Main.ApiStruct.SpecificApiPageArtiste.Artists.CreationDate }}</h2>
-                <h2 class="h2">{{ .Main.ApiStruct.SpecificApiPageArtiste.Spotify.Followers }}</h2>
+                <h2 class="h2">{{range .Main.ApiStruct.SpecificApiPageArtiste.Spotify.Genres }} {{.}}<br>{{end}}</h2>
 
                 <br>
             </div>

@@ -9,23 +9,34 @@ import (
 //filtre des Artsites
 
 type Filter struct {
-	ArtD196069   string
-	ArtD197079   string
-	ArtD198089   string
-	ArtD199099   string
-	ArtD200009   string
-	ArtD201019   string
-	AlbD196069   string
-	AlbD197079   string
-	AlbD198089   string
-	AlbD199099   string
-	AlbD200009   string
-	AlbD201019   string
-	NbMember     string
-	CountryValue string
-	CountryTab   []string
-	MembersTab   []string
-	SearchBar    string
+	ArtD196069              string
+	ArtD197079              string
+	ArtD198089              string
+	ArtD199099              string
+	ArtD200009              string
+	ArtD201019              string
+	AlbD196069              string
+	AlbD197079              string
+	AlbD198089              string
+	AlbD199099              string
+	AlbD200009              string
+	AlbD201019              string
+	GenresRap               string
+	GenresRock              string
+	GenresHipHop            string
+	GenresReggae            string
+	GenresHardRock          string
+	GenresGrunge            string
+	GenresPop               string
+	GenresUrbanContemporary string
+	GenresMetal             string
+	GenresEmo               string
+	NbMember                string
+	CountryValue            string
+	CountryTab              []string
+	GenresTab               []string
+	MembersTab              []string
+	SearchBar               string
 }
 
 func FilterReset(ApiStruct *ApiStructure) {
@@ -41,13 +52,25 @@ func FilterReset(ApiStruct *ApiStructure) {
 	ApiStruct.Filtres.AlbD199099 = ""
 	ApiStruct.Filtres.AlbD200009 = ""
 	ApiStruct.Filtres.AlbD201019 = ""
+	ApiStruct.Filtres.GenresRap = ""
+	ApiStruct.Filtres.GenresRock = ""
+	ApiStruct.Filtres.GenresHipHop = ""
+	ApiStruct.Filtres.GenresReggae = ""
+	ApiStruct.Filtres.GenresHardRock = ""
+	ApiStruct.Filtres.GenresGrunge = ""
+	ApiStruct.Filtres.GenresPop = ""
+	ApiStruct.Filtres.GenresUrbanContemporary = ""
+	ApiStruct.Filtres.GenresMetal = ""
+	ApiStruct.Filtres.GenresEmo = ""
 	ApiStruct.Filtres.NbMember = "0"
 	ApiStruct.Filtres.CountryValue = "All"
 	ApiStruct.Filtres.SearchBar = "artiste"
 }
 
 func FLT(filters map[string][]string, ApiStruct *ApiStructure) {
+	var s = New("6b053d7dfcbe4c69a576561f8c098391", "d00791e8792a4f13bc1bb8b95197505d")
 	ApiStruct.TabApiFiltre = []ApiAccueil{}
+	Token := s.Authorize()
 	FLTCheck(filters, ApiStruct)
 	if filters["art_date"] == nil {
 		filters["art_date"] = []string{"1960", "1970", "1980", "1990", "2000", "2010"}
@@ -61,16 +84,17 @@ func FLT(filters map[string][]string, ApiStruct *ApiStructure) {
 	if filters["Location"][0] == "All" {
 		filters["Location"] = ApiStruct.Filtres.CountryTab
 	}
-	if filters["genres"] == nil {
-		filters["genres"] = []string{}
-	}
+
 	for _, i := range ApiStruct.TabApiArtiste {
 		TabAppend(filters, ApiStruct, i)
 	}
 	if len(filters["Location"]) == len(ApiStruct.Filtres.CountryTab) {
 		ApiStruct.Filtres.CountryValue = "All"
 	}
-	// FiltreArtistSpotify(&Spotify{}, &SpotifyStruct{}, &TokenSpotify{}, ApiStruct, filters)
+	// fmt.Println(ApiStruct.TabApiFiltre)
+	if filters["genres"] != nil {
+		FiltreArtsitSpotify(ApiStruct, &Token, filters)
+	}
 
 }
 
@@ -119,6 +143,40 @@ func FLTCheck(filters map[string][]string, ApiStruct *ApiStructure) {
 			}
 		}
 	}
+	if filters["genres"] != nil {
+		for _, i := range filters["genres"] {
+			if i == "rap" {
+				ApiStruct.Filtres.GenresRap = "checked"
+			}
+			if i == "rock" {
+				ApiStruct.Filtres.GenresRock = "checked"
+			}
+			if i == "hip hop" {
+				ApiStruct.Filtres.GenresHipHop = "checked"
+			}
+			if i == "reggae" {
+				ApiStruct.Filtres.GenresReggae = "checked"
+			}
+			if i == "hard rock" {
+				ApiStruct.Filtres.GenresHardRock = "checked"
+			}
+			if i == "grunge" {
+				ApiStruct.Filtres.GenresGrunge = "checked"
+			}
+			if i == "pop" {
+				ApiStruct.Filtres.GenresPop = "checked"
+			}
+			if i == "urban contemporary" {
+				ApiStruct.Filtres.GenresUrbanContemporary = "checked"
+			}
+			if i == "metal" {
+				ApiStruct.Filtres.GenresMetal = "checked"
+			}
+			if i == "emo" {
+				ApiStruct.Filtres.GenresEmo = "checked"
+			}
+		}
+	}
 	if filters["nb_member"][0] != "0" {
 		ApiStruct.Filtres.NbMember = filters["nb_member"][0]
 	}
@@ -132,14 +190,14 @@ func TabCountry(ApiStruct *ApiStructure) {
 	for _, i := range ApiStruct.TabApiArtisteLocations {
 		for _, k := range i.Locations {
 			country := strings.Split(k, "-")[1]
-			if !CheckIfInTab(country, ApiStruct.Filtres.CountryTab) {
+			if !CheckIfInTabCountry(country, ApiStruct.Filtres.CountryTab) {
 				ApiStruct.Filtres.CountryTab = append(ApiStruct.Filtres.CountryTab, country)
 			}
 		}
 	}
 }
 
-func CheckIfInTab(country string, CountryTab []string) bool {
+func CheckIfInTabCountry(country string, CountryTab []string) bool {
 	for _, i := range CountryTab {
 		if i == country {
 			return true
@@ -147,6 +205,10 @@ func CheckIfInTab(country string, CountryTab []string) bool {
 	}
 	return false
 }
+
+// func TabGenres(){
+
+// }
 
 func TabAppend(filters map[string][]string, ApiStruct *ApiStructure, i ApiArtiste) {
 	for _, k := range filters["art_date"] {

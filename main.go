@@ -2,7 +2,6 @@ package main
 
 import (
 	"GroupieTracker/GroupieTracker"
-	"fmt"
 	"net/http"
 	"strconv"
 	"text/template"
@@ -38,8 +37,6 @@ func main() {
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
 		templateshtml.ExecuteTemplate(w, "artiste.html", Main)
 		GroupieTracker.FilterReset(Main.ApiStruct)
-		Ats := GroupieTracker.TokenSpotify{}
-		fmt.Println(Ats)
 
 	})
 	http.HandleFunc("/filter", func(w http.ResponseWriter, r *http.Request) {

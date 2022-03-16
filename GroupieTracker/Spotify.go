@@ -87,10 +87,8 @@ type SpotifyPageArtiste struct {
 func PageArtistSpotify(ID string, nameArtist string, ATS *TokenSpotify) *SpotifyPageArtiste {
 	ApiSpotify := SpotifyStruct{}
 	Artist := &SpotifyPageArtiste{}
-	data := url.Values{}
-	client := http.Client{}
 	name := NameNoSpace(nameArtist)
-	body := Request(name, data, client, ATS)
+	body := Request(name, ATS)
 	json.Unmarshal(body, &ApiSpotify)
 	Artist.Name = ApiSpotify.Artists.Items[0].Name
 	Artist.Followers = ApiSpotify.Artists.Items[0].Followers.Total
@@ -105,11 +103,15 @@ func NameNoSpace(nameArtist string) string {
 	for _, i := range nameArtist {
 		if i != ' ' {
 			name += string(i)
+		} else {
+			name += "+"
 		}
 	}
 	return name
 }
-func Request(name string, data url.Values, client http.Client, ATS *TokenSpotify) []byte {
+func Request(name string, ATS *TokenSpotify) []byte {
+	data := url.Values{}
+	client := http.Client{}
 	base_url := "https://api.spotify.com/v1/search?q=" + name + "&type=artist"
 	req, _ := http.NewRequest("GET", base_url, strings.NewReader(data.Encode()))
 	req.Header.Set("Authorization", "Bearer "+ATS.Access_token)
@@ -119,6 +121,26 @@ func Request(name string, data url.Values, client http.Client, ATS *TokenSpotify
 	return body
 }
 
-func FiltreArtsitSpotify() {
+func FiltreArtsitSpotify(ApiStruct *ApiStructure, ATS *TokenSpotify, filters map[string][]string) {
+	tempoTab := ApiStruct.TabApiFiltre
+	ApiStruct.TabApiFiltre = []ApiAccueil{}
+	for _, i := range tempoTab {
+		ApiSpotify := SpotifyStruct{}
+		name := NameNoSpace(i.Name)
+		body := Request(name, ATS)
+		json.Unmarshal(body, &ApiSpotify)
+		AppendTabSpotify(i, filters, ApiSpotify, ApiStruct)
 
+	}
+}
+
+func AppendTabSpotify(i ApiAccueil, filters map[string][]string, ApiSpotify SpotifyStruct, ApiStruct *ApiStructure) {
+	for _, l := range filters["genres"] {
+		for _, k := range ApiSpotify.Artists.Items[0].Genres {
+			if l == k {
+				ApiStruct.TabApiFiltre = append(ApiStruct.TabApiFiltre, i)
+				return
+			}
+		}
+	}
 }
