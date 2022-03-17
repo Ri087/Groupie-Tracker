@@ -78,6 +78,7 @@ func main() {
 			http.Redirect(w, r, "/artiste", http.StatusFound)
 			return
 		}
+		// https://open.spotify.com/playlist/37i9dQZF1DWYVURwQHUqnN?si=c4bd4a809fe7439c
 		Main.ApiStruct.SpecificApiPageArtiste = GroupieTracker.ApiArtistsPageArtiste(IDArtist, Main.Token)
 		locs := GroupieTracker.Mapapi(Main.ApiStruct, id)
 		data := struct {

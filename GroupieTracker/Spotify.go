@@ -44,6 +44,9 @@ type SpotifyPageArtiste struct {
 	AlbumRealase string
 	AlbumNbTrack int
 	AlbumId      string
+	BioPublished string
+	ExtraitBio   string
+	FullBio      string
 }
 type SpotifyStruct struct {
 	Artists struct {
@@ -123,6 +126,7 @@ func PageArtistSpotify(ID string, nameArtist string, ATS *TokenSpotify) *Spotify
 	name := NameNoSpace(nameArtist)
 	body := Request(name, ATS)
 	json.Unmarshal(body, &ApiSpotify)
+	LastFmApi := LastfmRequest(name)
 	Artist.Name = ApiSpotify.Artists.Items[0].Name
 	Artist.Followers = ApiSpotify.Artists.Items[0].Followers.Total
 	Artist.Genres = ApiSpotify.Artists.Items[0].Genres
@@ -138,6 +142,9 @@ func PageArtistSpotify(ID string, nameArtist string, ATS *TokenSpotify) *Spotify
 	Artist.AlbumHref = "https://open.spotify.com/embed/album/" + Artist.AlbumId + "?utm_source=generator&theme=0"
 	Artist.AlbumRealase = ApiSpotify.Tracks.Items[0].Album.ReleaseDate
 	Artist.AlbumNbTrack = ApiSpotify.Tracks.Items[0].Album.TotalTracks
+	Artist.BioPublished = LastFmApi.Artist.Bio.Published
+	Artist.ExtraitBio = LastFmApi.Artist.Bio.Summary
+	Artist.FullBio = LastFmApi.Artist.Bio.Content
 	return Artist
 }
 func NameNoSpace(nameArtist string) string {
