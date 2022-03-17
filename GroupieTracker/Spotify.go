@@ -55,8 +55,8 @@ func initialize(clientID, clientSecret string) Spotify {
 	return spot
 }
 
-func (spotify *Spotify) Authorize() TokenSpotify {
-	ATS := TokenSpotify{}
+func (spotify *Spotify) Authorize() *TokenSpotify {
+	ATS := &TokenSpotify{}
 	client := http.Client{}
 	data := url.Values{}
 	auth := fmt.Sprintf("Basic %s", spotify.getEncodedKeys())
@@ -77,11 +77,13 @@ func (spotify *Spotify) getEncodedKeys() string {
 }
 
 type SpotifyPageArtiste struct {
-	Name      string
-	Followers int
-	Genres    []string
-	Id        string
-	Href      string
+	Name        string
+	Followers   int
+	Genres      []string
+	Id          string
+	ApiHref     string
+	SpotifyHref string
+	Rank        int
 }
 
 func PageArtistSpotify(ID string, nameArtist string, ATS *TokenSpotify) *SpotifyPageArtiste {
@@ -95,7 +97,9 @@ func PageArtistSpotify(ID string, nameArtist string, ATS *TokenSpotify) *Spotify
 	Artist.Genres = ApiSpotify.Artists.Items[0].Genres
 	Artist.Name = ApiSpotify.Artists.Items[0].Name
 	Artist.Id = ApiSpotify.Artists.Items[0].ID
-	Artist.Href = ApiSpotify.Artists.Items[0].Href
+	Artist.ApiHref = ApiSpotify.Artists.Items[0].Href
+	Artist.Rank = ApiSpotify.Artists.Items[0].Popularity
+	Artist.SpotifyHref = "https://open.spotify.com/artist/" + Artist.Id
 	return Artist
 }
 func NameNoSpace(nameArtist string) string {
@@ -112,7 +116,7 @@ func NameNoSpace(nameArtist string) string {
 func Request(name string, ATS *TokenSpotify) []byte {
 	data := url.Values{}
 	client := http.Client{}
-	base_url := "https://api.spotify.com/v1/search?q=" + name + "&type=artist"
+	base_url := "https://api.spotify.com/v1/search?q=" + name + "&type=artist&limit=1"
 	req, _ := http.NewRequest("GET", base_url, strings.NewReader(data.Encode()))
 	req.Header.Set("Authorization", "Bearer "+ATS.Access_token)
 	req.Header.Set("Content-Type", "application/json")
