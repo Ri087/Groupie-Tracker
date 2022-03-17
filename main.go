@@ -25,6 +25,7 @@ func MainStructureInit() *MainStructure {
 
 func main() {
 	Main := MainStructureInit()
+	go GenerateSpotifyToken(Main)
 
 	GroupieTracker.TabGenres(Main.ApiStruct, Main.Token)
 
@@ -260,7 +261,6 @@ func main() {
 		GroupieTracker.ParametersProfil(r.FormValue("showprofil"), r.FormValue("showprofilfriend"), Main.AccStruct)
 		http.Redirect(w, r, "/profil", http.StatusFound)
 	})
-	go GenerateSpotifyToken(Main)
 	http.ListenAndServe(":8080", nil)
 }
 
