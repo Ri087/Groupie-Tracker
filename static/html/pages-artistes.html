@@ -56,7 +56,7 @@
                         let allLocs = "{{.Locs}}".replace(/]/g, "],").slice(1, -3).replace(/ /g, ', ')
                         allLocs =  allLocs.split(',, ')
                         // allLocs = allLocs.slice(0, -3) + "]"
-                        // console.log(allLocs, typeof allLocs)
+                        console.log(allLocs, typeof allLocs)
                             allLocs.forEach(element => {
                                 L.marker(JSON.parse(element).reverse()).addTo(map);    
                             });

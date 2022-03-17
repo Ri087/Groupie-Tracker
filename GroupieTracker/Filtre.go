@@ -1,6 +1,7 @@
 package GroupieTracker
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 	"strings"
@@ -47,7 +48,7 @@ func FilterReset(ApiStruct *ApiStructure) {
 }
 
 func FLT(filters map[string][]string, ApiStruct *ApiStructure) {
-	ApiStruct.TabApiFiltre = []ApiAccueil{}
+	ApiStruct.TabApiFiltre = []ApiArtiste{}
 	FLTCheck(filters, ApiStruct)
 	if filters["art_date"] == nil {
 		filters["art_date"] = []string{"1960", "1970", "1980", "1990", "2000", "2010"}
@@ -67,6 +68,7 @@ func FLT(filters map[string][]string, ApiStruct *ApiStructure) {
 	if len(filters["Location"]) == len(ApiStruct.Filtres.CountryTab) {
 		ApiStruct.Filtres.CountryValue = "All"
 	}
+	fmt.Println(ApiStruct.TabApiFiltre)
 }
 
 func FLTCheck(filters map[string][]string, ApiStruct *ApiStructure) {
@@ -158,7 +160,7 @@ func TabAppend(filters map[string][]string, ApiStruct *ApiStructure, i ApiArtist
 								CountryLocation := strings.Split(n, "-")[1]
 								for _, q := range filters["Location"] {
 									if CountryLocation == q {
-										ApiStruct.TabApiFiltre = append(ApiStruct.TabApiFiltre, ApiAccueil{Id: i.Id, Image: i.Image, Name: i.Name})
+										ApiStruct.TabApiFiltre = append(ApiStruct.TabApiFiltre, i)
 										return
 									}
 								}

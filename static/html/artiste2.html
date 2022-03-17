@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<head>
+    <link rel="stylesheet" href="/ressources/css/artist2.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel&display=swap" rel="stylesheet">
+</head>
+    <body>
+        <div class="page">
+            <div class="nav-bar">
+                <a class="a" href="/">Home</a>
+                <a class="a" href="/connection">Account</a>
+                <a class="a" href="/contact">Contact</a>
+            </div>
+            <div class="content">
+                <div class="side-bar">
+                        <div class="element-filtre">
+                            <form class="form-div" method="get" action="/filter" onChange="submit()">
+                                <div class="i">
+                                    <h1>FILTERS :</h1>
+                                    <br>
+                                    <div class="name-filtre-element">
+                                        <h2 class="title-info">ARTIST</h2>
+                                        <br>
+                                    </div>
+                                    <div class="input-div">
+                                        <input class="input" type="checkbox" name="art_date" value="1960" {{.ApiStruct.Filtres.ArtD196069}}>
+                                        <label>1970 - 1979</label>
+                                        <br>
+                                        <input class="input" type="checkbox" name="art_date" value="1970" {{.ApiStruct.Filtres.ArtD197079}}>
+                                        <label>1960 - 1969</label>
+                                        <br>
+                                        <input class="input" type="checkbox" name="art_date" value="1980" {{.ApiStruct.Filtres.ArtD198089}}>
+                                        <label>1980 - 1989</label>
+                                        <br>
+                                        <input class="input" type="checkbox" name="art_date" value="1990" {{.ApiStruct.Filtres.ArtD199099}}>
+                                        <label>1990 - 1999</label>
+                                        <br>
+                                        <input class="input" type="checkbox" name="art_date" value="2000" {{.ApiStruct.Filtres.ArtD200009}}>
+                                        <label>2000 - 2009</label>
+                                        <br>
+                                        <input class="input" type="checkbox" name="art_date" value="2010" {{.ApiStruct.Filtres.ArtD201019}}>
+                                        <label>2010 - 2019</label>
+                                    </div>
+                                </div>
+                                <div class="i">
+                                    <div class="name-filtre-element">
+                                        <br>
+                                        <h2 class="title-info">ALBUM</h2>
+                                        <br>
+                                    </div>
+                                    <div class="input-div">
+                                        <input class="input" type="checkbox" name="alb_date" value="1960" {{.ApiStruct.Filtres.AlbD196069}}>
+                                        <label>1960 - 1969</label>
+                                        <br>
+                                        <input class="input" type="checkbox" name="alb_date" value="1970" {{.ApiStruct.Filtres.AlbD197079}}>
+                                        <label>1970 - 1979</label>
+                                        <br>
+                                        <input class="input" type="checkbox" name="alb_date" value="1980" {{.ApiStruct.Filtres.AlbD198089}}>
+                                        <label>1980 - 1989</label>
+                                        <br>
+                                        <input class="input" type="checkbox" name="alb_date" value="1990" {{.ApiStruct.Filtres.AlbD199099}}>
+                                        <label>1990 - 1999</label>
+                                        <br>
+                                        <input class="input" type="checkbox" name="alb_date" value="2000" {{.ApiStruct.Filtres.AlbD200009}}>
+                                        <label>2000 - 2009</label>
+                                        <br>
+                                        <input class="input" type="checkbox" name="alb_date" value="2010" {{.ApiStruct.Filtres.AlbD201019}}>
+                                        <label>2010 - 2019</label>
+                                    </div>
+                                </div>
+                                <div class="i">
+                                    <div class="name-filtre-element">
+                                        <br>
+                                        <h2>LOCATIONS</h2>
+                                    </div>
+                                    <div class="input-div">
+                                        <select name="Location" id="pet-select">
+                                            <option value="{{.ApiStruct.Filtres.CountryValue}}" selected>{{.ApiStruct.Filtres.CountryValue}}</option>
+                                        {{range .ApiStruct.Filtres.CountryTab}}
+                                        <option value="{{.}}">{{.}}</option>
+                                        {{end}}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="i">
+                                    <div class="name-filtre-element">
+                                        <br>
+                                        <br>
+                                        <h2 class="title-info">MEMBRES</h2>
+                                        <br>
+                                    </div>
+                                    <div class="input-div">
+                                        <!-- <h1>La valeur 0 permet de ne pas prendre en compte le nombre de membres</h1> -->
+                                        <input type="range" value="{{.ApiStruct.Filtres.NbMember}}" name="nb_member" min="0" max="8" step="1" oninput="document.getElementById('AfficheRange').textContent=value" />
+                                        <h1 id="AfficheRange">{{.ApiStruct.Filtres.NbMember}}</h1>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                </div>
+                <div class="artists">
+                    <div class="gradient"></div>
+                    <div class="artist-div">
+                    {{range .ApiStruct.TabApiFiltre}}{{template "ArtistRange" .}} {{end}}
+                    </div>
+                    <div class="gradient-2"></div>
+                </div>
+            </div>
+        </div>
+    </body>
