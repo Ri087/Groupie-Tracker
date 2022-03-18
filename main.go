@@ -20,6 +20,7 @@ func MainStructureInit() *MainStructure {
 	Main.AccStruct = GroupieTracker.AccountStructureInit()
 	var s = GroupieTracker.New("6b053d7dfcbe4c69a576561f8c098391", "d00791e8792a4f13bc1bb8b95197505d")
 	Main.Token = s.Authorize()
+	GroupieTracker.GetEveryId(Main.ApiStruct, Main.Token)
 	return Main
 }
 
@@ -84,7 +85,7 @@ func main() {
 				Main.AccStruct.ProfilParameters.Artists.ArtistCheck = true
 			}
 		}
-		Main.ApiStruct.SpecificApiPageArtiste = GroupieTracker.ApiArtistsPageArtiste(IDArtist, Main.Token)
+		Main.ApiStruct.SpecificApiPageArtiste = GroupieTracker.ApiArtistsPageArtiste(Main.ApiStruct.AllIdArtists, IDArtist, id, Main.Token)
 		locs := GroupieTracker.Mapapi(Main.ApiStruct, id-1)
 		data := struct {
 			Main MainStructure
@@ -396,5 +397,6 @@ func GenerateSpotifyToken(Main *MainStructure) {
 		time.Sleep(time.Duration(Main.Token.Expires_in) * time.Second)
 		var s = GroupieTracker.New("6b053d7dfcbe4c69a576561f8c098391", "d00791e8792a4f13bc1bb8b95197505d")
 		Main.Token = s.Authorize()
+		GroupieTracker.GetEveryId(Main.ApiStruct, Main.Token)
 	}
 }

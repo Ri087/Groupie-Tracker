@@ -32,68 +32,37 @@ type SpotifyPageArtiste struct {
 	Name         string
 	Followers    int
 	Genres       []string
-	Id           string
 	ApiHref      string
 	SpotifyHref  string
 	Rank         int
 	TrackHref    string
 	TrackName    string
-	TrackId      string
-	AlbumHref    string
-	AlbumName    string
-	AlbumRealase string
-	AlbumNbTrack int
-	AlbumId      string
 	BioPublished string
 	ExtraitBio   string
 	FullBio      string
 }
-type SpotifyStruct struct {
-	Artists struct {
-		Items []struct {
-			Followers struct {
-				Total int `json:"total"`
-			} `json:"followers"`
-			Genres     []string `json:"genres"`
-			Href       string   `json:"href"`
-			ID         string   `json:"id"`
-			Name       string   `json:"name"`
-			Popularity int      `json:"popularity"`
-			Type       string   `json:"type"`
-			URI        string   `json:"uri"`
-		} `json:"items"`
-	} `json:"artists"`
-	Tracks struct {
-		Items []struct {
-			Album struct {
-				AlbumType    string `json:"album_type"`
-				ExternalUrls struct {
-					Spotify string `json:"spotify"`
-				} `json:"external_urls"`
-				Href                 string `json:"href"`
-				ID                   string `json:"id"`
-				Name                 string `json:"name"`
-				ReleaseDate          string `json:"release_date"`
-				ReleaseDatePrecision string `json:"release_date_precision"`
-				TotalTracks          int    `json:"total_tracks"`
-				Type                 string `json:"type"`
-				URI                  string `json:"uri"`
-			} `json:"album"`
-			ExternalUrls struct {
-				Spotify string `json:"spotify"`
-			} `json:"external_urls"`
-			Href string `json:"href"`
-			ID   string `json:"id"`
-			Name string `json:"name"`
-			URI  string `json:"uri"`
-		} `json:"items"`
+
+type SpotifyTopTrack struct {
+	Tracks []struct {
+		Href string `json:"href"`
+		Name string `json:"name"`
 	} `json:"tracks"`
 }
 
-func New(clientID, clientSecret string) Spotify {
+type SpotifyStruct struct {
+	Followers struct {
+		Total int `json:"total"`
+	} `json:"followers"`
+	Genres     []string `json:"genres"`
+	Href       string   `json:"href"`
+	Name       string   `json:"name"`
+	Popularity int      `json:"popularity"`
+}
 
+func New(clientID, clientSecret string) Spotify {
 	return initialize(clientID, clientSecret)
 }
+
 func initialize(clientID, clientSecret string) Spotify {
 	spot := Spotify{clientID: clientID, clientSecret: clientSecret}
 	return spot
@@ -120,28 +89,60 @@ func (spotify *Spotify) getEncodedKeys() string {
 	return encoded
 }
 
-func PageArtistSpotify(nameArtist string, ATS *TokenSpotify) *SpotifyPageArtiste {
+func GetAllIdArtistsJson(ApiStruct *ApiStructure) {
+	save, err := ioutil.ReadFile("./GroupieTracker/Account/AllIdArtists.json")
+	if err != nil {
+		ioutil.WriteFile("./GroupieTracker/Account/AllIdArtists.json", []byte("{}"), 0644)
+		save, _ = ioutil.ReadFile("./GroupieTracker/Account/AllIdArtists.json")
+	}
+	json.Unmarshal(save, &ApiStruct.AllIdArtists)
+}
+
+func SaveAllIdArtists(ApiStruct *ApiStructure) {
+	AllIdArtists, _ := json.Marshal(ApiStruct.AllIdArtists)
+	ioutil.WriteFile("./GroupieTracker/Account/AllIdArtists.json", AllIdArtists, 0644)
+}
+
+type ToGetId struct {
+	Artists struct {
+		Items []struct {
+			ID string `json:"id"`
+		} `json:"items"`
+	} `json:"artists"`
+}
+
+func GetEveryId(ApiStruct *ApiStructure, ATS *TokenSpotify) {
+	GetAllIdArtistsJson(ApiStruct)
+	for _, i := range ApiStruct.TabApiArtiste {
+		var Id ToGetId
+		name := NameNoSpace(i.Name)
+		body := Request(name, ATS)
+		json.Unmarshal(body, &Id)
+		ApiStruct.AllIdArtists[i.Id] = Id.Artists.Items[0].ID
+	}
+	SaveAllIdArtists(ApiStruct)
+}
+
+func PageArtistSpotify(AllId map[int]string, ApiArtists ArtistsApiPageArtiste, id int, ATS *TokenSpotify) SpotifyPageArtiste {
 	ApiSpotify := SpotifyStruct{}
-	Artist := &SpotifyPageArtiste{}
-	name := NameNoSpace(nameArtist)
-	body := Request(name, ATS)
+	SpotTrack := SpotifyTopTrack{}
+	Artist := SpotifyPageArtiste{}
+	name := NameNoSpace(ApiArtists.Artists.Name)
+	body := RequestByIdArtist(id, AllId, ATS)
 	json.Unmarshal(body, &ApiSpotify)
 	LastFmApi := LastfmRequest(name)
-	Artist.Name = ApiSpotify.Artists.Items[0].Name
-	Artist.Followers = ApiSpotify.Artists.Items[0].Followers.Total
-	Artist.Genres = ApiSpotify.Artists.Items[0].Genres
-	Artist.Id = ApiSpotify.Artists.Items[0].ID
-	Artist.ApiHref = ApiSpotify.Artists.Items[0].Href
-	Artist.Rank = ApiSpotify.Artists.Items[0].Popularity
-	Artist.SpotifyHref = "https://open.spotify.com/artist/" + Artist.Id
-	Artist.TrackName = ApiSpotify.Tracks.Items[0].Name
-	Artist.TrackId = ApiSpotify.Tracks.Items[0].ID
-	Artist.TrackHref = "https://open.spotify.com/embed/track/" + Artist.TrackId + "?utm_source=generator&theme=0"
-	Artist.AlbumName = ApiSpotify.Tracks.Items[0].Album.Name
-	Artist.AlbumId = ApiSpotify.Tracks.Items[0].Album.ID
-	Artist.AlbumHref = "https://open.spotify.com/embed/album/" + Artist.AlbumId + "?utm_source=generator&theme=0"
-	Artist.AlbumRealase = ApiSpotify.Tracks.Items[0].Album.ReleaseDate
-	Artist.AlbumNbTrack = ApiSpotify.Tracks.Items[0].Album.TotalTracks
+	Artist.Name = ApiSpotify.Name
+	Artist.Followers = ApiSpotify.Followers.Total
+	Artist.Genres = ApiSpotify.Genres
+	Artist.ApiHref = ApiSpotify.Href
+	Artist.Rank = ApiSpotify.Popularity
+	Artist.SpotifyHref = ApiSpotify.Href
+	body = RequestByIdTopTrack(id, AllId, ATS)
+	json.Unmarshal(body, &SpotTrack)
+
+	Artist.TrackName = SpotTrack.Tracks[0].Name
+	Artist.TrackHref = SpotTrack.Tracks[0].Href
+
 	Artist.BioPublished = LastFmApi.Artist.Bio.Published
 	Artist.ExtraitBio = LastFmApi.Artist.Bio.Summary
 	Artist.FullBio = LastFmApi.Artist.Bio.Content
@@ -171,6 +172,32 @@ func Request(name string, ATS *TokenSpotify) []byte {
 	return body
 }
 
+func RequestByIdArtist(id int, AllId map[int]string, ATS *TokenSpotify) []byte {
+	data := url.Values{}
+	client := http.Client{}
+	base_url := "https://api.spotify.com/v1/artists/" + AllId[id]
+	req, _ := http.NewRequest("GET", base_url, strings.NewReader(data.Encode()))
+	req.Header.Set("Authorization", "Bearer "+ATS.Access_token)
+	req.Header.Set("Content-Type", "application/json")
+	response, _ := client.Do(req)
+	body, _ := ioutil.ReadAll(response.Body)
+
+	return body
+}
+
+func RequestByIdTopTrack(id int, AllId map[int]string, ATS *TokenSpotify) []byte {
+	data := url.Values{}
+	client := http.Client{}
+	base_url := "https://api.spotify.com/v1/artists/" + AllId[id] + "/top-tracks?market=FR"
+	req, _ := http.NewRequest("GET", base_url, strings.NewReader(data.Encode()))
+	req.Header.Set("Authorization", "Bearer "+ATS.Access_token)
+	req.Header.Set("Content-Type", "application/json")
+	response, _ := client.Do(req)
+	body, _ := ioutil.ReadAll(response.Body)
+
+	return body
+}
+
 func FiltreArtsitSpotify(ApiStruct *ApiStructure, ATS *TokenSpotify, filters map[string][]string) {
 	tempoTab := ApiStruct.TabApiFiltre
 	ApiStruct.TabApiFiltre = []ApiArtiste{}
@@ -187,7 +214,7 @@ func FiltreArtsitSpotify(ApiStruct *ApiStructure, ATS *TokenSpotify, filters map
 
 func AppendTabSpotify(i ApiArtiste, filters map[string][]string, ApiSpotify SpotifyStruct, ApiStruct *ApiStructure) {
 	for _, l := range filters["genres"] {
-		for _, k := range ApiSpotify.Artists.Items[0].Genres {
+		for _, k := range ApiSpotify.Genres {
 			if l == k {
 				ApiStruct.TabApiFiltre = append(ApiStruct.TabApiFiltre, i)
 				return
