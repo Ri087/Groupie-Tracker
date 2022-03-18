@@ -29,7 +29,7 @@
                     <h3 class="s-title">Top Artist </h3>
                 </div>
                 <div class="s-mid">
-                    {{range .ApiStruct.TabApiArtiste }} {{if (lt .Id 4)}}
+                    {{range .ApiStruct.TabApiArtiste }}{{if (lt .Id 4)}}
                     <div class="s-artist">
                         <a href="/artiste/{{.Id}}" class="s-a-etiquette">
                             <div class="s-a-top">

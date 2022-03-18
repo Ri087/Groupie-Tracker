@@ -120,7 +120,7 @@ func (spotify *Spotify) getEncodedKeys() string {
 	return encoded
 }
 
-func PageArtistSpotify(ID string, nameArtist string, ATS *TokenSpotify) *SpotifyPageArtiste {
+func PageArtistSpotify(nameArtist string, ATS *TokenSpotify) *SpotifyPageArtiste {
 	ApiSpotify := SpotifyStruct{}
 	Artist := &SpotifyPageArtiste{}
 	name := NameNoSpace(nameArtist)
@@ -194,4 +194,8 @@ func AppendTabSpotify(i ApiArtiste, filters map[string][]string, ApiSpotify Spot
 			}
 		}
 	}
+}
+
+type StructArtistTop3 struct {
+	Followers int
 }

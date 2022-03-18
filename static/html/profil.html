@@ -4,83 +4,110 @@
     <title>Profil</title>
 </head>
 <body>
-    {{if .AccStruct.PseudoCheck.PseudoNotOk}}
-    Choisissez un pseudo
-    <form method="get" action="/pseudo">
-        <input type="text" name="pseudo"/>
+   {{if .AccStruct.ProfilParameters.Name.NameIsOk}}
+    {{ .AccStruct.ProfilParameters.Profil.User.EntireName}}
+    <form action="/pseudo" method="get">
+        <input type="text" name="name" id="name">
+        <input type="text" name="hashtag" id="hashtag">
+        <input type="submit" value="Submit !">
     </form>
-    {{if .AccStruct.PseudoCheck.WrongPseudo}}
-    MET UN BON PSEUDO
+    {{if .AccStruct.ProfilParameters.Name.AlreadyExist}}
+    EXISTE DEJA
+    {{else if .AccStruct.ProfilParameters.Name.LengthNameInf}}
+    NOM TROP COURT
+    {{else if .AccStruct.ProfilParameters.Name.LengthNameSup}}
+    NOM TROP LONG
+    {{else if .AccStruct.ProfilParameters.Name.LengthNumbers}}
+    4 Chiffres / Lettres nécessaire pour le hashtag
     {{end}}
-    {{else}}
-    <h1><a href="/logout">ldfhk</a></h1>
-    {{ .AccStruct.User.Pseudo}}
     <br>
-    {{if .AccStruct.PseudoCheck.WrongPseudo}}
-    MET UN BON PSEUDO
+    <br>
+    <br>
+    Ajouter un ami
+    <form action="/addfriend" method="get">
+        <input type="text" name="name" id="name">
+        <input type="submit" value="Submit !">
+    </form>
+    <br>
+    {{if .AccStruct.ProfilParameters.Friends.NotExist}}
+    Il existe pas
+    {{else if .AccStruct.ProfilParameters.Friends.AlreadyHave}}
+    Tu l'as déjà
+    {{else if .AccStruct.ProfilParameters.Friends.ThatsU}}
+    Un jour, tu découvriras ce qu'est l'amitié...
     {{end}}
+    {{range .AccStruct.ProfilParameters.Friends.Friends}}
+    <a href="/profil/{{.Id}}">{{.Profil.EntireName}}</a>
     <br>
-    {{ .AccStruct.User.Mail}}
-    <br>
-    <br>
-    Who can see ur profil ?
-    <br>
-    <form method="get" action="/showprofil" onChange="submit()">
-        {{if .AccStruct.User.Public}}
-        <input type="radio" name="showprofil" value="public" checked/>
+    {{end}}
+    Choose who can see ur profil :
+    <form action="/showprofil" method="get" onChange="submit()">
+        {{if .AccStruct.ProfilParameters.Profil.Parameters.PublicAccount}}
+        <input type="radio" name="Profil" value="PublicProfil" checked>
         <label>Everyone</label>
-        <input type="radio" name="showprofil" value="friends"/>
+        <br>
+        <input type="radio" name="Profil" value="FriendsProfil">
         <label>Friends</label>
         {{else}}
-        <input type="radio" name="showprofil" value="public"/>
+        <input type="radio" name="Profil" value="PublicProfil">
         <label>Everyone</label>
-        <input type="radio" name="showprofil" value="friends" checked/>
+        <br>
+        <input type="radio" name="Profil" value="FriendsProfil" checked>
         <label>Friends</label>
         {{end}}
     </form>
     <br>
-    Who can see ur friends ?
-    <br>
-    <form method="get" action="/showprofil" onChange="submit()">
-        {{if .AccStruct.User.ShowFriendsToPublic}}
-        <input type="radio" name="showprofilfriend" value="public" checked/>
+    Choose who can see ur friends :
+    <form action="/showprofil" method="get" onChange="submit()">
+        {{if .AccStruct.ProfilParameters.Profil.Parameters.PublicFriends}}
+        <input type="radio" name="Profil" value="PublicFriends" checked>
         <label>Everyone</label>
-        <input type="radio" name="showprofilfriend" value="friends"/>
+        <br>
+        <input type="radio" name="Profil" value="Friends">
         <label>Friends</label>
-        <input type="radio" name="showprofilfriend" value="none"/>
+        <br>
+        <input type="radio" name="Profil" value="PrivateFriends">
         <label>None</label>
-        {{else if .AccStruct.User.ShowFriendsToFriend}}
-        <input type="radio" name="showprofilfriend" value="public"/>
+        {{else if .AccStruct.ProfilParameters.Profil.Parameters.OnlyFriendsFriends}}
+        <input type="radio" name="Profil" value="PublicFriends">
         <label>Everyone</label>
-        <input type="radio" name="showprofilfriend" value="friends" checked/>
+        <br>
+        <input type="radio" name="Profil" value="Friends" checked>
         <label>Friends</label>
-        <input type="radio" name="showprofilfriend" value="none"/>
+        <br>
+        <input type="radio" name="Profil" value="PrivateFriends">
         <label>None</label>
         {{else}}
-        <input type="radio" name="showprofilfriend" value="public"/>
+        <input type="radio" name="Profil" value="PublicFriends">
         <label>Everyone</label>
-        <input type="radio" name="showprofilfriend" value="friends"/>
+        <br>
+        <input type="radio" name="Profil" value="Friends">
         <label>Friends</label>
-        <input type="radio" name="showprofilfriend" value="none" checked/>
+        <br>
+        <input type="radio" name="Profil" value="PrivateFriends" checked>
         <label>None</label>
         {{end}}
     </form>
+    {{range .AccStruct.ProfilParameters.Artists.Artists}}
+    {{.Id}} {{.Name}}
     <br>
-    Add Friend 
-    <form method="get" action="/addfriend">
-        <input type="text" name="mail"/>
+    {{end}}
+
+   {{else}}
+   CHOISIR UN PSEUDO POSSEDANT UN HASHTAG (ex: CezGain 16G1)
+    <form action="/pseudo" method="get">
+        <input type="text" name="name" id="name">
+        <input type="text" name="hashtag" id="hashtag">
+        <input type="submit" value="Submit !">
     </form>
-    {{if .AccStruct.FriendCheck.WrongFriend}}
-    <br>
-    L'ami n'existe pas
-    {{else if .AccStruct.FriendCheck.ThatsU}}
-    <br>
-    Vous allez avoir un ami un jour...
+    {{if .AccStruct.ProfilParameters.Name.AlreadyExist}}
+    EXIST DEJA
+    {{else if .AccStruct.ProfilParameters.Name.LengthNameInf}}
+    NOM TROP COURT
+    {{else if .AccStruct.ProfilParameters.Name.LengthNameSup}}
+    NOM TROP LONG
+    {{else if .AccStruct.ProfilParameters.Name.LengthNumbers}}
+    4 Chiffres / Lettres nécessaire pour le hashtag
     {{end}}
-    <br>
-    {{ range .AccStruct.User.Friends}}
-    {{ .Pseudo}} {{ .Mail}}
-    <br>
-    {{end}}
-    {{end}}
+   {{end}}
 </body>

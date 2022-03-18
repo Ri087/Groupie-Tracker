@@ -22,7 +22,7 @@
             </form>
             <br>
             <p>Click <a href="/connection">here</a> if you already have an account.</p>
-            <p>{{if .AccStruct.GoodCreation.Mail}} MAIL NUL {{else if .AccStruct.GoodCreation.Pwd}} PASSWORD NUL {{else if .AccStruct.GoodCreation.Pwdc}} PASSWORD CHECK NUL {{else if .AccStruct.GoodCreation.Exist}} DEJA EXISTANT {{else}} YO {{end}}</p>
+            <p>{{if .AccStruct.Creation.Verification.Mail}} MAIL NUL {{else if .AccStruct.Creation.Verification.Password}} PASSWORD NUL {{else if .AccStruct.Creation.Verification.PasswordCheck}} PASSWORD CHECK NUL {{else if .AccStruct.Creation.Verification.AlreadyExist}} DEJA EXISTANT {{else}} YO {{end}}</p>
         </div>
     </div>
 </body>

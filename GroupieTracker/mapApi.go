@@ -18,7 +18,7 @@ type MapStruct struct {
 
 func Mapapi(ApiStruct *ApiStructure, id int) [][]float64 {
 	var geolocationCities [][]float64
-	for _, i := range ApiStruct.TabApiArtisteLocations[id-1].Locations {
+	for _, i := range ApiStruct.TabApiArtisteLocations[id].Locations {
 		cities := strings.Split(i, "-")[0]
 		url := "https://api.mapbox.com/geocoding/v5/mapbox.places/" + cities + ".json?types=place%2Cpostcode%2Caddress&access_token=pk.eyJ1IjoiYm9udGFheiIsImEiOiJjbDBnajQwazYwMGFqM2VxdnJkdDdpZmgxIn0.Cjpn9M5HiKAvVynLZbPlaQ"
 		response, err := http.Get(url)

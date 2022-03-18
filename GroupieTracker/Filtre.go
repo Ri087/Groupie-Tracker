@@ -71,9 +71,9 @@ func FLT(filters map[string][]string, ApiStruct *ApiStructure, ATS *TokenSpotify
 	if len(filters["Location"]) == len(ApiStruct.Filtres.CountryTab) {
 		ApiStruct.Filtres.CountryValue = "All"
 	}
-	if filters["genres"][0] != "All" {
-		FiltreArtsitSpotify(ApiStruct, ATS, filters)
-	}
+	// 	if filters["genres"][0] != "All" {
+	// 		FiltreArtsitSpotify(ApiStruct, ATS, filters)
+	// 	}
 }
 
 func FLTCheck(filters map[string][]string, ApiStruct *ApiStructure) {
@@ -128,9 +128,9 @@ func FLTCheck(filters map[string][]string, ApiStruct *ApiStructure) {
 	if filters["Location"][0] != "All" {
 		ApiStruct.Filtres.CountryValue = filters["Location"][0]
 	}
-	if filters["genres"][0] != "All" {
-		ApiStruct.Filtres.GenresValue = filters["genres"][0]
-	}
+	// if filters["genres"][0] != "All" {
+	// 	ApiStruct.Filtres.GenresValue = filters["genres"][0]
+	// }
 }
 
 func TabCountry(ApiStruct *ApiStructure) {
