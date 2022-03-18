@@ -73,9 +73,9 @@ func FLT(filters map[string][]string, ApiStruct *ApiStructure, ATS *TokenSpotify
 	if len(filters["Location"]) == len(ApiStruct.Filtres.CountryTab) {
 		ApiStruct.Filtres.CountryValue = "All"
 	}
-	if filters["genres"][0] != "All" {
-		FiltreArtsitSpotify(ApiStruct, ATS, filters)
-	}
+	// 	if filters["genres"][0] != "All" {
+	// 		FiltreArtsitSpotify(ApiStruct, ATS, filters)
+	// 	}
 }
 
 func FLTCheck(filters map[string][]string, ApiStruct *ApiStructure) {

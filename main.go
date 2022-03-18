@@ -26,9 +26,8 @@ func MainStructureInit() *MainStructure {
 func main() {
 	Main := MainStructureInit()
 	go GenerateSpotifyToken(Main)
-
 	GroupieTracker.TabGenres(Main.ApiStruct, Main.Token)
-
+	// GroupieTracker.Top3(Main.ApiStruct, Main.Token)
 	fileServer := http.FileServer(http.Dir("./static"))
 	http.Handle("/ressources/", http.StripPrefix("/ressources/", fileServer))
 

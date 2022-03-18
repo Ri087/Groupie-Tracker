@@ -13,6 +13,7 @@ type ApiStructure struct {
 	TabApiArtiste          []ApiArtiste
 	TabApiArtisteLocations []ApiArtisteLocations
 	TabApiFiltre           []ApiAccueil
+	Top3                   []ApiArtiste
 	Filtres                Filter
 	SpecificApiPageArtiste ArtistsApiPageArtiste
 }
@@ -137,7 +138,7 @@ func ApiArtistsPageArtiste(id string, Token *TokenSpotify) ArtistsApiPageArtiste
 	json.Unmarshal(GetReadAll(ApiArtists.Artists.Locations), &ApiArtists.Locations)
 	json.Unmarshal(GetReadAll(ApiArtists.Artists.ConcertDates), &ApiArtists.Dates)
 	json.Unmarshal(GetReadAll(ApiArtists.Artists.Relations), &ApiArtists.Relations)
-	ApiArtists.Spotify = *PageArtistSpotify(id, ApiArtists.Artists.Name, Token)
+	ApiArtists.Spotify = *PageArtistSpotify(ApiArtists.Artists.Name, Token)
 
 	return ApiArtists
 }
