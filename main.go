@@ -2,34 +2,37 @@ package main
 
 import (
 	"GroupieTracker/GroupieTracker"
-	"fmt"
 	"net/http"
 	"strconv"
 	"text/template"
+	"time"
 )
 
 type MainStructure struct {
 	ApiStruct *GroupieTracker.ApiStructure
 	AccStruct *GroupieTracker.AccountStruct
+	Token     *GroupieTracker.TokenSpotify
 }
 
 func MainStructureInit() *MainStructure {
 	Main := &MainStructure{}
 	Main.ApiStruct = GroupieTracker.ApiStructInit()
 	Main.AccStruct = GroupieTracker.AccStructureInit()
+	var s = GroupieTracker.New("6b053d7dfcbe4c69a576561f8c098391", "d00791e8792a4f13bc1bb8b95197505d")
+	Main.Token = s.Authorize()
 	return Main
 }
 
 func main() {
 	Main := MainStructureInit()
-	var s = GroupieTracker.New("6b053d7dfcbe4c69a576561f8c098391", "d00791e8792a4f13bc1bb8b95197505d")
-	Token := s.Authorize()
-	// GroupieTracker.TabGenres(Main.ApiStruct, &Token)
+	go GenerateSpotifyToken(Main)
+
+	GroupieTracker.TabGenres(Main.ApiStruct, Main.Token)
+
 	fileServer := http.FileServer(http.Dir("./static"))
 	http.Handle("/ressources/", http.StripPrefix("/ressources/", fileServer))
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Println(GroupieTracker.BioApi())
 		Main.ApiStruct.TabApiArtiste, Main.ApiStruct.TabApiArtisteLocations = GroupieTracker.ApiArtistsArtiste()
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
 		templateshtml.ExecuteTemplate(w, "index.html", Main)
@@ -45,7 +48,7 @@ func main() {
 		GroupieTracker.FilterReset(Main.ApiStruct)
 	})
 	http.HandleFunc("/filter", func(w http.ResponseWriter, r *http.Request) {
-		GroupieTracker.FLT(r.URL.Query(), Main.ApiStruct, &Token)
+		GroupieTracker.FLT(r.URL.Query(), Main.ApiStruct, Main.Token)
 		http.Redirect(w, r, "/artiste", http.StatusFound)
 	})
 
@@ -74,7 +77,8 @@ func main() {
 			http.Redirect(w, r, "/artiste", http.StatusFound)
 			return
 		}
-		Main.ApiStruct.SpecificApiPageArtiste = GroupieTracker.ApiArtistsPageArtiste(IDArtist)
+		// https://open.spotify.com/playlist/37i9dQZF1DWYVURwQHUqnN?si=c4bd4a809fe7439c
+		Main.ApiStruct.SpecificApiPageArtiste = GroupieTracker.ApiArtistsPageArtiste(IDArtist, Main.Token)
 		locs := GroupieTracker.Mapapi(Main.ApiStruct, id)
 		data := struct {
 			Main MainStructure
@@ -257,6 +261,13 @@ func main() {
 		GroupieTracker.ParametersProfil(r.FormValue("showprofil"), r.FormValue("showprofilfriend"), Main.AccStruct)
 		http.Redirect(w, r, "/profil", http.StatusFound)
 	})
-
 	http.ListenAndServe(":8080", nil)
+}
+
+func GenerateSpotifyToken(Main *MainStructure) {
+	for {
+		time.Sleep(time.Duration(Main.Token.Expires_in) * time.Second)
+		var s = GroupieTracker.New("6b053d7dfcbe4c69a576561f8c098391", "d00791e8792a4f13bc1bb8b95197505d")
+		Main.Token = s.Authorize()
+	}
 }
