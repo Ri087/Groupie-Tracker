@@ -21,7 +21,8 @@
                     <br>
                     <h2 class="h_name">{{ .Main.ApiStruct.SpecificApiPageArtiste.Artists.Name }}</h2>
                     <h2>{{ .Main.ApiStruct.SpecificApiPageArtiste.Artists.CreationDate }}</h2>
-                    <br>
+                    <iframe class="player" style="border-radius:12px" src="{{.Main.ApiStruct.SpecificApiPageArtiste.Spotify.TrackHref}}" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+
                 </div>
                 <div class="right-part">
                     <h2 class="h_name-spot">Spotify Stats</h2>
@@ -45,7 +46,6 @@
             </div>
 
             <div class="pipi">
-                <iframe style="border-radius:12px" src="{{.Main.ApiStruct.SpecificApiPageArtiste.Spotify.AlbumHref}}" width="100%" height="380" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
                 <a class="more-info" href="#grp" disabled> more info</a>
 
             </div>
@@ -59,9 +59,10 @@
                 <h2 class="h2">Group members :</h2>
                 <br>
                 <h2 class="stat">{{ range .Main.ApiStruct.SpecificApiPageArtiste.Artists.Members }} {{.}} <br> {{end}}</h2>
-            </div>
-            <div class="First-album">
                 <h2 class="FA">First album : <span style="font-weight:lighter;">{{ .Main.ApiStruct.SpecificApiPageArtiste.Artists.FirstAlbum }}</span></h2>
+            </div>
+            <div class="Bio">
+                <p>{{.Main.ApiStruct.SpecificApiPageArtiste.Spotify.ExtraitBio }}</p>
             </div>
         </div>
         <div class="button-2">
