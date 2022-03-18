@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"math/rand"
 	"net/http"
+	"strings"
 	"time"
 )
 
@@ -358,6 +359,8 @@ type ProfilAccount struct {
 }
 
 type UserInformations struct {
+	PP           string
+	Banner       string
 	Name         string
 	Numbers      string
 	EntireName   string
@@ -367,8 +370,8 @@ type UserInformations struct {
 
 func ProfilUserInformationFill(name, hashtag string, AccStruct *AccountStruct) {
 	AccStruct.ProfilParameters.Profil.User.Name = name
-	AccStruct.ProfilParameters.Profil.User.Numbers = hashtag
-	AccStruct.ProfilParameters.Profil.User.EntireName = name + "#" + hashtag
+	AccStruct.ProfilParameters.Profil.User.Numbers = strings.ToUpper(hashtag)
+	AccStruct.ProfilParameters.Profil.User.EntireName = name + "#" + strings.ToUpper(hashtag)
 }
 
 type ShowParameters struct {
@@ -378,6 +381,8 @@ type ShowParameters struct {
 }
 
 func ProfilAccountReset(AccStruct *AccountStruct) {
+	AccStruct.ProfilParameters.Profil.User.PP = ""
+	AccStruct.ProfilParameters.Profil.User.Banner = ""
 	AccStruct.ProfilParameters.Profil.User.Name = ""
 	AccStruct.ProfilParameters.Profil.User.Numbers = ""
 	AccStruct.ProfilParameters.Profil.User.EntireName = ""
