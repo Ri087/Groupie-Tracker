@@ -21,6 +21,14 @@
                 <h2 class="h_name">{{ .Main.ApiStruct.SpecificApiPageArtiste.Artists.Name }}</h2>
                 <h2 class="h2">{{ .Main.ApiStruct.SpecificApiPageArtiste.Artists.CreationDate }}</h2>
                 <h2 class="h2">{{range .Main.ApiStruct.SpecificApiPageArtiste.Spotify.Genres }} {{.}}<br>{{end}}</h2>
+                <form action="/liked" method="get" onChange="submit()">
+                    <label>LIKE</label>
+                {{if .Main.AccStruct.ProfilParameters.Artists.ArtistCheck}}
+                    <input type="checkbox" checked>
+                {{else}}
+                    <input type="checkbox">
+                {{end}}
+                </form>
 
                 <br>
             </div>

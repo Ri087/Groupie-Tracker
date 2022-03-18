@@ -21,12 +21,12 @@
                         <form action="/checkconnection" method="post">
                             <div id="userentry">
                                 <div id="email">
-                                    <input type="text" name="mail" id="mail" placeholder="e-mail" maxlength="160"> {{if .AccStruct.GoodConnection.Mail}}
+                                    <input type="text" name="mail" id="mail" placeholder="e-mail" maxlength="160"> {{if .AccStruct.Connection.Verification.Mail}}
                                     <p class="error">Mail inexistant</p>
                                     {{end}}
                                 </div>
                                 <div id="password">
-                                    <input type="password" name="pwd" id="pwd" placeholder="password" maxlength="64"> {{if .AccStruct.GoodConnection.Pwd}}
+                                    <input type="password" name="pwd" id="pwd" placeholder="password" maxlength="64"> {{if .AccStruct.Connection.Verification.Password}}
                                     <p class="error">Wrong password</p>
                                     {{end}}
                                 </div>
