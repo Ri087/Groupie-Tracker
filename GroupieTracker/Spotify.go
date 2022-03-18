@@ -173,7 +173,7 @@ func Request(name string, ATS *TokenSpotify) []byte {
 
 func FiltreArtsitSpotify(ApiStruct *ApiStructure, ATS *TokenSpotify, filters map[string][]string) {
 	tempoTab := ApiStruct.TabApiFiltre
-	ApiStruct.TabApiFiltre = []ApiAccueil{}
+	ApiStruct.TabApiFiltre = []ApiArtiste{}
 	for _, i := range tempoTab {
 		ApiSpotify := SpotifyStruct{}
 		name := NameNoSpace(i.Name)
@@ -185,7 +185,7 @@ func FiltreArtsitSpotify(ApiStruct *ApiStructure, ATS *TokenSpotify, filters map
 	}
 }
 
-func AppendTabSpotify(i ApiAccueil, filters map[string][]string, ApiSpotify SpotifyStruct, ApiStruct *ApiStructure) {
+func AppendTabSpotify(i ApiArtiste, filters map[string][]string, ApiSpotify SpotifyStruct, ApiStruct *ApiStructure) {
 	for _, l := range filters["genres"] {
 		for _, k := range ApiSpotify.Artists.Items[0].Genres {
 			if l == k {
@@ -199,35 +199,3 @@ func AppendTabSpotify(i ApiAccueil, filters map[string][]string, ApiSpotify Spot
 type StructArtistTop3 struct {
 	Followers int
 }
-
-// func Top3(ApiStruct *ApiStructure, ATS *TokenSpotify) {
-// 	followers := []int{}
-// 	for _, i := range ApiStruct.TabApiArtiste {
-// 		name := NameNoSpace(i.Name)
-// 		ValueSpotifyArtist := ArtistTop3(name, ATS)
-// 		followers = append(followers, ValueSpotifyArtist.Followers)
-// 	}
-// 	sort.Sort(sort.Reverse(sort.IntSlice(followers)))
-// 	Top3 := ApiStruct.Top3
-// 	for k := 0; k < 3; k++ {
-// 		for _, n := range ApiStruct.TabApiArtiste {
-// 			name := NameNoSpace(n.Name)
-// 			ValueSpotifyArtist := ArtistTop3(name, ATS)
-// 			if ValueSpotifyArtist.Followers == followers[k] {
-// 				Top3 = append(&Top3, n)
-// 			}
-// 		}
-// 	}
-// }
-// func ArtistTop3(nameArtist string, ATS *TokenSpotify) *StructArtistTop3 {
-// 	top := &StructArtistTop3{}
-
-// 	ApiSpotify := SpotifyStruct{}
-// 	body := Request(nameArtist, ATS)
-// 	json.Unmarshal(body, &ApiSpotify)
-// 	if len(ApiSpotify.Artists.Items) != 0 {
-// 		top.Followers = ApiSpotify.Artists.Items[0].Followers.Total
-
-// 	}
-// 	return top
-// }

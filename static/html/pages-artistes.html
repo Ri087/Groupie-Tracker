@@ -16,13 +16,24 @@
         </div>
         <div class="popo">
             <div class="left-text">
-                <img class="img-artist" src="{{ .Main.ApiStruct.SpecificApiPageArtiste.Artists.Image }}">
-                <br>
-                <h2 class="h_name">{{ .Main.ApiStruct.SpecificApiPageArtiste.Artists.Name }}</h2>
-                <h2 class="h2">{{ .Main.ApiStruct.SpecificApiPageArtiste.Artists.CreationDate }}</h2>
-                <h2 class="h2">{{range .Main.ApiStruct.SpecificApiPageArtiste.Spotify.Genres }} {{.}}<br>{{end}}</h2>
-                <iframe style="border-radius:12px" src="{{.Main.ApiStruct.SpecificApiPageArtiste.Spotify.TrackHref}}" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
-
+                <div class="left-part">
+                    <img class="img-artist" src="{{ .Main.ApiStruct.SpecificApiPageArtiste.Artists.Image }}">
+                    <br>
+                    <h2 class="h_name">{{ .Main.ApiStruct.SpecificApiPageArtiste.Artists.Name }}</h2>
+                    <h2>{{ .Main.ApiStruct.SpecificApiPageArtiste.Artists.CreationDate }}</h2>
+                    <br>
+                </div>
+                <div class="right-part">
+                    <h2 class="h_name-spot">Spotify Stats</h2>
+                    <h2 class="h2">Follower Count :</h2>
+                    <h2 class="stat">{{.Main.ApiStruct.SpecificApiPageArtiste.Spotify.Followers}}</h2>
+                    <h2 class="h2">Rank :</h2>
+                    <h2 class="stat">{{.Main.ApiStruct.SpecificApiPageArtiste.Spotify.Rank}}</h2>
+                    <h2 class="h2">Genres :</h2>
+                    <ul>{{range .Main.ApiStruct.SpecificApiPageArtiste.Spotify.Genres}}
+                        <li class="genre">{{.}}</li>{{end}}</ul>
+                    <a class="spot-link" href="{{.Main.ApiStruct.SpecificApiPageArtiste.Spotify.SpotifyHref}}" target="_blank">Link to <span style="color: #1DD05D;">Spotify</span> page</a>
+                </div>
             </div>
 
             <div class="pipi">
@@ -36,13 +47,12 @@
     <div id="grp">
         <div class="papa">
             <div class="bottom-info">
-
-                <h2>Group members : <br> {{.Main.ApiStruct.SpecificApiPageArtiste.Spotify.BioPublished }} </h2>
-
-                <h2>Group members : <br> {{ range .Main.ApiStruct.SpecificApiPageArtiste.Artists.Members }} {{.}} <br> {{end}}</h2>
+                <h2 class="h2">Group members :</h2>
+                <br>
+                <h2 class="stat">{{ range .Main.ApiStruct.SpecificApiPageArtiste.Artists.Members }} {{.}} <br> {{end}}</h2>
             </div>
             <div class="First-album">
-                <h2 class="FA">First album : {{ .Main.ApiStruct.SpecificApiPageArtiste.Artists.FirstAlbum }}</h2>
+                <h2 class="FA">First album : <span style="font-weight:lighter;">{{ .Main.ApiStruct.SpecificApiPageArtiste.Artists.FirstAlbum }}</span></h2>
             </div>
         </div>
         <div class="button-2">
@@ -53,7 +63,10 @@
         <a class="back-to-top" href="#top-page">Back to top</a>
         <div class="bottom-page">
             <div class="rel">
-                <h2 class="h2">Concerts:<br>{{ range $key, $value := .Main.ApiStruct.SpecificApiPageArtiste.Relations.DatesLocations}} - {{ $key }} : {{ range $value }} {{.}}<br> {{ end }} {{ end }}</h2>
+                <h2>Concerts: <br><br>
+                    <ul>{{ range $key, $value := .Main.ApiStruct.SpecificApiPageArtiste.Relations.DatesLocations}} - {{ $key }} : {{ range $value }}
+                        <li class="stat">{{.}}</li>{{ end }} {{ end }}</ul>
+                </h2>
             </div>
             <div id="map"></div>
             <script>
@@ -67,7 +80,7 @@
                 });
 
                 L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-                    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright%22%3EOpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/%22%3EMapbox</a>',
                     maxZoom: 18,
                     id: 'mapbox/streets-v11',
                     tileSize: 512,

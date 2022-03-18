@@ -12,8 +12,8 @@ import (
 type ApiStructure struct {
 	TabApiArtiste          []ApiArtiste
 	TabApiArtisteLocations []ApiArtisteLocations
-	TabApiFiltre           []ApiAccueil
 	Top3                   []ApiArtiste
+	TabApiFiltre           []ApiArtiste
 	Filtres                Filter
 	SpecificApiPageArtiste ArtistsApiPageArtiste
 }
@@ -39,25 +39,6 @@ func LinkApi() ApiWApi {
 	ApiLink := ApiWApi{}
 	json.Unmarshal(GetReadAll("https://groupietrackers.herokuapp.com/api"), &ApiLink)
 	return ApiLink
-}
-
-// Accueil
-
-type StructApiAccueil struct {
-	TabApiAccueil          []ApiAccueil
-	TabApiAccueilLocations []ApiArtisteLocations
-}
-
-type ApiAccueil struct {
-	Id    int
-	Image string
-	Name  string
-}
-
-func ApiArtistsAccueil() []ApiAccueil {
-	ApiArtists := StructApiAccueil{}
-	json.Unmarshal(GetReadAll(LinkApi()["artists"]), &ApiArtists.TabApiAccueil)
-	return ApiArtists.TabApiAccueil
 }
 
 // Artiste
@@ -146,7 +127,7 @@ func ApiArtistsPageArtiste(id string, Token *TokenSpotify) ArtistsApiPageArtiste
 func ApiStructInit() *ApiStructure {
 	ApiStruct := &ApiStructure{}
 	ApiStruct.TabApiArtiste, ApiStruct.TabApiArtisteLocations = ApiArtistsArtiste()
-	ApiStruct.TabApiFiltre = ApiArtistsAccueil()
+	ApiStruct.TabApiFiltre, _ = ApiArtistsArtiste()
 	ApiStruct.Filtres = Filter{}
 	FilterReset(ApiStruct)
 	ApiStruct.SpecificApiPageArtiste = ArtistsApiPageArtiste{}

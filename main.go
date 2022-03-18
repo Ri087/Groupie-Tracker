@@ -38,18 +38,17 @@ func main() {
 	})
 
 	//Page principal
+
 	http.HandleFunc("/artiste", func(w http.ResponseWriter, r *http.Request) {
 		Main.ApiStruct.TabApiArtiste, Main.ApiStruct.TabApiArtisteLocations = GroupieTracker.ApiArtistsArtiste()
 		GroupieTracker.TabCountry(Main.ApiStruct)
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
-		templateshtml.ExecuteTemplate(w, "artiste.html", Main)
+		templateshtml.ExecuteTemplate(w, "artiste2.html", Main)
 		GroupieTracker.FilterReset(Main.ApiStruct)
-
 	})
 	http.HandleFunc("/filter", func(w http.ResponseWriter, r *http.Request) {
 		GroupieTracker.FLT(r.URL.Query(), Main.ApiStruct, Main.Token)
 		http.Redirect(w, r, "/artiste", http.StatusFound)
-
 	})
 
 	http.HandleFunc("/search", func(w http.ResponseWriter, r *http.Request) {

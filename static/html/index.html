@@ -29,7 +29,7 @@
                     <h3 class="s-title">Top Artist </h3>
                 </div>
                 <div class="s-mid">
-                    {{range .ApiStruct.Top3 }}
+                    {{range .ApiStruct.TabApiArtiste }}{{if (lt .Id 4)}}
                     <div class="s-artist">
                         <a href="/artiste/{{.Id}}" class="s-a-etiquette">
                             <div class="s-a-top">
@@ -42,13 +42,13 @@
                             </div>
                         </a>
                     </div>
-                    {{end}}
+                    {{end}}{{end}}
                 </div>
                 <div class="s-bot">
 
                     <div class="search_bar">
                         <form action="/search" class="search-bar" method="post" onChange="submit()">
-                            <input class="search__input" list="Artists" display="none" type="text" name="search-artist" placeholder="Search">
+                            <input class="search_input" list="Artists" display="none" type="text" name="search-artist" placeholder="Search an artist">
                             <datalist id="Artists">
                                 {{range .ApiStruct.TabApiArtiste}} 
                                 <option value= "{{.Name}}">{{.CreationDate}} - {{.FirstAlbum}} - {{range .Members}} {{.}} {{end}}</option>
