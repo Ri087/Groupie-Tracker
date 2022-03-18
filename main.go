@@ -26,9 +26,8 @@ func MainStructureInit() *MainStructure {
 func main() {
 	Main := MainStructureInit()
 	go GenerateSpotifyToken(Main)
-
 	// GroupieTracker.TabGenres(Main.ApiStruct, Main.Token)
-
+	// GroupieTracker.Top3(Main.ApiStruct, Main.Token)
 	fileServer := http.FileServer(http.Dir("./static"))
 	http.Handle("/ressources/", http.StripPrefix("/ressources/", fileServer))
 
@@ -39,18 +38,19 @@ func main() {
 	})
 
 	//Page principal
+
 	http.HandleFunc("/artiste", func(w http.ResponseWriter, r *http.Request) {
 		Main.ApiStruct.TabApiArtiste, Main.ApiStruct.TabApiArtisteLocations = GroupieTracker.ApiArtistsArtiste()
 		GroupieTracker.TabCountry(Main.ApiStruct)
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
 		templateshtml.ExecuteTemplate(w, "artiste.html", Main)
 		GroupieTracker.FilterReset(Main.ApiStruct)
-
+		Main.ApiStruct.TabApiFiltre = Main.ApiStruct.TabApiArtiste
 	})
+
 	http.HandleFunc("/filter", func(w http.ResponseWriter, r *http.Request) {
 		GroupieTracker.FLT(r.URL.Query(), Main.ApiStruct, Main.Token)
 		http.Redirect(w, r, "/artiste", http.StatusFound)
-
 	})
 
 	http.HandleFunc("/search", func(w http.ResponseWriter, r *http.Request) {
