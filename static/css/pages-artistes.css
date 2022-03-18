@@ -69,6 +69,11 @@ body , html {
     align-items: center;
     justify-content: center;
 }
+
+.player{
+    margin:5px;
+    width:90%;
+}
 .sidebar{
     display: flex;
     flex-direction: column;
@@ -78,6 +83,7 @@ body , html {
     width: 40%;
     /* border: 5px solid red; */
 }
+
 
 .art-page{
     height: 200vh;
@@ -213,6 +219,14 @@ body , html {
     text-underline-offset: 0.4em;
  }
 
+ .Bio{
+     display: flex;
+     flex-direction: column;
+     width: 60%;
+     padding:15px;
+     font-size: 16px;
+ }
+
  .back-to-artist:hover{
     text-decoration-color: white;
     text-underline-offset: 0.4em;
@@ -229,7 +243,7 @@ body , html {
     justify-content: center;
      border-right: 0.5px solid white;
      line-height: 50px;
-     width: 20%;
+     width: 40%;
  }
  .rel{
     /* border: 2px solid red; */
