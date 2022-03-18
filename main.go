@@ -350,6 +350,44 @@ func main() {
 		http.Redirect(w, r, r.Referer(), http.StatusFound)
 	})
 
+	http.HandleFunc("/banner", func(w http.ResponseWriter, r *http.Request) {
+		cookie, err := r.Cookie("TOKEN")
+		if err != nil {
+			http.Redirect(w, r, "/connection", http.StatusFound)
+			return
+		} else if Main.AccStruct.AllToken[cookie.Value] == "" {
+			cookie.MaxAge = -1
+			http.SetCookie(w, cookie)
+			http.Redirect(w, r, "/connection", http.StatusFound)
+			return
+		}
+		GroupieTracker.LoadUserByToken(cookie.Value, Main.AccStruct)
+		Main.AccStruct.ProfilParameters.Profil.User.Banner = r.FormValue("image")
+		Main.AccStruct.AllAccount[Main.AccStruct.AllToken[cookie.Value]] = Main.AccStruct.ProfilParameters.Profil
+		GroupieTracker.SaveAllAccount(Main.AccStruct)
+		GroupieTracker.ProfilAccountReset(Main.AccStruct)
+		http.Redirect(w, r, "/profil", http.StatusFound)
+	})
+
+	http.HandleFunc("/pp", func(w http.ResponseWriter, r *http.Request) {
+		cookie, err := r.Cookie("TOKEN")
+		if err != nil {
+			http.Redirect(w, r, "/connection", http.StatusFound)
+			return
+		} else if Main.AccStruct.AllToken[cookie.Value] == "" {
+			cookie.MaxAge = -1
+			http.SetCookie(w, cookie)
+			http.Redirect(w, r, "/connection", http.StatusFound)
+			return
+		}
+		GroupieTracker.LoadUserByToken(cookie.Value, Main.AccStruct)
+		Main.AccStruct.ProfilParameters.Profil.User.PP = r.FormValue("image")
+		Main.AccStruct.AllAccount[Main.AccStruct.AllToken[cookie.Value]] = Main.AccStruct.ProfilParameters.Profil
+		GroupieTracker.SaveAllAccount(Main.AccStruct)
+		GroupieTracker.ProfilAccountReset(Main.AccStruct)
+		http.Redirect(w, r, "/profil", http.StatusFound)
+	})
+
 	http.ListenAndServe(":8080", nil)
 }
 
