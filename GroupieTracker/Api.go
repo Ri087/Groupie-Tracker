@@ -82,6 +82,7 @@ type ArtistsApiPageArtiste struct {
 	Locations ApiPageArtisteLocations
 	Dates     ApiPageArtisteDates
 	Relations ApiPageArtisteRelations
+	Spotify   SpotifyPageArtiste
 }
 
 type ApiPageArtiste struct {
@@ -112,12 +113,14 @@ type ApiPageArtisteRelations struct {
 }
 
 func ApiArtistsPageArtiste(id string) ArtistsApiPageArtiste {
+	var s = New("6b053d7dfcbe4c69a576561f8c098391", "d00791e8792a4f13bc1bb8b95197505d")
 	ApiArtists := ArtistsApiPageArtiste{}
-
+	Token := s.Authorize()
 	json.Unmarshal(GetReadAll(LinkApi()["artists"]+"/"+id), &ApiArtists.Artists)
 	json.Unmarshal(GetReadAll(ApiArtists.Artists.Locations), &ApiArtists.Locations)
 	json.Unmarshal(GetReadAll(ApiArtists.Artists.ConcertDates), &ApiArtists.Dates)
 	json.Unmarshal(GetReadAll(ApiArtists.Artists.Relations), &ApiArtists.Relations)
+	ApiArtists.Spotify = *PageArtistSpotify(id, ApiArtists.Artists.Name, &Token)
 
 	return ApiArtists
 }

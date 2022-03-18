@@ -107,6 +107,7 @@ ul {
     height: 100%;
     width: 100%;
     justify-content: center;
+    align-items: center;
 }
 
 .s-top {
@@ -123,12 +124,17 @@ ul {
     font-family: "Cinzel";
     font-size: 50px;
     text-decoration: underline;
+    text-underline-offset: 10px;
+    text-decoration-thickness: 0.8px;
 }
 
 .s-mid {
+    margin-top: 40px;
     display: flex;
-    height: 80%;
-    width: 100%;
+    height: 60%;
+    width: 80%;
+    background-color: rgba(0, 0, 0, 0.30);
+
 }
 
 .s-artist {
@@ -147,18 +153,20 @@ ul {
     color: black;
     height: 65%;
     width: 65%;
-    box-shadow: 5px 5px 2px;
-    background-color: rgba(0, 0, 0, 0.50);
-    border-radius: 2%;
     transition: 600ms;
+    border-radius: 10px;
 }
 
 .s-a-etiquette:hover {
-    height: 70%;
-    width: 70%;
-    background-color: antiquewhite;
+    height: 75%;
+    width: 75%;
+
 }
 
+.s-a-etiquette:hover .s-a-img{
+    -webkit-box-shadow: 0px 0px 15px 0.5px grey; 
+    box-shadow: 0px 0px 15px 0.5px grey;
+}
 .s-a-top {
     display: flex;
     justify-content: center;
@@ -171,14 +179,11 @@ ul {
     justify-content: center;
     height: 30%;
     width: 90%;
-    background-color: rgba(0, 0, 0, 0.25);
-    align-items: center;
 }
 
 .s-a-title {
     display: flex;
     color: white;
-    justify-content: center;
     font-size: 150%;
     font-family: "Cinzel";
 }
@@ -193,7 +198,9 @@ ul {
 
 .s-a-img {
     display: flex;
-    height: 60%;
+    height: 90%;
+    transition: 0.4s;
+    margin-bottom: 20px;
 }
 
 .s-bot {
@@ -217,17 +224,39 @@ ul {
 }
 
 .search_bar {
+    display: flex;
     width: 80%;
     justify-content: center;
     align-items: center;
     font-family: 'Cinzel';
     font-size: 18px;
-    color: white;
     border: none;
 }
 
-.search__input {
-    background-color: red;
+input[type=text]{
+    background: unset;
+    border: none;
+    border-bottom: 1px solid white;
+    height: 35%;
+    text-align: center;
+    font-size: 165%;
+    transition: 500ms;
+}
+
+
+input[type=text]:focus::placeholder, input[type=text]:hover::placeholder {
+    opacity: 0.35;
+}
+
+
+input[type=text]::placeholder{
+    color: white;
+    transition: 500ms;
+}
+
+input[type=text]:focus, input[type=text]:hover {
+    outline: none;
+    transform: scale(1.2);
 }
 
 .next {

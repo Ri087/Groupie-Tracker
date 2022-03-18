@@ -1,11 +1,13 @@
 <!DOCTYPE html>
+
 <head>
-    <link rel="stylesheet" href="/ressources/css/connection.css"/>
-    <link rel="preconnect" href="https://fonts.googleapis.com/%22%3E"/>
+    <link rel="stylesheet" href="/ressources/css/connection.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com/%22%3E" />
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel&display=swap" rel="stylesheet">
     <title>Connection</title>
 </head>
+
 <body>
     <div id="page-div">
         <div id="image-div">
@@ -19,14 +21,12 @@
                         <form action="/checkconnection" method="post">
                             <div id="userentry">
                                 <div id="email">
-                                    <input type="text" name="mail" id="mail" placeholder="e-mail" maxlength="160">
-                                    {{if .Mail}}
+                                    <input type="text" name="mail" id="mail" placeholder="e-mail" maxlength="160"> {{if .AccStruct.GoodConnection.Mail}}
                                     <p class="error">Mail inexistant</p>
                                     {{end}}
                                 </div>
                                 <div id="password">
-                                    <input type="password" name="pwd" id="pwd" placeholder="password" maxlength="64">
-                                    {{if .Pwd}}
+                                    <input type="password" name="pwd" id="pwd" placeholder="password" maxlength="64"> {{if .AccStruct.GoodConnection.Pwd}}
                                     <p class="error">Wrong password</p>
                                     {{end}}
                                 </div>

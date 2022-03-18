@@ -48,7 +48,7 @@
 
                     <div class="search_bar">
                         <form action="/search" class="search-bar" method="post" onChange="submit()">
-                            <input class="search__input" list="Artists" display="none" type="text" name="search-artist" placeholder="Search">
+                            <input class="search_input" list="Artists" display="none" type="text" name="search-artist" placeholder="Search an artist">
                             <datalist id="Artists">
                                 {{range .ApiStruct.TabApiArtiste}} 
                                 <option value= "{{.Name}}">{{.CreationDate}} - {{.FirstAlbum}} - {{range .Members}} {{.}} {{end}}</option>
