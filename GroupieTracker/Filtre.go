@@ -70,9 +70,9 @@ func FLT(filters map[string][]string, ApiStruct *ApiStructure, ATS *TokenSpotify
 	if len(filters["Location"]) == len(ApiStruct.Filtres.CountryTab) {
 		ApiStruct.Filtres.CountryValue = "All"
 	}
-	// 	if filters["genres"][0] != "All" {
-	// 		FiltreArtsitSpotify(ApiStruct, ATS, filters)
-	// 	}
+	// if filters["genres"][0] != "All" {
+	// 	FiltreArtsitSpotify(ApiStruct, ATS, filters)
+	// }
 }
 
 func FLTCheck(filters map[string][]string, ApiStruct *ApiStructure) {
@@ -152,23 +152,6 @@ func CheckIfInTab(value string, TabValue []string) bool {
 	}
 	return false
 }
-
-// func TabGenres(ApiStruct *ApiStructure, ATS *TokenSpotify) {
-// 	ApiStruct.Filtres.GenresTab = []string{"All"}
-// 	for _, i := range ApiStruct.TabApiArtiste {
-// 		ApiSpotify := SpotifyStruct{}
-// 		name := NameNoSpace(i.Name)
-// 		body := Request(name, ATS)
-// 		json.Unmarshal(body, &ApiSpotify)
-// 		if len(ApiSpotify.Artists.Items) != 0 {
-// 			for _, k := range ApiSpotify.Artists.Items[0].Genres {
-// 				if !CheckIfInTab(k, ApiStruct.Filtres.GenresTab) {
-// 					ApiStruct.Filtres.GenresTab = append(ApiStruct.Filtres.GenresTab, k)
-// 				}
-// 			}
-// 		}
-// 	}
-// }
 
 func TabAppend(filters map[string][]string, ApiStruct *ApiStructure, i ApiArtiste) {
 	for _, k := range filters["art_date"] {

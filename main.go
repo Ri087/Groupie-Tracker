@@ -21,14 +21,15 @@ func MainStructureInit() *MainStructure {
 	var s = GroupieTracker.New("6b053d7dfcbe4c69a576561f8c098391", "d00791e8792a4f13bc1bb8b95197505d")
 	Main.Token = s.Authorize()
 	GroupieTracker.GetEveryId(Main.ApiStruct, Main.Token)
+	GroupieTracker.TabGenres(Main.ApiStruct, Main.Token)
 	return Main
 }
 
 func main() {
 	Main := MainStructureInit()
 	go GenerateSpotifyToken(Main)
-	// GroupieTracker.TabGenres(Main.ApiStruct, Main.Token)
-	// GroupieTracker.Top3(Main.ApiStruct, Main.Token)
+	go Routine(Main)
+
 	fileServer := http.FileServer(http.Dir("./static"))
 	http.Handle("/ressources/", http.StripPrefix("/ressources/", fileServer))
 
@@ -394,9 +395,16 @@ func main() {
 
 func GenerateSpotifyToken(Main *MainStructure) {
 	for {
-		time.Sleep(time.Duration(Main.Token.Expires_in) * time.Second)
+		time.Sleep(time.Duration(Main.Token.Expires_in/2) * time.Second)
 		var s = GroupieTracker.New("6b053d7dfcbe4c69a576561f8c098391", "d00791e8792a4f13bc1bb8b95197505d")
 		Main.Token = s.Authorize()
+	}
+}
+
+func Routine(Main *MainStructure) {
+	for {
+		time.Sleep(15 * time.Minute)
 		GroupieTracker.GetEveryId(Main.ApiStruct, Main.Token)
+		GroupieTracker.TabGenres(Main.ApiStruct, Main.Token)
 	}
 }
