@@ -199,11 +199,11 @@ func PageArtistSpotify(AllId map[int]string, ApiArtists ArtistsApiPageArtiste, i
 	return Artist
 }
 
-type GenreTop3 struct {
+type Genres struct {
 	Genres []string `json:"genres"`
 }
 
-func RequestInfoById(id string, ATS *TokenSpotify) GenreTop3 {
+func RequestGenresById(id string, ATS *TokenSpotify) Genres {
 	data := url.Values{}
 	base_url := "https://api.spotify.com/v1/artists/" + id
 	req, _ := http.NewRequest("GET", base_url, strings.NewReader(data.Encode()))
@@ -214,7 +214,7 @@ func RequestInfoById(id string, ATS *TokenSpotify) GenreTop3 {
 	response, _ := client.Do(req)
 	body, _ := ioutil.ReadAll(response.Body)
 
-	Info := GenreTop3{}
+	Info := Genres{}
 	json.Unmarshal(body, &Info)
 	return Info
 }
@@ -222,7 +222,7 @@ func RequestInfoById(id string, ATS *TokenSpotify) GenreTop3 {
 func TabGenres(ApiStruct *ApiStructure, ATS *TokenSpotify) {
 	GenresTab := []string{"All"}
 	for _, i := range ApiStruct.AllIdArtists {
-		Info := RequestInfoById(i, ATS)
+		Info := RequestGenresById(i, ATS)
 		for _, k := range Info.Genres {
 			if !CheckIfInTab(k, GenresTab) {
 				GenresTab = append(GenresTab, k)

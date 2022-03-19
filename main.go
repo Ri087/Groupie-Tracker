@@ -403,7 +403,7 @@ func GenerateSpotifyToken(Main *MainStructure) {
 
 func Routine(Main *MainStructure) {
 	for {
-		time.Sleep(15 * time.Minute)
+		time.Sleep(30 * time.Minute)
 		GroupieTracker.GetEveryId(Main.ApiStruct, Main.Token)
 		GroupieTracker.TabGenres(Main.ApiStruct, Main.Token)
 	}

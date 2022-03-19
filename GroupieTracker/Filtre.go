@@ -70,9 +70,17 @@ func FLT(filters map[string][]string, ApiStruct *ApiStructure, ATS *TokenSpotify
 	if len(filters["Location"]) == len(ApiStruct.Filtres.CountryTab) {
 		ApiStruct.Filtres.CountryValue = "All"
 	}
-	// if filters["genres"][0] != "All" {
-	// 	FiltreArtsitSpotify(ApiStruct, ATS, filters)
-	// }
+	ApiStruct.Filtres.GenresValue = filters["genres"][0]
+	if ApiStruct.Filtres.GenresValue != "All" {
+		TabArtists := ApiStruct.TabApiFiltre
+		ApiStruct.TabApiFiltre = []ApiArtiste{}
+		for _, i := range TabArtists {
+			Genres := RequestGenresById(ApiStruct.AllIdArtists[i.Id], ATS)
+			if CheckIfInTab(ApiStruct.Filtres.GenresValue, Genres.Genres) {
+				ApiStruct.TabApiFiltre = append(ApiStruct.TabApiFiltre, i)
+			}
+		}
+	}
 }
 
 func FLTCheck(filters map[string][]string, ApiStruct *ApiStructure) {
@@ -127,9 +135,6 @@ func FLTCheck(filters map[string][]string, ApiStruct *ApiStructure) {
 	if filters["Location"][0] != "All" {
 		ApiStruct.Filtres.CountryValue = filters["Location"][0]
 	}
-	// if filters["genres"][0] != "All" {
-	// 	ApiStruct.Filtres.GenresValue = filters["genres"][0]
-	// }
 }
 
 func TabCountry(ApiStruct *ApiStructure) {
