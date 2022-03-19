@@ -1,23 +1,40 @@
 <!DOCTYPE html>
 <head>
     <link rel="stylesheet" href="/ressources/css/profil.css"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel&display=swap" rel="stylesheet">
+
     <title>Profil</title>
 </head>
 <body>
-   {{if .AccStruct.ProfilParameters.Name.NameIsOk}}
-   <img src="{{.AccStruct.ProfilParameters.Profil.User.PP}}">
-   <br>
-   Changer profil picture
-   <form action="/pp" method="get">
-    <input type="text" name="image" id="image">
-    </form>
-   <img src="{{.AccStruct.ProfilParameters.Profil.User.Banner}}">
-   <br>
-   Changer banner
-   <form action="/banner" method="get">
-    <input type="text" name="image" id="image">
-    </form>
-    {{ .AccStruct.ProfilParameters.Profil.User.EntireName}}
+    {{if .AccStruct.ProfilParameters.Name.NameIsOk}}
+    <div class="main-page">
+        <div class="banner-div" style="background-image: url({{.AccStruct.ProfilParameters.Profil.User.Banner}});">
+            <img src="{{.AccStruct.ProfilParameters.Profil.User.PP}}" class="PP">
+            <button class="settings"><i class="material-icons">settings</i></button>
+        </div>
+        <div class="content">
+            <p class="name">{{ .AccStruct.ProfilParameters.Profil.User.EntireName}}</p>
+            <div class="content-name">
+
+                
+                <div class="liked-art">   
+                    Liste d'artistes liké
+                    {{range .AccStruct.ProfilParameters.Artists.Artists}}
+                    {{.Id}} {{.Name}} 
+                    <img src="{{.Image}}" class="liked-img">
+                </div>
+            <div class="right-part">
+                Changer profil picture
+                <form action="/pp" method="get">
+                    <input type="text" name="image" id="image">
+                </form>
+
+                <br>
+                Changer banner
+                <form action="/banner" method="get">
+                    <input type="text" name="image" id="image">
+</form>
     <br>
     Changer de pseudo
     <form action="/pseudo" method="get">
@@ -106,16 +123,22 @@
         {{end}}
     </form>
     <br>
-    Liste d'artistes liké
-    {{range .AccStruct.ProfilParameters.Artists.Artists}}
-    {{.Id}} {{.Name}}
     <br>
     {{end}}
+            </div>
+        </div>
+    </div>
+</div>
 
-   {{else}}
-   CHOISIR UN PSEUDO POSSEDANT UN HASHTAG (ex: CezGain 16G1)
-    <form action="/pseudo" method="get">
-        <input type="text" name="name" id="name">
+
+
+
+
+
+{{else}}
+CHOISIR UN PSEUDO POSSEDANT UN HASHTAG (ex: CezGain 16G1)
+<form action="/pseudo" method="get">
+    <input type="text" name="name" id="name">
         <input type="text" name="hashtag" id="hashtag">
         <input type="submit" value="Submit !">
     </form>
