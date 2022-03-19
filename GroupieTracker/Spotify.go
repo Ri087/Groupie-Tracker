@@ -104,6 +104,9 @@ func GetEveryId(ApiStruct *ApiStructure, ATS *TokenSpotify) {
 	for _, i := range ApiStruct.TabApiArtiste {
 		name := NameNoSpace(i.Name)
 		Id := RequestSearchId(name, ATS)
+		for len(Id.Artists.Items) != 0 {
+			Id = RequestSearchId(name, ATS)
+		}
 		AllIdArtists[i.Id] = Id.Artists.Items[0].ID
 		AllArtistsId[Id.Artists.Items[0].ID] = i.Id
 	}
@@ -177,6 +180,9 @@ type SpotifyTopTrack struct {
 func PageArtistSpotify(AllId map[int]string, ApiArtists ArtistsApiPageArtiste, id int, ATS *TokenSpotify) SpotifyPageArtiste {
 	ApiSpotify := RequestArtistById(AllId[id], ATS)
 	SpotTrack := RequestByIdTopTrack(AllId[id], ATS)
+	for len(SpotTrack.Tracks) != 0 {
+		SpotTrack = RequestByIdTopTrack(AllId[id], ATS)
+	}
 	LastFmApi := LastfmRequest(NameNoSpace(ApiArtists.Artists.Name))
 
 	Artist := SpotifyPageArtiste{
@@ -186,16 +192,12 @@ func PageArtistSpotify(AllId map[int]string, ApiArtists ArtistsApiPageArtiste, i
 		ApiHref:      ApiSpotify.Href,
 		Rank:         ApiSpotify.Popularity,
 		SpotifyHref:  ApiSpotify.Href,
+		TrackHref:    "https://open.spotify.com/embed/track/" + SpotTrack.Tracks[0].ID,
+		TrackName:    SpotTrack.Tracks[0].Name,
 		BioPublished: LastFmApi.Artist.Bio.Published,
 		ExtraitBio:   LastFmApi.Artist.Bio.Summary,
 		FullBio:      LastFmApi.Artist.Bio.Content,
 	}
-
-	if len(SpotTrack.Tracks) != 0 {
-		Artist.TrackName = SpotTrack.Tracks[0].Name
-		Artist.TrackHref = "https://open.spotify.com/embed/track/" + SpotTrack.Tracks[0].ID
-	}
-
 	return Artist
 }
 
@@ -231,6 +233,3 @@ func TabGenres(ApiStruct *ApiStructure, ATS *TokenSpotify) {
 	}
 	ApiStruct.Filtres.GenresTab = GenresTab
 }
-
-// ID         string   `json:"id"`
-// 	Popularity int      `json:"popularity"`

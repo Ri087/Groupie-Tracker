@@ -12,13 +12,23 @@ import (
 type ApiStructure struct {
 	TabApiArtiste          []ApiArtiste
 	TabApiArtisteLocations []ApiArtisteLocations
-	Top3                   []ArtistsApiPageArtiste
 	TabApiFiltre           []ApiArtiste
 	AllIdArtists           map[int]string
 	AllArtistsId           map[string]int
 	ContactApi             ApiContacts
 	Filtres                Filter
 	SpecificApiPageArtiste ArtistsApiPageArtiste
+	Top3Artists            [3]ApiTop3Artist
+}
+
+func ApiStructInit() *ApiStructure {
+	ApiStruct := &ApiStructure{}
+	ApiStruct.TabApiArtiste, ApiStruct.TabApiArtisteLocations = ApiArtistsArtiste()
+	ApiStruct.TabApiFiltre, _ = ApiArtistsArtiste()
+	ApiStruct.Filtres = Filter{}
+	FilterReset(ApiStruct)
+	ApiStruct.SpecificApiPageArtiste = ArtistsApiPageArtiste{}
+	return ApiStruct
 }
 
 func GetReadAll(ApiLink string) []byte {
@@ -127,12 +137,30 @@ func ApiArtistsPageArtiste(AllId map[int]string, id string, idint int, Token *To
 	return ApiArtists
 }
 
-func ApiStructInit() *ApiStructure {
-	ApiStruct := &ApiStructure{}
-	ApiStruct.TabApiArtiste, ApiStruct.TabApiArtisteLocations = ApiArtistsArtiste()
-	ApiStruct.TabApiFiltre, _ = ApiArtistsArtiste()
-	ApiStruct.Filtres = Filter{}
-	FilterReset(ApiStruct)
-	ApiStruct.SpecificApiPageArtiste = ArtistsApiPageArtiste{}
-	return ApiStruct
+// Top 3
+
+type ApiTop3Artist struct {
+	Info    ApiArtistInfo
+	Spotify SpotifyArtistInfo
+}
+
+type SpotifyArtistInfo struct {
+	Followers struct {
+		Total int `json:"total"`
+	} `json:"followers"`
+	ID         string `json:"id"`
+	Popularity int    `json:"popularity"`
+}
+
+type ApiArtistInfo struct {
+	Id    int
+	Image string
+	Name  string
+}
+
+func GenerateTop3Artists(ApiStruct *ApiStructure, ATS *TokenSpotify) {
+	// ApiStruct.AllIdArtists
+	for ind, id := range ApiStruct.AllIdArtists {
+		fmt.Println(ind, "", id)
+	}
 }
