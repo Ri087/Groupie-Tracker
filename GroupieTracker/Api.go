@@ -16,6 +16,7 @@ type ApiStructure struct {
 	TabApiFiltre           []ApiArtiste
 	AllIdArtists           map[int]string
 	AllArtistsId           map[string]int
+	ContactApi             ApiContacts
 	Filtres                Filter
 	SpecificApiPageArtiste ArtistsApiPageArtiste
 }

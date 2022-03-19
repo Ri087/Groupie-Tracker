@@ -3,9 +3,10 @@
 
 <body>
     <p>test</p>
-    {{range .A.ApiArtist}} {{range .Members}}
-    <p>{{.}}</p>
-    {{end}} {{end}}
+    {{range .ApiStruct.ContactApi.GroupieTracker}}
+    <p>{{.Name}}</p>
+    {{end}}
+    <p>test1</p>
 </body>
 
 </html>

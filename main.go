@@ -69,6 +69,7 @@ func main() {
 		templateshtml.ExecuteTemplate(w, "event.html", Main)
 	})
 	http.HandleFunc("/contact", func(w http.ResponseWriter, r *http.Request) {
+		Main.ApiStruct.ContactApi = *GroupieTracker.ApiContactRequest()
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
 		templateshtml.ExecuteTemplate(w, "contact.html", Main)
 	})
