@@ -19,10 +19,13 @@
 
                 
                 <div class="liked-art">   
-                    Liste d'artistes liké
-                    {{range .AccStruct.ProfilParameters.Artists.Artists}}
-                    {{.Id}} {{.Name}} 
-                    <img src="{{.Image}}" class="liked-img">
+                    <div class="art-liké">Liste d'artistes liké</div>
+                    <div class="liked-img-div">
+                        {{range .AccStruct.ProfilParameters.Artists.Artists}}
+                        <a href="/artiste/{{.Id}}" class="artist-a">
+                            <img class="liked-img" src="{{.Image}}">
+                        {{end}}
+                    </div>
                 </div>
             <div class="right-part">
                 Changer profil picture
@@ -124,7 +127,6 @@
     </form>
     <br>
     <br>
-    {{end}}
             </div>
         </div>
     </div>
