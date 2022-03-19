@@ -392,6 +392,6 @@ input[type="checkbox"]:checked + label:after {
     position: absolute;
     top: -1px;
     left: 1px;
-	color: #1DD05D;
+	color: pink;
 	transition:  .5s ease;
 }

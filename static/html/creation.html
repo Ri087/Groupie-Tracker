@@ -2,27 +2,56 @@
 
 <head>
     <link rel="stylesheet" href="/ressources/css/creation.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel&display=swap" rel="stylesheet">
+
     <title>Creation</title>
 </head>
 
 <body>
-    <div id="main-page">
-        <div id="flex-page">
-            <form action="/checkcreation" method="post">
-                <label for="text">Enter your email: </label>
-                <input type="text" name="mail" id="mail" maxlength="160">
-                <br>
-                <label for="password">Enter your password: </label>
-                <input type="password" name="pwd" id="pwd" maxlength="64">
-                <br>
-                <label for="password">Enter your password again: </label>
-                <input type="password" name="pwdc" id="pwdc" maxlength="64">
-                <br>
-                <input type="submit" value="Submit!">
-            </form>
+    <div class="main-page">
+        <a class="back-to-home" href="/">back to Home</a>
+
+        <div class="flex-page">
+            <div class="form">
+                <form action="/checkcreation" method="post">
+                    <div id="userentry">
+                        <div id="email">
+                            <input type="text" name="mail" id="mail" placeholder="Enter e-mail" maxlength="160"> {{if .AccStruct.Connection.Verification.Mail}}
+                            <p class="error">Mail inexistant</p>
+                            {{end}}
+                        </div>
+                        <br>
+                        <div id="password">
+                            <input type="password" name="pwd" id="pwd" placeholder="Enter password" maxlength="64"> {{if .AccStruct.Connection.Verification.Password}}
+                            <p class="error">Wrong password</p>
+                            {{end}}
+                        </div>
+                        <br>
+                        <div id="password">
+                            <input type="password" name="pwdc" id="pwdc" placeholder="Confirm password" maxlength="64"> {{if .AccStruct.Connection.Verification.Password}}
+                            <p class="error">Wrong password</p>
+                            {{end}}
+                        </div>
+                    </div>
+                    <br>
+                    <br>
+                    <div class="pipi">
+                        <p>Already have an account? <a href="/connection">Sign in</a></p>
+                        <p>{{if .AccStruct.Creation.Verification.Mail}} MAIL NUL {{else if .AccStruct.Creation.Verification.Password}} PASSWORD NUL {{else if .AccStruct.Creation.Verification.PasswordCheck}} PASSWORD CHECK NUL {{else if .AccStruct.Creation.Verification.AlreadyExist}} DEJA EXISTANT {{else}}{{end}}</p>
+                    </div>
+                    <br>
+                    <div id="submit">
+                        <label id="labelsubmit">
+                            <input type="submit" value="">
+                        </input>
+                        </label>
+                    </div>
+                </form>
+            </div>
             <br>
-            <p>Click <a href="/connection">here</a> if you already have an account.</p>
-            <p>{{if .AccStruct.Creation.Verification.Mail}} MAIL NUL {{else if .AccStruct.Creation.Verification.Password}} PASSWORD NUL {{else if .AccStruct.Creation.Verification.PasswordCheck}} PASSWORD CHECK NUL {{else if .AccStruct.Creation.Verification.AlreadyExist}} DEJA EXISTANT {{else}} YO {{end}}</p>
+            <div class="already-account">
+                <br>
+            </div>
         </div>
     </div>
 </body>
