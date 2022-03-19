@@ -22,6 +22,7 @@ func MainStructureInit() *MainStructure {
 	Main.Token = s.Authorize()
 	GroupieTracker.GetEveryId(Main.ApiStruct, Main.Token)
 	GroupieTracker.TabGenres(Main.ApiStruct, Main.Token)
+	GroupieTracker.GenerateTop3Artists(Main.ApiStruct, Main.Token)
 	return Main
 }
 
@@ -407,5 +408,6 @@ func Routine(Main *MainStructure) {
 		time.Sleep(30 * time.Minute)
 		GroupieTracker.GetEveryId(Main.ApiStruct, Main.Token)
 		GroupieTracker.TabGenres(Main.ApiStruct, Main.Token)
+		GroupieTracker.GenerateTop3Artists(Main.ApiStruct, Main.Token)
 	}
 }

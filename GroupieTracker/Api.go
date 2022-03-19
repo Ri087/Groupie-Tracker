@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 )
 
 type ApiStructure struct {
@@ -18,7 +19,7 @@ type ApiStructure struct {
 	ContactApi             ApiContacts
 	Filtres                Filter
 	SpecificApiPageArtiste ArtistsApiPageArtiste
-	Top3Artists            [3]ApiTop3Artist
+	Top3Artists            [3]ApiTop3Artists
 }
 
 func ApiStructInit() *ApiStructure {
@@ -139,7 +140,7 @@ func ApiArtistsPageArtiste(AllId map[int]string, id string, idint int, Token *To
 
 // Top 3
 
-type ApiTop3Artist struct {
+type ApiTop3Artists struct {
 	Info    ApiArtistInfo
 	Spotify SpotifyArtistInfo
 }
@@ -148,8 +149,7 @@ type SpotifyArtistInfo struct {
 	Followers struct {
 		Total int `json:"total"`
 	} `json:"followers"`
-	ID         string `json:"id"`
-	Popularity int    `json:"popularity"`
+	ID string `json:"id"`
 }
 
 type ApiArtistInfo struct {
@@ -159,8 +159,42 @@ type ApiArtistInfo struct {
 }
 
 func GenerateTop3Artists(ApiStruct *ApiStructure, ATS *TokenSpotify) {
-	// ApiStruct.AllIdArtists
-	for ind, id := range ApiStruct.AllIdArtists {
-		fmt.Println(ind, "", id)
+	SpotInfoTab := []SpotifyArtistInfo{}
+	for _, k := range ApiStruct.AllIdArtists {
+		SpotInfo := SpotifyArtistInfo{}
+		for SpotInfo.ID == "" {
+			json.Unmarshal(RequestArtistById(k, ATS), &SpotInfo)
+		}
+		SpotInfoTab = append(SpotInfoTab, SpotInfo)
 	}
+	Top3Temp := [len(ApiStruct.Top3Artists)]ApiTop3Artists{}
+	for i := 0; i < len(ApiStruct.Top3Artists); i++ {
+		SpotInfo := SpotifyArtistInfo{
+			Followers: struct {
+				Total int "json:\"total\""
+			}{Total: 0},
+		}
+		for _, k := range SpotInfoTab {
+			if k.Followers.Total > SpotInfo.Followers.Total {
+				if !CheckArtistInTabArtists(Top3Temp, k) {
+					SpotInfo = k
+				}
+			}
+		}
+		ArtistInfo := ApiArtistInfo{}
+		id := strconv.Itoa(ApiStruct.AllArtistsId[SpotInfo.ID])
+		json.Unmarshal(GetReadAll(LinkApi()["artists"]+"/"+id), &ArtistInfo)
+		Top3Temp[i].Info = ArtistInfo
+		Top3Temp[i].Spotify = SpotInfo
+	}
+	ApiStruct.Top3Artists = Top3Temp
+}
+
+func CheckArtistInTabArtists(Top3Temp [3]ApiTop3Artists, k SpotifyArtistInfo) bool {
+	for _, l := range Top3Temp {
+		if l.Spotify == k {
+			return true
+		}
+	}
+	return false
 }

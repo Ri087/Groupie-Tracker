@@ -114,7 +114,7 @@ func GetEveryId(ApiStruct *ApiStructure, ATS *TokenSpotify) {
 	ApiStruct.AllArtistsId = AllArtistsId
 }
 
-func RequestArtistById(id string, ATS *TokenSpotify) SpotifyStruct {
+func RequestArtistById(id string, ATS *TokenSpotify) []byte {
 	data := url.Values{}
 	base_url := "https://api.spotify.com/v1/artists/" + id
 	req, _ := http.NewRequest("GET", base_url, strings.NewReader(data.Encode()))
@@ -125,9 +125,7 @@ func RequestArtistById(id string, ATS *TokenSpotify) SpotifyStruct {
 	response, _ := client.Do(req)
 	body, _ := ioutil.ReadAll(response.Body)
 
-	ApiSpotify := SpotifyStruct{}
-	json.Unmarshal(body, &ApiSpotify)
-	return ApiSpotify
+	return body
 }
 
 func RequestByIdTopTrack(id string, ATS *TokenSpotify) SpotifyTopTrack {
@@ -178,7 +176,8 @@ type SpotifyTopTrack struct {
 }
 
 func PageArtistSpotify(AllId map[int]string, ApiArtists ArtistsApiPageArtiste, id int, ATS *TokenSpotify) SpotifyPageArtiste {
-	ApiSpotify := RequestArtistById(AllId[id], ATS)
+	ApiSpotify := SpotifyStruct{}
+	json.Unmarshal(RequestArtistById(AllId[id], ATS), &ApiSpotify)
 	SpotTrack := RequestByIdTopTrack(AllId[id], ATS)
 	for len(SpotTrack.Tracks) == 0 {
 		SpotTrack = RequestByIdTopTrack(AllId[id], ATS)
