@@ -1,6 +1,7 @@
 *{
     margin: 0;
     padding: 0;
+    font-family: 'Cinzel';
 }
 
 .main-page{
@@ -8,18 +9,49 @@
     background-color: #232323;
     color: white;
     font-family: 'Cinzel';
+    -webkit-box-shadow: 12px 29px 81px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 12px 29px 81px 0px rgba(0,0,0,0.75);
+    box-shadow: 12px 29px 81px 0px rgba(0,0,0,0.75);
 }
 
 .banner-div{
     height: 300px;
-    border-bottom: 4px solid grey;
     /* Create the parallax scrolling effect */
-    /* background-attachment: fixed; */
+    background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+border-bottom: 0.5px solid white;
+
+
 }
 
+.back-to-home{
+    margin-top: 40px;
+    margin:20px ;
+    font-size:18px ;
+    color: white;
+    text-decoration: underline 0.15em rgba(0, 0, 0, 0);
+    text-underline-offset: 0.4em;
+ }
+
+ .back-to-home:hover{
+    text-decoration-color: white;
+    text-underline-offset: 0.4em;
+    transition:0.4s;
+
+ }
+
+ .friend-pp{
+     border-radius: 100%;
+     height: 80px;
+ }
+
+ .friend-div{
+     display: flex;
+     align-items: center;
+     border: 4px solid yellow;
+ }
 .banner-div .banner {
     width: 100%;
     
@@ -34,7 +66,9 @@
     top:200px;
     left:calc(50% - 100px);
     border-radius: 100%;
-    border: 2px solid grey;
+-webkit-box-shadow: 12px 29px 81px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 12px 29px 81px 0px rgba(0,0,0,0.75);
+box-shadow: 12px 29px 81px 0px rgba(0,0,0,0.75);
 }
 
 .material-icons{
