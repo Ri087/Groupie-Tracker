@@ -85,6 +85,20 @@
                                 <div class="i">
                                     <div class="name-filtre-element">
                                         <br>
+                                        <h2>GENRES</h2>
+                                    </div>
+                                    <div class="input-div">
+                                        <select name="genres" id="pet-select">
+                                            <option value="{{.ApiStruct.Filtres.GenresValue}}" selected>{{.ApiStruct.Filtres.GenresValue}}</option>
+                                        {{range .ApiStruct.Filtres.GenresTab}}
+                                        <option value="{{.}}">{{.}}</option>
+                                        {{end}}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="i">
+                                    <div class="name-filtre-element">
+                                        <br>
                                         <h2 class="title-info">MEMBRES</h2>
                                         <br>
                                     </div>
