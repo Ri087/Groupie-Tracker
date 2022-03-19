@@ -2,27 +2,36 @@
 
 <head>
     <link rel="stylesheet" href="/ressources/css/creation.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel&display=swap" rel="stylesheet">
+
     <title>Creation</title>
 </head>
 
 <body>
-    <div id="main-page">
-        <div id="flex-page">
-            <form action="/checkcreation" method="post">
-                <label for="text">Enter your email: </label>
-                <input type="text" name="mail" id="mail" maxlength="160">
-                <br>
-                <label for="password">Enter your password: </label>
-                <input type="password" name="pwd" id="pwd" maxlength="64">
-                <br>
-                <label for="password">Enter your password again: </label>
-                <input type="password" name="pwdc" id="pwdc" maxlength="64">
-                <br>
-                <input type="submit" value="Submit!">
-            </form>
+    <div class="main-page">
+        <div class="flex-page">
+            <div class="form">
+                <form action="/checkcreation" method="post">
+                    <label for="text">Enter your email: </label>
+                    <br>
+                    <input type="text" name="mail" id="mail" maxlength="160">
+                    <br>
+                    <label for="password">Enter your password: </label>
+                    <br>
+                    <input type="password" name="pwd" id="pwd" maxlength="64">
+                    <br>
+                    <label for="password">Enter your password again: </label>
+                    <br>
+                    <input type="password" name="pwdc" id="pwdc" maxlength="64">
+                    <br>
+                    <input type="submit" value="Submit!">
+                </form>
+            </div>
             <br>
-            <p>Click <a href="/connection">here</a> if you already have an account.</p>
-            <p>{{if .AccStruct.Creation.Verification.Mail}} MAIL NUL {{else if .AccStruct.Creation.Verification.Password}} PASSWORD NUL {{else if .AccStruct.Creation.Verification.PasswordCheck}} PASSWORD CHECK NUL {{else if .AccStruct.Creation.Verification.AlreadyExist}} DEJA EXISTANT {{else}} YO {{end}}</p>
+            <div class="already-account">
+                <p>Click <a href="/connection">here</a> if you already have an account.</p>
+                <p>{{if .AccStruct.Creation.Verification.Mail}} MAIL NUL {{else if .AccStruct.Creation.Verification.Password}} PASSWORD NUL {{else if .AccStruct.Creation.Verification.PasswordCheck}} PASSWORD CHECK NUL {{else if .AccStruct.Creation.Verification.AlreadyExist}} DEJA EXISTANT {{else}}{{end}}</p>
+            </div>
         </div>
     </div>
 </body>

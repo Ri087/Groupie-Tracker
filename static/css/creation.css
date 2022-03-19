@@ -1,20 +1,37 @@
 * {
     margin: 0;
     padding: 0;
+    color:white;
+    font-family: 'Cinzel';
 }
 
-#main-page {
+.main-page {
     display: flex;
     height: 100vh;
     width: 100%;
-    background-color: red;
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    background-image: url("/ressources/img/GROUPIE_TRACKER_5.png");
+    background-position: left -50px bottom -100px;
+    background-size: 105%;
 }
 
-#flex-page {
+.flex-page {
     display: flex;
-    height: 100%;
-    width: 100%;
-    background-image: url("/ressources/img/background-connexion.png");
-    background-position: center;
-    background-size: cover;
+    height: 100vh;
+    width: 40%;
+    border: 4px solid purple;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column  ;
+}
+
+.form{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#mail::placeholder{
+    color: white;
 }

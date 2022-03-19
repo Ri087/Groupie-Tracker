@@ -11,7 +11,7 @@
     <div class="main-page">
         <div class="banner-div" style="background-image: url({{.AccStruct.ProfilParameters.Profil.User.Banner}});">
             <img src="{{.AccStruct.ProfilParameters.Profil.User.PP}}" class="PP">
-            <button class="settings"><i class="material-icons">settings</i></button>
+            <!-- <button class="settings"><i class="material-icons">settings</i></button> -->
         </div>
         <div class="content">
             <p class="name">{{ .AccStruct.ProfilParameters.Profil.User.EntireName}}</p>
@@ -24,6 +24,7 @@
                         {{range .AccStruct.ProfilParameters.Artists.Artists}}
                         <a href="/artiste/{{.Id}}" class="artist-a">
                             <img class="liked-img" src="{{.Image}}">
+                        </a>
                         {{end}}
                     </div>
                 </div>
