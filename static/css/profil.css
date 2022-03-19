@@ -1,0 +1,129 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.main-page{
+    width: 100%;
+    background-color: #232323;
+    color: white;
+    font-family: 'Cinzel';
+}
+
+.banner-div{
+    height: 300px;
+    border-bottom: 4px solid grey;
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.banner-div .banner {
+    width: 100%;
+    
+}
+
+
+.PP{
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    z-index:1;
+    top:200px;
+    left:calc(50% - 100px);
+    border-radius: 100%;
+    border: 2px solid grey;
+}
+
+.material-icons{
+    width: 100%;
+}
+
+.settings{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: grey;
+    color: white;
+    border: 4px solid black;
+    cursor:pointer;
+    z-index: 1;
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    top:220px;
+    left:calc(50% + 60px);
+}
+
+.content{
+    /* border:4px solid red; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 100px;
+    height: 100vh;
+}
+
+.content .name{
+    font-size: 48px;
+    font-weight: bold;
+}
+
+.content-name{
+    display: flex;
+    flex-direction: row;
+    /* border: 4px solid blue; */
+    width: 100%;
+    height: 80%;
+}
+
+.liked-art{
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    margin-left: 10px;
+    border-right: 0.5px solid grey;
+    
+}
+
+.liked-img-div{
+    gap:10px;
+}
+
+.art-liké{
+    display: flex;
+    justify-content: center;
+    font-size: 32px;
+    text-decoration: underline;
+    text-underline-offset: 10px;
+    height: 10%;
+}
+
+.right-part{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 60%;
+}
+
+.liked-img{
+    width:150px;
+    border-radius: 100%;
+    margin:15px;
+    transition:0.4s ;
+}
+
+.artist-a{
+    cursor: pointer;
+}
+
+.artist-a:hover .liked-img{
+    transform: scale(1.2);
+    -webkit-box-shadow: 0px 0px 15px 0.5px grey; 
+    box-shadow: 0px 0px 15px 0.5px grey;
+}
