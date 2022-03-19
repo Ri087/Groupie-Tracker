@@ -12,9 +12,10 @@ import (
 type ApiStructure struct {
 	TabApiArtiste          []ApiArtiste
 	TabApiArtisteLocations []ApiArtisteLocations
-	Top3                   []ApiArtiste
+	Top3                   []ArtistsApiPageArtiste
 	TabApiFiltre           []ApiArtiste
 	AllIdArtists           map[int]string
+	AllArtistsId           map[string]int
 	Filtres                Filter
 	SpecificApiPageArtiste ArtistsApiPageArtiste
 }
