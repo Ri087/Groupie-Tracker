@@ -104,7 +104,7 @@ func GetEveryId(ApiStruct *ApiStructure, ATS *TokenSpotify) {
 	for _, i := range ApiStruct.TabApiArtiste {
 		name := NameNoSpace(i.Name)
 		Id := RequestSearchId(name, ATS)
-		for len(Id.Artists.Items) != 0 {
+		for len(Id.Artists.Items) == 0 {
 			Id = RequestSearchId(name, ATS)
 		}
 		AllIdArtists[i.Id] = Id.Artists.Items[0].ID
@@ -180,7 +180,7 @@ type SpotifyTopTrack struct {
 func PageArtistSpotify(AllId map[int]string, ApiArtists ArtistsApiPageArtiste, id int, ATS *TokenSpotify) SpotifyPageArtiste {
 	ApiSpotify := RequestArtistById(AllId[id], ATS)
 	SpotTrack := RequestByIdTopTrack(AllId[id], ATS)
-	for len(SpotTrack.Tracks) != 0 {
+	for len(SpotTrack.Tracks) == 0 {
 		SpotTrack = RequestByIdTopTrack(AllId[id], ATS)
 	}
 	LastFmApi := LastfmRequest(NameNoSpace(ApiArtists.Artists.Name))
