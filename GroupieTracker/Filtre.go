@@ -1,7 +1,6 @@
 package GroupieTracker
 
 import (
-	"encoding/json"
 	"net/http"
 	"strconv"
 	"strings"
@@ -154,22 +153,22 @@ func CheckIfInTab(value string, TabValue []string) bool {
 	return false
 }
 
-func TabGenres(ApiStruct *ApiStructure, ATS *TokenSpotify) {
-	ApiStruct.Filtres.GenresTab = []string{"All"}
-	for _, i := range ApiStruct.TabApiArtiste {
-		ApiSpotify := SpotifyStruct{}
-		name := NameNoSpace(i.Name)
-		body := Request(name, ATS)
-		json.Unmarshal(body, &ApiSpotify)
-		if len(ApiSpotify.Artists.Items) != 0 {
-			for _, k := range ApiSpotify.Artists.Items[0].Genres {
-				if !CheckIfInTab(k, ApiStruct.Filtres.GenresTab) {
-					ApiStruct.Filtres.GenresTab = append(ApiStruct.Filtres.GenresTab, k)
-				}
-			}
-		}
-	}
-}
+// func TabGenres(ApiStruct *ApiStructure, ATS *TokenSpotify) {
+// 	ApiStruct.Filtres.GenresTab = []string{"All"}
+// 	for _, i := range ApiStruct.TabApiArtiste {
+// 		ApiSpotify := SpotifyStruct{}
+// 		name := NameNoSpace(i.Name)
+// 		body := Request(name, ATS)
+// 		json.Unmarshal(body, &ApiSpotify)
+// 		if len(ApiSpotify.Artists.Items) != 0 {
+// 			for _, k := range ApiSpotify.Artists.Items[0].Genres {
+// 				if !CheckIfInTab(k, ApiStruct.Filtres.GenresTab) {
+// 					ApiStruct.Filtres.GenresTab = append(ApiStruct.Filtres.GenresTab, k)
+// 				}
+// 			}
+// 		}
+// 	}
+// }
 
 func TabAppend(filters map[string][]string, ApiStruct *ApiStructure, i ApiArtiste) {
 	for _, k := range filters["art_date"] {

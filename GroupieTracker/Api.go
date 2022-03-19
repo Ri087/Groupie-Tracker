@@ -14,6 +14,7 @@ type ApiStructure struct {
 	TabApiArtisteLocations []ApiArtisteLocations
 	Top3                   []ApiArtiste
 	TabApiFiltre           []ApiArtiste
+	AllIdArtists           map[int]string
 	Filtres                Filter
 	SpecificApiPageArtiste ArtistsApiPageArtiste
 }
@@ -113,13 +114,13 @@ type ApiPageArtisteRelations struct {
 	DatesLocations map[string][]string
 }
 
-func ApiArtistsPageArtiste(id string, Token *TokenSpotify) ArtistsApiPageArtiste {
+func ApiArtistsPageArtiste(AllId map[int]string, id string, idint int, Token *TokenSpotify) ArtistsApiPageArtiste {
 	ApiArtists := ArtistsApiPageArtiste{}
 	json.Unmarshal(GetReadAll(LinkApi()["artists"]+"/"+id), &ApiArtists.Artists)
 	json.Unmarshal(GetReadAll(ApiArtists.Artists.Locations), &ApiArtists.Locations)
 	json.Unmarshal(GetReadAll(ApiArtists.Artists.ConcertDates), &ApiArtists.Dates)
 	json.Unmarshal(GetReadAll(ApiArtists.Artists.Relations), &ApiArtists.Relations)
-	ApiArtists.Spotify = *PageArtistSpotify(ApiArtists.Artists.Name, Token)
+	ApiArtists.Spotify = PageArtistSpotify(AllId, ApiArtists, idint, Token)
 
 	return ApiArtists
 }
