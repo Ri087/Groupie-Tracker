@@ -18,7 +18,7 @@ type ApiContacts struct {
 
 func ApiContactRequest() *ApiContacts {
 	contact := ApiContacts{}
-	url := "https://pacific-plains-95254.herokuapp.com/"
+	url := "https://cezgindustries-api-contact.herokuapp.com/"
 	json.Unmarshal(GetReadAll(url), &contact)
 	fmt.Println(contact.GroupieTracker[0].Name)
 	return &contact
