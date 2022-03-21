@@ -187,6 +187,7 @@ img {
     width: 100%;
     text-decoration: underline;
     justify-content: center;
+    margin-bottom: 1%;
 }
 
 .location {
@@ -194,16 +195,33 @@ img {
     height: 10%;
     width: 100%;
     justify-content: center;
+    margin-bottom: 1%;
 }
 
 .post {
     display: flex;
-    height: 20%;
+    height: 10%;
     width: 100%;
     justify-content: center;
+    margin-bottom: 1%;
 }
 
 .contact {
     display: flex;
     justify-content: center;
+}
+
+.competences {
+    display: flex;
+    height: auto;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-bottom: 6%;
+}
+
+.competences-p {}
+
+.competences-p-range {
+    font-size: 60%;
 }

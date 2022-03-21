@@ -19,7 +19,11 @@
                     <li><a class="a" href="#second-page">ARTISTE</a></li>
                     <li><a class="a" href="#third-page">EVENT</a></li>
                     <li><a class="a" href="/contact">CONTACT</a></li>
+                    {{if .AccStruct.ProfilParameters.Connected}}
+                    <li><a class="a" href="/connection">PROFIL</a></li>
+                    {{else}}
                     <li><a class="a" href="/connection">CONNECTION</a></li>
+                    {{end}}
                 </ul>
             </div>
         </div>
@@ -45,7 +49,6 @@
                     {{end}}
                 </div>
                 <div class="s-bot">
-
                     <div class="search_bar">
                         <form action="/search" class="search-bar" method="post" onChange="submit()">
                             <input class="search_input" list="Artists" display="none" type="text" name="search-artist" placeholder="Search an artist">

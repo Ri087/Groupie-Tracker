@@ -185,40 +185,115 @@
 
 .choose_name {
     display: flex;
-    flex-direction: column;
     height: 100vh;
     width: 100%;
+    flex-direction: column;
     background-color: #232323;
 }
 
 .choose_name-div {
     display: flex;
-    height: 30%;
-    width: 100%;
-    justify-content: center;
     align-items: flex-end;
-    background-color: red;
+    justify-content: center;
+    height: 20%;
+    width: 100%;
 }
 
 .choose_name-p {
-    font-size: 300%;
+    font-size: 250%;
     color: white;
 }
 
 .choose_name-div2 {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    height: 70%;
-    width: 100%;
-    background-color: blue;
+    justify-content: center;
 }
 
-.choose_name-form {
+form {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
-    padding: 100px;
-    height: 70%;
+    margin-top: 5%;
     width: 60%;
+    height: 60%;
+}
+
+.divName {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.usrname {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.Tmdp {
+    display: flex;
+    margin-top: 5%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.button-crea-co {
+    border: 1px solid white;
+}
+
+.button-crea-co:hover {
+    box-shadow: black 5px 5px 5px;
+    background-color: transparent;
+    border: 1px solid #4FC0E8;
+    color: white;
+}
+
+#sub {
+    border: none;
+}
+
+#sub:hover {
+    border: 1px solid #4FC0E8;
+    background-color: transparent;
+}
+
+.divSubmit {
+    margin-top: 10%;
+    background-color: rgba(0, 0, 0, 0.3);
+    display: flex;
+    transition: 600ms;
+    border: none;
+    border: none;
+}
+
+input {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    padding: 10px 10px 10px 5px;
+    display: block;
+    width: 300px;
+    border: none;
+    border-bottom: 1px solid white;
+    transition: 600ms;
+    background-color: transparent;
+    color: white;
+}
+
+input:focus {
+    background: yellowgreen;
+    background-color: transparent;
+    outline: none;
+}
+
+label {
+    color: white;
+    margin-bottom: 3%;
 }

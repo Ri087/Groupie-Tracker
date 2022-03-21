@@ -61,6 +61,14 @@
                     <div class="post">
                         {{.Mail}}
                     </div>
+                    <div class="competences">
+                        <p class="competences-p">Competences :</p>
+
+                        {{range .Competences}}
+                        <li class="competences-p-range">{{.}}
+                        </li>{{end}}
+
+                    </div>
                     <div class="contact">
                         <a href="mailto:{{.Mail}}">contact</a>
                     </div>

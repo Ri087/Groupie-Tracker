@@ -2,7 +2,6 @@ package GroupieTracker
 
 import (
 	"encoding/json"
-	"fmt"
 )
 
 type ApiContacts struct {
@@ -22,7 +21,6 @@ func ApiContactRequest() *ApiContacts {
 	contact := ApiContacts{}
 	url := "https://cezgindustries-api-contact.herokuapp.com/"
 	json.Unmarshal(GetReadAll(url), &contact)
-	fmt.Println(contact.GroupieTracker[0].Name)
 	return &contact
 
 }

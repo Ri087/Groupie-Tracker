@@ -39,6 +39,7 @@ func AccountStructureInit() *AccountStruct {
 	FriendsParametersReset(AccStruct)
 	NameParametersReset(AccStruct)
 	ArtistsProfilReset(AccStruct)
+	AccStruct.ProfilParameters.Connected = false
 	return AccStruct
 }
 
@@ -346,11 +347,12 @@ func SetAuthentificationToken(w http.ResponseWriter, AccStruct *AccountStruct) {
 // Profil Account
 
 type EveryProfilParameters struct {
-	Profil  ProfilAccount
-	Friends FriendsParameters
-	Name    NameParameters
-	Visit   ProfilVisit
-	Artists ArtistsProfil
+	Profil    ProfilAccount
+	Friends   FriendsParameters
+	Name      NameParameters
+	Visit     ProfilVisit
+	Artists   ArtistsProfil
+	Connected bool
 }
 
 type ProfilAccount struct {
