@@ -3,6 +3,7 @@ package main
 import (
 	"GroupieTracker/GroupieTracker"
 	"net/http"
+	"os"
 	"strconv"
 	"text/template"
 	"time"
@@ -392,7 +393,11 @@ func main() {
 		http.Redirect(w, r, "/profil", http.StatusFound)
 	})
 
-	http.ListenAndServe(":8080", nil)
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+	http.ListenAndServe(":"+port, nil)
 }
 
 func GenerateSpotifyToken(Main *MainStructure) {
