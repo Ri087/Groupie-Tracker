@@ -1,0 +1,10 @@
+<div class="FD">
+    Liste d'amis
+    {{range .AccStruct.ProfilParameters.Friends.Friends}}
+    <div class="friend-div">
+        <img src="{{.Profil.PP}}" class="friend-pp">
+        <a href="/profil/{{.Id}}" style="color:white">{{.Profil.EntireName}}</a>
+        <a href="/deletefriend" style="font-weight:bold; color:red; text-decoration: none;">X</a>
+    </div>
+    {{end}}
+</div>

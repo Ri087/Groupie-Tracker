@@ -1,11 +1,13 @@
 <!DOCTYPE html>
+
 <head>
-    <link rel="stylesheet" href="/ressources/css/profil.css"/>
+    <link rel="stylesheet" href="/ressources/css/profil.css" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel&display=swap" rel="stylesheet">
 
     <title>Profil</title>
 </head>
+
 <body>
     {{if .AccStruct.ProfilParameters.Name.NameIsOk}}
     <div class="main-page">
@@ -19,8 +21,8 @@
             <p class="name">{{ .AccStruct.ProfilParameters.Profil.User.EntireName}}</p>
             <div class="content-name">
 
-                
-                <div class="liked-art">   
+
+                <div class="liked-art">
                     <div class="art-liké">Liste d'artistes liké</div>
                     <div class="liked-img-div">
                         {{range .AccStruct.ProfilParameters.Artists.Artists}}
@@ -30,31 +32,31 @@
                         {{end}}
                     </div>
                 </div>
-    <div class="RP">
-        <div class="setting">
-                Change profile picture
-                <form action="/pp" method="get">
-                    <input type="text" name="image" id="image" placeholder="Enter url of image">
-                </form>
-
-                <br>
-                Change banner
-                <form action="/banner" method="get">
-                    <input type="text" name="image" id="image" placeholder="Enter url of image">
-        </form>
-        <br>
-            Change Pseudo
-            <form action="/pseudo" method="get">
-                <input type="text" name="name" id="name" placeholder="select a name">
-                <input type="text" name="hashtag" id="hashtag" placeholder="enter your code">
-                <input type="submit" value="Submit !">
+                <div class="RP">
+                    <div class="setting">
+                        Change profile picture
+                        <form action="/pp" method="get">
+                            <input type="text" name="image" id="image" placeholder="Enter url of image">
+                        </form>
+                        
+                        <br>
+                        Change banner
+                        <form action="/banner" method="get">
+                            <input type="text" name="image" id="image" placeholder="Enter url of image">
+                        </form>
+                        <br>
+                        Change Pseudo
+                        <form action="/pseudo" method="get">
+                            <input type="text" name="name" id="name" placeholder="select a name">
+                            <input type="text" name="hashtag" id="hashtag" placeholder="enter your code">
+                            <input type="submit" value="Submit !">
             </form>
             {{if .AccStruct.ProfilParameters.Name.AlreadyExist}}
-            EXISTE DEJA
+            <p style="color:red">EXISTE DEJA</p>
             {{else if .AccStruct.ProfilParameters.Name.LengthNameInf}}
-            NOM TROP COURT
+            <p style="color:red">NOM TROP COURT</p>
             {{else if .AccStruct.ProfilParameters.Name.LengthNameSup}}
-            NOM TROP LONG
+            <p style="color:red">NOM TROP LONG</p>
             {{else if .AccStruct.ProfilParameters.Name.LengthNumbers}}
             4 Chiffres / Lettres nécessaire pour le hashtag
             {{end}}
@@ -65,7 +67,7 @@
                 <input type="submit" value="Submit !">
             </form>
             {{if .AccStruct.ProfilParameters.Friends.NotExist}}
-            Il existe pas
+            <p style="color:red">Il existe pas</p>
             {{else if .AccStruct.ProfilParameters.Friends.AlreadyHave}}
             Tu l'as déjà
             {{else if .AccStruct.ProfilParameters.Friends.ThatsU}}
@@ -126,7 +128,10 @@
             {{range .AccStruct.ProfilParameters.Friends.Friends}}
             <div class="friend-div">
                 <img src="{{.Profil.PP}}" class="friend-pp">
-                <a href="/profil/{{.Id}}" style="color:white">{{.Profil.EntireName}}</a>
+                <div class="FI">
+                    <a href="/profil/{{.Id}}" style="color:white">{{.Profil.EntireName}}</a>
+                    <a href="/deletefriend" style="font-weight:bold; color:red; text-decoration: none;">X</a>
+                </div>
             </div>
             {{end}}
         </div>
@@ -136,28 +141,29 @@
             </div>
         </div>
     </div>
-</div>
 
 
 
 
 
 
-{{else}}
-CHOISIR UN PSEUDO POSSEDANT UN HASHTAG (ex: CezGain 16G1)
-<form action="/pseudo" method="get">
-    <input type="text" name="name" id="name">
-        <input type="text" name="hashtag" id="hashtag">
-        <input type="submit" value="Submit !">
-    </form>
-    {{if .AccStruct.ProfilParameters.Name.AlreadyExist}}
-    EXIST DEJA
-    {{else if .AccStruct.ProfilParameters.Name.LengthNameInf}}
-    NOM TROP COURT
-    {{else if .AccStruct.ProfilParameters.Name.LengthNameSup}}
-    NOM TROP LONG
-    {{else if .AccStruct.ProfilParameters.Name.LengthNumbers}}
-    4 Chiffres / Lettres nécessaire pour le hashtag
-    {{end}}
-   {{end}}
+    {{else}}
+    <div class="choose_name">
+        <div class="choose_name-div">
+            <p class="choose_name-p">Choose name </p>
+        </div>
+        <div class="choose_name-div2">
+            CHOISIR UN PSEUDO POSSEDANT UN HASHTAG (ex: CezGain 16G1)
+            <form class="choose_name-form" action="/pseudo" method="get">
+                <input type="text" name="name" id="name">
+                <input type="text" name="hashtag" id="hashtag">
+                <input type="submit" value="Submit !">
+
+
+            </form>
+            {{if .AccStruct.ProfilParameters.Name.AlreadyExist}} EXIST DEJA {{else if .AccStruct.ProfilParameters.Name.LengthNameInf}} NOM TROP COURT {{else if .AccStruct.ProfilParameters.Name.LengthNameSup}} NOM TROP LONG {{else if .AccStruct.ProfilParameters.Name.LengthNumbers}}
+            4 Chiffres / Lettres nécessaire pour le hashtag {{end}} {{end}}
+        </div>
+    </div>
+
 </body>

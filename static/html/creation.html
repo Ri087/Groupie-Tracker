@@ -31,13 +31,13 @@
                             <input type="password" name="pwdc" id="pwdc" placeholder="Confirm password" maxlength="64"> {{if .AccStruct.Connection.Verification.Password}}
                             <p class="error">Wrong password</p>
                             {{end}}
+                            <p style="margin-top:10px; color: red;">{{if .AccStruct.Creation.Verification.Mail}} MAIL NOT ACCEPTED OR ALREADY USED  {{else if .AccStruct.Creation.Verification.Password}} PASSWORD MUST CONTAIN 6 CHARACTERS {{else if .AccStruct.Creation.Verification.PasswordCheck}} PASSWORD CONFIRMATION INCORRECT {{else if .AccStruct.Creation.Verification.AlreadyExist}} DEJA EXISTANT {{else}}{{end}}</p>
                         </div>
                     </div>
                     <br>
                     <br>
                     <div class="pipi">
                         <p>Already have an account? <a href="/connection">Sign in</a></p>
-                        <p>{{if .AccStruct.Creation.Verification.Mail}} MAIL NUL {{else if .AccStruct.Creation.Verification.Password}} PASSWORD NUL {{else if .AccStruct.Creation.Verification.PasswordCheck}} PASSWORD CHECK NUL {{else if .AccStruct.Creation.Verification.AlreadyExist}} DEJA EXISTANT {{else}}{{end}}</p>
                     </div>
                     <br>
                     <div id="submit">

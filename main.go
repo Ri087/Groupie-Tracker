@@ -3,6 +3,7 @@ package main
 import (
 	"GroupieTracker/GroupieTracker"
 	"net/http"
+	"os"
 	"strconv"
 	"text/template"
 	"time"
@@ -22,6 +23,7 @@ func MainStructureInit() *MainStructure {
 	Main.Token = s.Authorize()
 	GroupieTracker.GetEveryId(Main.ApiStruct, Main.Token)
 	GroupieTracker.TabGenres(Main.ApiStruct, Main.Token)
+	GroupieTracker.GenerateTop3Artists(Main.ApiStruct, Main.Token)
 	return Main
 }
 
@@ -391,7 +393,11 @@ func main() {
 		http.Redirect(w, r, "/profil", http.StatusFound)
 	})
 
-	http.ListenAndServe(":8080", nil)
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+	http.ListenAndServe(":"+port, nil)
 }
 
 func GenerateSpotifyToken(Main *MainStructure) {
@@ -407,5 +413,6 @@ func Routine(Main *MainStructure) {
 		time.Sleep(30 * time.Minute)
 		GroupieTracker.GetEveryId(Main.ApiStruct, Main.Token)
 		GroupieTracker.TabGenres(Main.ApiStruct, Main.Token)
+		GroupieTracker.GenerateTop3Artists(Main.ApiStruct, Main.Token)
 	}
 }
