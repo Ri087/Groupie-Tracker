@@ -130,7 +130,7 @@
                 <img src="{{.Profil.PP}}" class="friend-pp">
                 <div class="FI">
                     <a href="/profil/{{.Id}}" style="color:white">{{.Profil.EntireName}}</a>
-                    <a href="/deletefriend" style="font-weight:bold; color:red; text-decoration: none;">X</a>
+                    <a href="/deletefriend" value="{{.ID}}" name="id-of-friend" style="font-weight:bold; color:red; text-decoration: none;">X</a>
                 </div>
             </div>
             {{end}}
