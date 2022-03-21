@@ -1,26 +1,13 @@
 <!DOCTYPE html>
+
 <head>
-    <link rel="stylesheet" href="/ressources/css/profil.css"/>
+    <link rel="stylesheet" href="/ressources/css/profil.css" />
     <title>Profil</title>
 </head>
+
 <body>
-    {{if .AccStruct.ProfilParameters.Visit.Exist}}
-    {{if .AccStruct.ProfilParameters.Visit.Profil}}
-    {{ .AccStruct.ProfilParameters.Profil.User.EntireName}}
+    {{if .AccStruct.ProfilParameters.Visit.Exist}} {{if .AccStruct.ProfilParameters.Visit.Profil}} {{ .AccStruct.ProfilParameters.Profil.User.EntireName}}
     <br>
-    <br>
-    {{if .AccStruct.ProfilParameters.Visit.Friends}}
-    {{range .AccStruct.ProfilParameters.Friends.Friends}}
-    {{.EntireName}}
-    <br>
-    {{end}}
-    {{else}}
-    PAS VOIR AMI pd de benj
-    {{end}}
-    {{else}}
-    PAS VOIR
-    {{end}}
-    {{else}}
-    EXISTE PAS
-    {{end}}
+    <br> {{if .AccStruct.ProfilParameters.Visit.Friends}} {{range .AccStruct.ProfilParameters.Friends.Friends}} {{.EntireName}}
+    <br> {{end}} {{else}} PAS VOIR AMI pd de benj {{end}} {{else}} PAS VOIR {{end}} {{else}} EXISTE PAS {{end}}
 </body>

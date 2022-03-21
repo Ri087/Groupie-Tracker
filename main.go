@@ -316,6 +316,34 @@ func main() {
 		http.Redirect(w, r, "/profil", http.StatusFound)
 	})
 
+	http.HandleFunc("/deletefriend", func(w http.ResponseWriter, r *http.Request) {
+		cookie, err := r.Cookie("TOKEN")
+		if err != nil {
+			http.Redirect(w, r, "/connection", http.StatusFound)
+			return
+		} else if Main.AccStruct.AllToken[cookie.Value] == "" {
+			cookie.MaxAge = -1
+			http.SetCookie(w, cookie)
+			http.Redirect(w, r, "/connection", http.StatusFound)
+			return
+		}
+		GroupieTracker.LoadUserByToken(cookie.Value, Main.AccStruct)
+		id := r.FormValue("id")
+		tab := []string{}
+		for i, k := range Main.AccStruct.ProfilParameters.Profil.User.Friends {
+			if k == id {
+				tab = Main.AccStruct.ProfilParameters.Profil.User.Friends[:i]
+				tab = append(tab, Main.AccStruct.ProfilParameters.Profil.User.Friends[i+1:]...)
+				break
+			}
+		}
+		Main.AccStruct.ProfilParameters.Profil.User.Friends = tab
+		Main.AccStruct.AllAccount[Main.AccStruct.AllToken[cookie.Value]] = Main.AccStruct.ProfilParameters.Profil
+		GroupieTracker.SaveAllAccount(Main.AccStruct)
+		GroupieTracker.ProfilAccountReset(Main.AccStruct)
+		http.Redirect(w, r, "/profil", http.StatusFound)
+	})
+
 	http.HandleFunc("/profil/", func(w http.ResponseWriter, r *http.Request) {
 		IdUser := r.URL.Path[8:]
 		Main.AccStruct.ProfilParameters.Profil = Main.AccStruct.AllAccount[IdUser]
@@ -330,10 +358,12 @@ func main() {
 			}
 			GroupieTracker.ProfilAuthorizeVisit("", Main.AccStruct)
 		}
+		GroupieTracker.ArtistsProfilFill(Main.AccStruct)
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
 		templateshtml.ExecuteTemplate(w, "profil-visite.html", Main)
 		GroupieTracker.ProfilAccountReset(Main.AccStruct)
 		GroupieTracker.ProfilVisitReset(Main.AccStruct)
+		GroupieTracker.ArtistsProfilReset(Main.AccStruct)
 	})
 
 	http.HandleFunc("/showprofil", func(w http.ResponseWriter, r *http.Request) {
