@@ -233,39 +233,47 @@ ul {
     border: none;
 }
 
-input[type=text], input[type=password] {
+.search-bar {
+    align-items: center;
+}
+
+
+input[type=text] {
     background: unset;
     border: none;
     border-bottom: 3px solid rgb(70,70,70);
     height: 35%;
     text-align: center;
     font-size: 165%;
+    width: 85%;
     transition: 500ms;
+    color: white;
+    width: 100%;
 }
 
-input[type=text]::placeholder, input[type=password]::placeholder {
-    color: black;
+input[type=text]::placeholder {
+    color: white;
     opacity: 0.70;
     transition: 500ms;
 }
 
 input[type=text]:focus, input[type=text]:hover {
+    color: white;
     outline: none;
-    width: 50%;
-}
-
-input[type=password]:focus, input[type=password]:hover {
-    outline: none;
-    width: 65%;
+    /* width: 85%; */
 }
 
 input[type=text]:focus::placeholder, input[type=text]:hover::placeholder {
+    color: white;
     opacity: 0.35;
 }
 
-input[type=password]:focus::placeholder, input[type=password]:hover::placeholder {
-    opacity: 0.35;
+.search_input {
+    display:flex;
+    width: 75%;
+    align-items: center;
 }
+
 .next {
     align-items: center;
     justify-content: center;
