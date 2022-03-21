@@ -245,6 +245,8 @@ func AccountCreation(AccStruct *AccountStruct) {
 			Id += TabNumbers[rand.Intn(len(TabNumbers))]
 		}
 	}
+	AccStruct.ProfilParameters.Profil.User.Banner = "https://i.ytimg.com/vi/1ivOL9K2RVA/maxresdefault.jpg"
+	AccStruct.ProfilParameters.Profil.User.PP = "https://vikings.help/users/vikings/imgExtCatalog/big/m2584.png"
 	AccStruct.AllId[AccStruct.Creation.UserInformation.Mail] = Id
 	SaveAllId(AccStruct)
 	AccStruct.AllMail[Id] = AccStruct.Creation.UserInformation.Mail
