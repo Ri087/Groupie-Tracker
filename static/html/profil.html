@@ -40,141 +40,123 @@
     </div>
 
 
-    {{end}} 
-    {{if .AccStruct.ProfilParameters.Name.NameIsOk}}
+    {{end}} {{if .AccStruct.ProfilParameters.Name.NameIsOk}}
     <div class="main-page">
         {{else}}
         <div class="main-blur">
             {{end}}
-        <div class="banner-div" style="background-image: url({{.AccStruct.ProfilParameters.Profil.User.Banner}});">
-            <img src="{{.AccStruct.ProfilParameters.Profil.User.PP}}" class="PP">
-            <!-- <button class="settings"><i class="material-icons">settings</i></button> -->
-        </div>
-        <a class="back-to-home" href="/">back to Home</a>
-        <a class="back-to-home" href="/logout">Logout</a>
-        <div class="content">
-            <p class="name">{{ .AccStruct.ProfilParameters.Profil.User.EntireName}}</p>
-            <div class="content-name">
+            <div class="banner-div" style="background-image: url({{.AccStruct.ProfilParameters.Profil.User.Banner}});">
+                <img src="{{.AccStruct.ProfilParameters.Profil.User.PP}}" class="PP">
+                <!-- <button class="settings"><i class="material-icons">settings</i></button> -->
+            </div>
+            <a class="back-to-home" href="/">back to Home</a>
+            <a class="back-to-home" href="/logout">Logout</a>
+            <div class="content">
+                <p class="name">{{ .AccStruct.ProfilParameters.Profil.User.EntireName}}</p>
+                <div class="content-name">
 
 
-                <div class="liked-art">
-                    <div class="art-liké">Liste d'artistes liké</div>
-                    <div class="liked-img-div">
-                        {{range .AccStruct.ProfilParameters.Artists.Artists}}
-                        <a href="/artiste/{{.Id}}" class="artist-a">
-                            <img class="liked-img" src="{{.Image}}">
-                        </a>
-                        {{end}}
+                    <div class="liked-art">
+                        <div class="art-liké">Liste d'artistes liké</div>
+                        <div class="liked-img-div">
+                            {{range .AccStruct.ProfilParameters.Artists.Artists}}
+                            <a href="/artiste/{{.Id}}" class="artist-a">
+                                <img class="liked-img" src="{{.Image}}">
+                            </a>
+                            {{end}}
+                        </div>
+                    </div>
+                    <div class="RP">
+                        <div class="setting">
+                            Change profile picture
+                            <form action="/pp" method="get">
+                                <input class="inputprofil" type="text" name="image" id="image" placeholder="Enter url of image">
+                            </form>
+
+                            <br> Change banner
+                            <form action="/banner" method="get">
+                                <input class="inputprofil" type="text" name="image" id="image" placeholder="Enter url of image">
+                            </form>
+                            <br> Change Pseudo
+                            <form action="/pseudo" method="get">
+                                <input class="inputprofil" type="text" name="name" id="name" placeholder="select a name"><br>
+                                <input class="inputprofil" type="text" name="hashtag" id="hashtag" placeholder="enter your code">
+                                <input style="border:none;" class="inputsubmit" type="submit" value="">
+                            </form>
+                            {{if .AccStruct.ProfilParameters.Name.AlreadyExist}}
+                            <p style="color:red">EXISTE DEJA</p>
+                            {{else if .AccStruct.ProfilParameters.Name.LengthNameInf}}
+                            <p style="color:red">NOM TROP COURT</p>
+                            {{else if .AccStruct.ProfilParameters.Name.LengthNameSup}}
+                            <p style="color:red">NOM TROP LONG</p>
+                            {{else if .AccStruct.ProfilParameters.Name.LengthNumbers}} 4 Chiffres / Lettres nécessaire pour le hashtag {{end}}
+                            <br> Ajouter un ami
+                            <form action="/addfriend" method="get">
+                                <input class="inputprofil" type="text" name="name" id="name">
+                                <input style="border:none;" class="inputsubmit" type="submit" value="">
+                            </form>
+                            {{if .AccStruct.ProfilParameters.Friends.NotExist}}
+                            <p style="color:red">Il existe pas</p>
+                            {{else if .AccStruct.ProfilParameters.Friends.AlreadyHave}} Tu l'as déjà {{else if .AccStruct.ProfilParameters.Friends.ThatsU}} Un jour, tu découvriras ce qu'est l'amitié... {{end}}
+                            <br> Choose who can see ur profil :
+                            <form class="radioform" action="/showprofil" method="get" onChange="submit()">
+                                {{if .AccStruct.ProfilParameters.Profil.Parameters.PublicAccount}}
+                                <input type="radio" name="Profil" value="PublicProfil" checked>
+                                <label>Everyone</label>
+                                <br>
+                                <input type="radio" name="Profil" value="FriendsProfil">
+                                <label>Friends</label> {{else}}
+                                <input type="radio" name="Profil" value="PublicProfil">
+                                <label>Everyone</label>
+                                <br>
+                                <input type="radio" name="Profil" value="FriendsProfil" checked>
+                                <label>Friends</label> {{end}}
+                            </form>
+                            <br> Choose who can see ur friends :
+                            <form class="radioform" action="/showprofil" method="get" onChange="submit()">
+                                {{if .AccStruct.ProfilParameters.Profil.Parameters.PublicFriends}}
+                                <input type="radio" name="Profil" value="PublicFriends" checked>
+                                <label>Everyone</label>
+                                <br>
+                                <input type="radio" name="Profil" value="Friends">
+                                <label>Friends</label>
+                                <br>
+                                <input type="radio" name="Profil" value="PrivateFriends">
+                                <label>None</label> {{else if .AccStruct.ProfilParameters.Profil.Parameters.OnlyFriendsFriends}}
+                                <input type="radio" name="Profil" value="PublicFriends">
+                                <label>Everyone</label>
+                                <br>
+                                <input type="radio" name="Profil" value="Friends" checked>
+                                <label>Friends</label>
+                                <br>
+                                <input type="radio" name="Profil" value="PrivateFriends">
+                                <label>None</label> {{else}}
+                                <input type="radio" name="Profil" value="PublicFriends">
+                                <label>Everyone</label>
+                                <br>
+                                <input type="radio" name="Profil" value="Friends">
+                                <label>Friends</label>
+                                <br>
+                                <input type="radio" name="Profil" value="PrivateFriends" checked>
+                                <label>None</label> {{end}}
+                            </form>
+                        </div>
+                        <div class="FD">
+                            Liste d'amis {{range .AccStruct.ProfilParameters.Friends.Friends}}
+                            <div class="friend-div">
+                                <img src="{{.Profil.PP}}" class="friend-pp">
+                                <div class="FI">
+                                    <a href="/profil/{{.Id}}" style="color:white">{{.Profil.EntireName}}</a>
+
+                                </div>
+                            </div>
+                            {{end}}
+                        </div>
+                        <br>
+                        <br>
                     </div>
                 </div>
-                <div class="RP">
-                    <div class="setting">
-                        Change profile picture
-                        <form action="/pp" method="get">
-                            <input class="inputprofil" type="text" name="image" id="image" placeholder="Enter url of image">
-                        </form>
-                        
-                        <br>
-                        Change banner
-                        <form action="/banner" method="get">
-                            <input class="inputprofil" type="text" name="image" id="image" placeholder="Enter url of image">
-                        </form>
-                        <br>
-                        Change Pseudo
-                        <form action="/pseudo" method="get">
-                            <input  class="inputprofil" type="text" name="name" id="name" placeholder="select a name"><br>
-                            <input class="inputprofil" type="text" name="hashtag" id="hashtag" placeholder="enter your code">
-                            <input style="border:none;"class="inputsubmit" type="submit" value="">
-            </form>
-            {{if .AccStruct.ProfilParameters.Name.AlreadyExist}}
-            <p style="color:red">EXISTE DEJA</p>
-            {{else if .AccStruct.ProfilParameters.Name.LengthNameInf}}
-            <p style="color:red">NOM TROP COURT</p>
-            {{else if .AccStruct.ProfilParameters.Name.LengthNameSup}}
-            <p style="color:red">NOM TROP LONG</p>
-            {{else if .AccStruct.ProfilParameters.Name.LengthNumbers}}
-            4 Chiffres / Lettres nécessaire pour le hashtag
-            {{end}}
-            <br>
-            Ajouter un ami
-            <form action="/addfriend" method="get">
-                <input class="inputprofil" type="text" name="name" id="name">
-                <input style="border:none;" class="inputsubmit" type="submit" value="">
-            </form>
-            {{if .AccStruct.ProfilParameters.Friends.NotExist}}
-            <p style="color:red">Il existe pas</p>
-            {{else if .AccStruct.ProfilParameters.Friends.AlreadyHave}}
-            Tu l'as déjà
-            {{else if .AccStruct.ProfilParameters.Friends.ThatsU}}
-            Un jour, tu découvriras ce qu'est l'amitié...
-            {{end}}
-            <br>
-            Choose who can see ur profil :
-            <form class="radioform" action="/showprofil" method="get" onChange="submit()">
-                {{if .AccStruct.ProfilParameters.Profil.Parameters.PublicAccount}}
-                <input type="radio" name="Profil" value="PublicProfil" checked>
-                <label>Everyone</label>
-                <br>
-                <input type="radio" name="Profil" value="FriendsProfil">
-                <label>Friends</label>
-                {{else}}
-                <input type="radio" name="Profil" value="PublicProfil">
-                <label>Everyone</label>
-                <br>
-                <input type="radio" name="Profil" value="FriendsProfil" checked>
-                <label>Friends</label>
-                {{end}}
-            </form>
-            <br>
-            Choose who can see ur friends :
-            <form class="radioform" action="/showprofil" method="get" onChange="submit()">
-                {{if .AccStruct.ProfilParameters.Profil.Parameters.PublicFriends}}
-                <input type="radio" name="Profil" value="PublicFriends" checked>
-                <label>Everyone</label>
-                <br>
-                <input type="radio" name="Profil" value="Friends">
-                <label>Friends</label>
-                <br>
-                <input type="radio" name="Profil" value="PrivateFriends">
-                <label>None</label>
-                {{else if .AccStruct.ProfilParameters.Profil.Parameters.OnlyFriendsFriends}}
-                <input type="radio" name="Profil" value="PublicFriends">
-                <label>Everyone</label>
-                <br>
-                <input type="radio" name="Profil" value="Friends" checked>
-                <label>Friends</label>
-                <br>
-                <input type="radio" name="Profil" value="PrivateFriends">
-                <label>None</label>
-                {{else}}
-                <input type="radio" name="Profil" value="PublicFriends">
-                <label>Everyone</label>
-                <br>
-                <input type="radio" name="Profil" value="Friends">
-                <label>Friends</label>
-                <br>
-                <input type="radio" name="Profil" value="PrivateFriends" checked>
-                <label>None</label>
-                {{end}}
-            </form>
-        </div>
-        <div class="FD">
-            Liste d'amis
-            {{range .AccStruct.ProfilParameters.Friends.Friends}}
-            <div class="friend-div">
-                <img src="{{.Profil.PP}}" class="friend-pp">
-                <div class="FI">
-                    <a href="/profil/{{.Id}}" style="color:white">{{.Profil.EntireName}}</a>
-                    <a href="/deletefriend" value="{{.Id}}" name="id-of-friend" style="font-weight:bold; color:red; text-decoration: none;">X</a>
-                </div>
             </div>
-            {{end}}
-        </div>
-        <br>
-        <br>
-                </div>
-            </div>
-        </div>
 
-    </div>
+        </div>
 </body>
