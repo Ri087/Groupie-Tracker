@@ -37,8 +37,18 @@ func main() {
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		Main.ApiStruct.TabApiArtiste, Main.ApiStruct.TabApiArtisteLocations = GroupieTracker.ApiArtistsArtiste()
+		cookie, err := r.Cookie("TOKEN")
+		if err == nil {
+			if Main.AccStruct.AllToken[cookie.Value] == "" {
+				cookie.MaxAge = -1
+				http.SetCookie(w, cookie)
+			} else {
+				Main.AccStruct.ProfilParameters.Connected = true
+			}
+		}
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
 		templateshtml.ExecuteTemplate(w, "index.html", Main)
+		Main.AccStruct.ProfilParameters.Connected = false
 	})
 
 	//Page principal
@@ -77,6 +87,15 @@ func main() {
 	})
 
 	http.HandleFunc("/artiste/", func(w http.ResponseWriter, r *http.Request) {
+		cookie, err := r.Cookie("TOKEN")
+		if err == nil {
+			if Main.AccStruct.AllToken[cookie.Value] == "" {
+				cookie.MaxAge = -1
+				http.SetCookie(w, cookie)
+			} else {
+				Main.AccStruct.ProfilParameters.Connected = true
+			}
+		}
 		IDArtist := r.URL.Path[9:]
 		id, _ := strconv.Atoi(IDArtist)
 		if GroupieTracker.ArtisteNotFound(id, Main.ApiStruct) {
@@ -98,6 +117,7 @@ func main() {
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
 		templateshtml.ExecuteTemplate(w, "pages-artistes.html", data)
 		GroupieTracker.ArtistsProfilReset(Main.AccStruct)
+		Main.AccStruct.ProfilParameters.Connected = false
 	})
 
 	http.HandleFunc("/creation", func(w http.ResponseWriter, r *http.Request) {

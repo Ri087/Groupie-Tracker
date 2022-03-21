@@ -35,6 +35,7 @@
                         <li class="genre">{{.}}</li>{{end}}</ul>
                     <a class="spot-link" href="{{.Main.ApiStruct.SpecificApiPageArtiste.Spotify.SpotifyHref}}" target="_blank">Link to <span style="color: #1DD05D;">Spotify</span> page</a>
                     <form action="/liked" method="get" onChange="submit()">
+                        {{if .Main.AccStruct.ProfilParameters.Connected}}
                         {{if .Main.AccStruct.ProfilParameters.Artists.ArtistCheck}}
                         <input type="checkbox" id="heart" checked>
                         <label for="heart">LIKE</label>
@@ -42,6 +43,7 @@
                         {{else}}
                         <input type="checkbox" id="heart">
                         <label for="heart">LIKE</label>
+                        {{end}}
                     {{end}}
                     </form>
                 </div>

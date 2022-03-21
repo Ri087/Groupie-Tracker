@@ -19,7 +19,11 @@
                     <li><a class="a" href="#second-page">ARTISTE</a></li>
                     <li><a class="a" href="#third-page">EVENT</a></li>
                     <li><a class="a" href="/contact">CONTACT</a></li>
+                    {{if .AccStruct.ProfilParameters.Connected}}
+                    <li><a class="a" href="/connection">PROFIL</a></li>
+                    {{else}}
                     <li><a class="a" href="/connection">CONNECTION</a></li>
+                    {{end}}
                 </ul>
             </div>
         </div>
