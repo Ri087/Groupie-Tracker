@@ -1,11 +1,13 @@
 <!DOCTYPE html>
+
 <head>
-    <link rel="stylesheet" href="/ressources/css/profil.css"/>
+    <link rel="stylesheet" href="/ressources/css/profil.css" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel&display=swap" rel="stylesheet">
 
     <title>Profil</title>
 </head>
+
 <body>
     {{if .AccStruct.ProfilParameters.Name.NameIsOk}}
     <div class="main-page">
@@ -19,8 +21,8 @@
             <p class="name">{{ .AccStruct.ProfilParameters.Profil.User.EntireName}}</p>
             <div class="content-name">
 
-                
-                <div class="liked-art">   
+
+                <div class="liked-art">
                     <div class="art-liké">Liste d'artistes liké</div>
                     <div class="liked-img-div">
                         {{range .AccStruct.ProfilParameters.Artists.Artists}}
@@ -30,132 +32,109 @@
                         {{end}}
                     </div>
                 </div>
-            <div class="right-part">
-                Change profile picture
-                <form action="/pp" method="get">
-                    <input type="text" name="image" id="image" placeholder="Enter url of image">
-                </form>
+                <div class="right-part">
+                    Change profile picture
+                    <form action="/pp" method="get">
+                        <input type="text" name="image" id="image" placeholder="Enter url of image">
+                    </form>
 
-                <br>
-                Change banner
-                <form action="/banner" method="get">
-                    <input type="text" name="image" id="image" placeholder="Enter url of image">
-</form>
-    <br>
-    Change Pseudo
-    <form action="/pseudo" method="get">
-        <input type="text" name="name" id="name" placeholder="select a name">
-        <input type="text" name="hashtag" id="hashtag" placeholder="enter your code">
-        <input type="submit" value="Submit !">
-    </form>
-    {{if .AccStruct.ProfilParameters.Name.AlreadyExist}}
-    EXISTE DEJA
-    {{else if .AccStruct.ProfilParameters.Name.LengthNameInf}}
-    NOM TROP COURT
-    {{else if .AccStruct.ProfilParameters.Name.LengthNameSup}}
-    NOM TROP LONG
-    {{else if .AccStruct.ProfilParameters.Name.LengthNumbers}}
-    4 Chiffres / Lettres nécessaire pour le hashtag
-    {{end}}
-    <br>
-    <br>
-    <br>
-    Ajouter un ami
-    <form action="/addfriend" method="get">
-        <input type="text" name="name" id="name">
-        <input type="submit" value="Submit !">
-    </form>
-    <br>
-    {{if .AccStruct.ProfilParameters.Friends.NotExist}}
-    Il existe pas
-    {{else if .AccStruct.ProfilParameters.Friends.AlreadyHave}}
-    Tu l'as déjà
-    {{else if .AccStruct.ProfilParameters.Friends.ThatsU}}
-    Un jour, tu découvriras ce qu'est l'amitié...
-    {{end}}
-    <br>
-    Liste d'amis
-    {{range .AccStruct.ProfilParameters.Friends.Friends}}
-    <div class="friend-div">
-        <a href="/profil/{{.Id}}" style="color:white">{{.Profil.EntireName}}</a>
-        <img src="{{.Profil.PP}}" class="friend-pp">
-    </div>
-    {{end}}
-    Choose who can see ur profil :
-    <form action="/showprofil" method="get" onChange="submit()">
-        {{if .AccStruct.ProfilParameters.Profil.Parameters.PublicAccount}}
-        <input type="radio" name="Profil" value="PublicProfil" checked>
-        <label>Everyone</label>
-        <br>
-        <input type="radio" name="Profil" value="FriendsProfil">
-        <label>Friends</label>
-        {{else}}
-        <input type="radio" name="Profil" value="PublicProfil">
-        <label>Everyone</label>
-        <br>
-        <input type="radio" name="Profil" value="FriendsProfil" checked>
-        <label>Friends</label>
-        {{end}}
-    </form>
-    <br>
-    Choose who can see ur friends :
-    <form action="/showprofil" method="get" onChange="submit()">
-        {{if .AccStruct.ProfilParameters.Profil.Parameters.PublicFriends}}
-        <input type="radio" name="Profil" value="PublicFriends" checked>
-        <label>Everyone</label>
-        <br>
-        <input type="radio" name="Profil" value="Friends">
-        <label>Friends</label>
-        <br>
-        <input type="radio" name="Profil" value="PrivateFriends">
-        <label>None</label>
-        {{else if .AccStruct.ProfilParameters.Profil.Parameters.OnlyFriendsFriends}}
-        <input type="radio" name="Profil" value="PublicFriends">
-        <label>Everyone</label>
-        <br>
-        <input type="radio" name="Profil" value="Friends" checked>
-        <label>Friends</label>
-        <br>
-        <input type="radio" name="Profil" value="PrivateFriends">
-        <label>None</label>
-        {{else}}
-        <input type="radio" name="Profil" value="PublicFriends">
-        <label>Everyone</label>
-        <br>
-        <input type="radio" name="Profil" value="Friends">
-        <label>Friends</label>
-        <br>
-        <input type="radio" name="Profil" value="PrivateFriends" checked>
-        <label>None</label>
-        {{end}}
-    </form>
-    <br>
-    <br>
+                    <br> Change banner
+                    <form action="/banner" method="get">
+                        <input type="text" name="image" id="image" placeholder="Enter url of image">
+                    </form>
+                    <br> Change Pseudo
+                    <form action="/pseudo" method="get">
+                        <input type="text" name="name" id="name" placeholder="select a name">
+                        <input type="text" name="hashtag" id="hashtag" placeholder="enter your code">
+                        <input type="submit" value="Submit !">
+                    </form>
+                    {{if .AccStruct.ProfilParameters.Name.AlreadyExist}} EXISTE DEJA {{else if .AccStruct.ProfilParameters.Name.LengthNameInf}} NOM TROP COURT {{else if .AccStruct.ProfilParameters.Name.LengthNameSup}} NOM TROP LONG {{else if .AccStruct.ProfilParameters.Name.LengthNumbers}}
+                    4 Chiffres / Lettres nécessaire pour le hashtag {{end}}
+                    <br>
+                    <br>
+                    <br> Ajouter un ami
+                    <form action="/addfriend" method="get">
+                        <input type="text" name="name" id="name">
+                        <input type="submit" value="Submit !">
+                    </form>
+                    <br> {{if .AccStruct.ProfilParameters.Friends.NotExist}} Il existe pas {{else if .AccStruct.ProfilParameters.Friends.AlreadyHave}} Tu l'as déjà {{else if .AccStruct.ProfilParameters.Friends.ThatsU}} Un jour, tu découvriras ce qu'est
+                    l'amitié... {{end}}
+                    <br> Liste d'amis {{range .AccStruct.ProfilParameters.Friends.Friends}}
+                    <div class="friend-div">
+                        <a href="/profil/{{.Id}}" style="color:white">{{.Profil.EntireName}}</a>
+                        <img src="{{.Profil.PP}}" class="friend-pp">
+                    </div>
+                    {{end}} Choose who can see ur profil :
+                    <form action="/showprofil" method="get" onChange="submit()">
+                        {{if .AccStruct.ProfilParameters.Profil.Parameters.PublicAccount}}
+                        <input type="radio" name="Profil" value="PublicProfil" checked>
+                        <label>Everyone</label>
+                        <br>
+                        <input type="radio" name="Profil" value="FriendsProfil">
+                        <label>Friends</label> {{else}}
+                        <input type="radio" name="Profil" value="PublicProfil">
+                        <label>Everyone</label>
+                        <br>
+                        <input type="radio" name="Profil" value="FriendsProfil" checked>
+                        <label>Friends</label> {{end}}
+                    </form>
+                    <br> Choose who can see ur friends :
+                    <form action="/showprofil" method="get" onChange="submit()">
+                        {{if .AccStruct.ProfilParameters.Profil.Parameters.PublicFriends}}
+                        <input type="radio" name="Profil" value="PublicFriends" checked>
+                        <label>Everyone</label>
+                        <br>
+                        <input type="radio" name="Profil" value="Friends">
+                        <label>Friends</label>
+                        <br>
+                        <input type="radio" name="Profil" value="PrivateFriends">
+                        <label>None</label> {{else if .AccStruct.ProfilParameters.Profil.Parameters.OnlyFriendsFriends}}
+                        <input type="radio" name="Profil" value="PublicFriends">
+                        <label>Everyone</label>
+                        <br>
+                        <input type="radio" name="Profil" value="Friends" checked>
+                        <label>Friends</label>
+                        <br>
+                        <input type="radio" name="Profil" value="PrivateFriends">
+                        <label>None</label> {{else}}
+                        <input type="radio" name="Profil" value="PublicFriends">
+                        <label>Everyone</label>
+                        <br>
+                        <input type="radio" name="Profil" value="Friends">
+                        <label>Friends</label>
+                        <br>
+                        <input type="radio" name="Profil" value="PrivateFriends" checked>
+                        <label>None</label> {{end}}
+                    </form>
+                    <br>
+                    <br>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 
 
 
 
 
-{{else}}
-CHOISIR UN PSEUDO POSSEDANT UN HASHTAG (ex: CezGain 16G1)
-<form action="/pseudo" method="get">
-    <input type="text" name="name" id="name">
-        <input type="text" name="hashtag" id="hashtag">
-        <input type="submit" value="Submit !">
-    </form>
-    {{if .AccStruct.ProfilParameters.Name.AlreadyExist}}
-    EXIST DEJA
-    {{else if .AccStruct.ProfilParameters.Name.LengthNameInf}}
-    NOM TROP COURT
-    {{else if .AccStruct.ProfilParameters.Name.LengthNameSup}}
-    NOM TROP LONG
-    {{else if .AccStruct.ProfilParameters.Name.LengthNumbers}}
-    4 Chiffres / Lettres nécessaire pour le hashtag
-    {{end}}
-   {{end}}
+    {{else}}
+    <div class="choose_name">
+        <div class="choose_name-div">
+            <p class="choose_name-p">Choose name </p>
+        </div>
+        <div class="choose_name-div2">
+            CHOISIR UN PSEUDO POSSEDANT UN HASHTAG (ex: CezGain 16G1)
+            <form class="choose_name-form" action="/pseudo" method="get">
+                <input type="text" name="name" id="name">
+                <input type="text" name="hashtag" id="hashtag">
+                <input type="submit" value="Submit !">
+
+
+            </form>
+            {{if .AccStruct.ProfilParameters.Name.AlreadyExist}} EXIST DEJA {{else if .AccStruct.ProfilParameters.Name.LengthNameInf}} NOM TROP COURT {{else if .AccStruct.ProfilParameters.Name.LengthNameSup}} NOM TROP LONG {{else if .AccStruct.ProfilParameters.Name.LengthNumbers}}
+            4 Chiffres / Lettres nécessaire pour le hashtag {{end}} {{end}}
+        </div>
+    </div>
+
 </body>
