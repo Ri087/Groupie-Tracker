@@ -1,0 +1,125 @@
+.main-blur {
+    width: 100%;
+    background-color: #232323;
+    color: white;
+    font-family: 'Cinzel';
+    filter: blur(2px);
+}
+
+.choose_name {
+    display: flex;
+    position: fixed;
+    flex-direction: column;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #1b1b1b;
+    height: 70%;
+    width: 45%;
+    z-index: 3;
+    -webkit-box-shadow: 12px 29px 81px 0px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 12px 29px 81px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 12px 29px 81px 0px rgba(0, 0, 0, 0.75);
+}
+
+.choose_name-div {
+    display: flex;
+    height: 40%;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.choose_name-p {
+    font-size: 200%;
+    text-decoration: underline;
+    color: white;
+}
+
+.choose_name-div2 {
+    display: flex;
+    height: 60%;
+    width: 100%;
+}
+
+.choose_name-form {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    flex-direction: column;
+}
+
+.div-input {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.pseudo {
+    display: flex;
+    color: white;
+    height: 30%;
+    width: 100%;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hash {
+    display: flex;
+    color: white;
+    height: 30%;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    background-color: transparent;
+}
+
+.label {
+    margin-bottom: 3%;
+}
+
+.divSubmit {
+    display: flex;
+    height: auto;
+    width: 100%;
+    height: 40%;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cn {
+    height: 20%;
+    width: 40%;
+    color: white;
+    border: none;
+    background: transparent;
+    border-bottom: 1px solid white;
+}
+
+.cn:focus {
+    outline: none;
+}
+
+.submit {
+    height: 30%;
+    width: 20%;
+    background: transparent;
+    border: 1px solid white;
+    border-radius: 26px;
+    cursor: pointer;
+    color: white;
+    margin-bottom: 2%;
+    transition: 600ms;
+}
+
+.submit:hover {
+    height: 32%;
+    width: 21%;
+}

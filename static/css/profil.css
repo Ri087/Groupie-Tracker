@@ -20,7 +20,7 @@
     background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
-    background-size:cover;
+    background-size: cover;
     border-bottom: 0.5px solid white;
     background-position: left 0px bottom 165px;
 }
@@ -45,43 +45,45 @@
     height: 80px;
 }
 
-.friend-pp{
+.friend-pp {
     border-radius: 100%;
     height: 80px;
     width: 80px;
 }
 
-.friend-div{
+.friend-div {
     display: flex;
     flex-direction: row;
     align-items: center;
-    width:90%;
+    width: 90%;
     border: 0.5px solid white;
-    padding:5px;
+    padding: 5px;
 }
 
-.FI{
+.FI {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: 5px;
 }
+
 .banner-div .banner {
     width: 100%;
 }
 
-.FD{
+.FD {
     border-left: 0.4px solid white;
     margin-bottom: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 30%;
-    gap:10px;
+    gap: 10px;
 }
-.PP{
+
+.PP {
     position: absolute;
-    overflow:hidden;
+    overflow: hidden;
     width: 200px;
     height: 200px;
     z-index: 1;
@@ -97,7 +99,7 @@
     width: 100%;
 }
 
-.setting{
+.setting {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -116,14 +118,14 @@
     height: 100vh;
 }
 
-.RP{
+.RP {
     display: flex;
     flex-direction: row;
     /* border:4px solid blue; */
     width: 80%;
 }
 
-.content .name{
+.content .name {
     font-size: 48px;
     font-weight: bold;
 }
@@ -183,6 +185,8 @@
     box-shadow: 0px 0px 15px 0.5px grey;
 }
 
+
+/* 
 .choose_name {
     display: flex;
     height: 100vh;
@@ -296,4 +300,4 @@ input:focus {
 label {
     color: white;
     margin-bottom: 3%;
-}
+} */
