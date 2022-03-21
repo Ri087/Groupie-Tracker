@@ -47,9 +47,9 @@
                         <br>
                         Change Pseudo
                         <form action="/pseudo" method="get">
-                            <input type="text" name="name" id="name" placeholder="select a name">
+                            <input type="text" name="name" id="name" placeholder="select a name"><br>
                             <input type="text" name="hashtag" id="hashtag" placeholder="enter your code">
-                            <input type="submit" value="Submit !">
+                            <input style="border:none;" type="submit" value="">
             </form>
             {{if .AccStruct.ProfilParameters.Name.AlreadyExist}}
             <p style="color:red">EXISTE DEJA</p>
@@ -64,7 +64,7 @@
             Ajouter un ami
             <form action="/addfriend" method="get">
                 <input type="text" name="name" id="name">
-                <input type="submit" value="Submit !">
+                <input style="border:none;" type="submit" value="">
             </form>
             {{if .AccStruct.ProfilParameters.Friends.NotExist}}
             <p style="color:red">Il existe pas</p>
@@ -75,7 +75,7 @@
             {{end}}
             <br>
             Choose who can see ur profil :
-            <form action="/showprofil" method="get" onChange="submit()">
+            <form class="radioform" action="/showprofil" method="get" onChange="submit()">
                 {{if .AccStruct.ProfilParameters.Profil.Parameters.PublicAccount}}
                 <input type="radio" name="Profil" value="PublicProfil" checked>
                 <label>Everyone</label>
@@ -92,7 +92,7 @@
             </form>
             <br>
             Choose who can see ur friends :
-            <form action="/showprofil" method="get" onChange="submit()">
+            <form class="radioform" action="/showprofil" method="get" onChange="submit()">
                 {{if .AccStruct.ProfilParameters.Profil.Parameters.PublicFriends}}
                 <input type="radio" name="Profil" value="PublicFriends" checked>
                 <label>Everyone</label>
@@ -130,48 +130,48 @@
                 <img src="{{.Profil.PP}}" class="friend-pp">
                 <div class="FI">
                     <a href="/profil/{{.Id}}" style="color:white">{{.Profil.EntireName}}</a>
-                    <a href="/deletefriend" value="{{.ID}}" name="id-of-friend" style="font-weight:bold; color:red; text-decoration: none;">X</a>
+                    <a href="/deletefriend" value="{{.Id}}" name="id-of-friend" style="font-weight:bold; color:red; text-decoration: none;">X</a>
                 </div>
             </div>
             {{end}}
         </div>
-    </div>
-    <br>
-    <br>
+        <br>
+        <br>
+                </div>
             </div>
         </div>
-    </div>
 
 
 
 
 
 
-    {{else}}
-    <div class="choose_name">
-        <div class="choose_name-div">
-            <p class="choose_name-p">Choose your name </p>
-        </div>
-        <div class="choose_name-div2">
+        {{else}}
+        <div class="choose_name">
+            <div class="choose_name-div">
+                <p class="choose_name-p">Choose your name </p>
+            </div>
+            <div class="choose_name-div2">
 
-            <form class="choose_name-form" action="/pseudo" method="get">
-                <div class="divName">
-                    <div class="usrname">
-                        <label>Pseudo</label>
-                        <input type="text" name="name" id="name" autofocus placeholder="ex: CezGain">
+                <form class="choose_name-form" action="/pseudo" method="get">
+                    <div class="divName">
+                        <div class="usrname">
+                            <label>Pseudo</label>
+                            <input type="text" name="name" id="name" autofocus placeholder="ex: CezGain">
+                        </div>
+                        <div class="Tmdp">
+                            <label>Hashtag</label>
+                            <input type="text" name="hashtag" id="hashtag" placeholder="ex: 16G1">
+                        </div>
                     </div>
-                    <div class="Tmdp">
-                        <label>Hashtag</label>
-                        <input type="text" name="hashtag" id="hashtag" placeholder="ex: 16G1">
+                    <div class="divSubmit">
+                        <input type="submit" value="Submit !">
                     </div>
-                </div>
-                <div class="divSubmit">
-                    <input type="submit" value="Submit !">
-                </div>
-            </form>
-            {{if .AccStruct.ProfilParameters.Name.AlreadyExist}} EXIST DEJA {{else if .AccStruct.ProfilParameters.Name.LengthNameInf}} NOM TROP COURT {{else if .AccStruct.ProfilParameters.Name.LengthNameSup}} NOM TROP LONG {{else if .AccStruct.ProfilParameters.Name.LengthNumbers}}
-            4 Chiffres / Lettres nécessaire pour le hashtag {{end}} {{end}}
+                </form>
+                {{if .AccStruct.ProfilParameters.Name.AlreadyExist}} EXIST DEJA {{else if .AccStruct.ProfilParameters.Name.LengthNameInf}} NOM TROP COURT {{else if .AccStruct.ProfilParameters.Name.LengthNameSup}} NOM TROP LONG {{else if .AccStruct.ProfilParameters.Name.LengthNumbers}}
+                4 Chiffres / Lettres nécessaire pour le hashtag {{end}} {{end}}
+            </div>
         </div>
-    </div>
 
+    </div>
 </body>

@@ -330,8 +330,10 @@ func main() {
 			}
 			GroupieTracker.ProfilAuthorizeVisit("", Main.AccStruct)
 		}
+		GroupieTracker.ArtistsProfilFill(Main.AccStruct)
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
 		templateshtml.ExecuteTemplate(w, "profil-visite.html", Main)
+		GroupieTracker.ArtistsProfilReset(Main.AccStruct)
 		GroupieTracker.ProfilAccountReset(Main.AccStruct)
 		GroupieTracker.ProfilVisitReset(Main.AccStruct)
 	})
