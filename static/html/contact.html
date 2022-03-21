@@ -5,10 +5,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel&display=swap" rel="stylesheet">
 
-
 <body>
     <div class="main">
-        <div class="name">
+        <div id="name">
             <div class="name_haut">
                 <div class="name_page">
                     <p class="title_page">Contact</p>
@@ -31,65 +30,51 @@
                             <p class="iT">IT expertise 2022</p>
                         </div>
                     </div>
-
                 </div>
                 <div class="cezgin_bas">
                     <a href="#personnal" class="cez_more">more...</a>
                 </div>
-
-
             </div>
-
         </div>
         <div id="personnal">
-            {{range .ApiStruct.ContactApi.GroupieTracker}}
-            <div class="card-container">
-                <div class="top_card">
-                    <div class="div-img">
-                        <div class="img_border">
-                            <div class="img">
-                                <img src="{{.URLImage}}">
+            <div class="top-personnal">
+                {{range .ApiStruct.ContactApi.GroupieTracker}}
+                <div class="card-container">
+                    <div class="top_card">
+                        <div class="div-img">
+                            <div class="img_border">
+                                <div class="img">
+                                    <img src="{{.URLImage}}">
+                                </div>
                             </div>
                         </div>
+                        <div class="name_pers">
+                            {{.Name}}
+                        </div>
+                        <div class="location">
+                            {{.Post}}
+                        </div>
+                        <div class="post">
+                            {{.Mail}}
+                        </div>
+                        <div class="competences">
+                            <p class="competences-p">Competences :</p>
+                            {{range .Competences}}
+                            <li class="competences-p-range">{{.}}
+                            </li>{{end}}
+                        </div>
+                        <div class="contact">
+                            <a href="mailto:{{.Mail}}">contact</a>
+                        </div>
                     </div>
-                    <div class="name_pers">
-                        {{.Name}}
-                    </div>
-                    <div class="location">
-                        {{.Post}}
-                    </div>
-                    <div class="post">
-                        {{.Mail}}
-                    </div>
-                    <div class="competences">
-                        <p class="competences-p">Competences :</p>
-
-                        {{range .Competences}}
-                        <li class="competences-p-range">{{.}}
-                        </li>{{end}}
-
-                    </div>
-                    <div class="contact">
-                        <a href="mailto:{{.Mail}}">contact</a>
-                    </div>
-
-
                 </div>
-
+                {{end}}
             </div>
-            {{end}}
+            <div class="bot-personnal">
+                <a href="#name"><img class="icon" src="/ressources/img/fleches-vers-le-haut.png"></a>
+            </div>
         </div>
-
-
-
-
     </div>
-
-    <!-- {{range .ApiStruct.ContactApi.GroupieTracker}}
-    <p>{{.Name}}</p>
-    {{end}} -->
-
-
 </body>
 
 </html>
