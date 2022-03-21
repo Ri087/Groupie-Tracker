@@ -121,16 +121,24 @@
     {{else}}
     <div class="choose_name">
         <div class="choose_name-div">
-            <p class="choose_name-p">Choose name </p>
+            <p class="choose_name-p">Choose your name </p>
         </div>
         <div class="choose_name-div2">
-            CHOISIR UN PSEUDO POSSEDANT UN HASHTAG (ex: CezGain 16G1)
+
             <form class="choose_name-form" action="/pseudo" method="get">
-                <input type="text" name="name" id="name">
-                <input type="text" name="hashtag" id="hashtag">
-                <input type="submit" value="Submit !">
-
-
+                <div class="divName">
+                    <div class="usrname">
+                        <label>Pseudo</label>
+                        <input type="text" name="name" id="name" autofocus placeholder="ex: CezGain">
+                    </div>
+                    <div class="Tmdp">
+                        <label>Hashtag</label>
+                        <input type="text" name="hashtag" id="hashtag" placeholder="ex: 16G1">
+                    </div>
+                </div>
+                <div class="divSubmit">
+                    <input type="submit" value="Submit !">
+                </div>
             </form>
             {{if .AccStruct.ProfilParameters.Name.AlreadyExist}} EXIST DEJA {{else if .AccStruct.ProfilParameters.Name.LengthNameInf}} NOM TROP COURT {{else if .AccStruct.ProfilParameters.Name.LengthNameSup}} NOM TROP LONG {{else if .AccStruct.ProfilParameters.Name.LengthNumbers}}
             4 Chiffres / Lettres nécessaire pour le hashtag {{end}} {{end}}
