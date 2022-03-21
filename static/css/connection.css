@@ -17,6 +17,7 @@ p {
 }
 .back-to-home{
     position: absolute;
+    right: 20px;
     width: 10%;
     height: 10%;
     margin:20px ;
