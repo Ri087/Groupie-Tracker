@@ -31,7 +31,8 @@
                             <input type="password" name="pwdc" id="pwdc" placeholder="Confirm password" maxlength="64"> {{if .AccStruct.Connection.Verification.Password}}
                             <p class="error">Wrong password</p>
                             {{end}}
-                            <p style="margin-top:10px; color: red;">{{if .AccStruct.Creation.Verification.Mail}} MAIL NOT ACCEPTED OR ALREADY USED  {{else if .AccStruct.Creation.Verification.Password}} PASSWORD MUST CONTAIN 6 CHARACTERS {{else if .AccStruct.Creation.Verification.PasswordCheck}} PASSWORD CONFIRMATION INCORRECT {{else if .AccStruct.Creation.Verification.AlreadyExist}} DEJA EXISTANT {{else}}{{end}}</p>
+                            <p style="margin-top:10px; color: red;">{{if .AccStruct.Creation.Verification.Mail}} MAIL IS NOT ACCEPTED {{else if .AccStruct.Creation.Verification.Password}} PASSWORD MUST CONTAINS AT LEAST 6 CHARACTERS {{else if .AccStruct.Creation.Verification.PasswordCheck}}
+                                PASSWORD CONFIRMATION DO NOT MATCH {{else if .AccStruct.Creation.Verification.AlreadyExist}} THE ACCOUNT ALREADY EXIST {{else}}{{end}}</p>
                         </div>
                     </div>
                     <br>

@@ -1,13 +1,72 @@
 <!DOCTYPE html>
 
 <head>
-    <link rel="stylesheet" href="/ressources/css/profil.css" />
+    <link rel="stylesheet" href="/ressources/css/profil.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel&display=swap" rel="stylesheet">
+    
     <title>Profil</title>
 </head>
 
 <body>
-    {{if .AccStruct.ProfilParameters.Visit.Exist}} {{if .AccStruct.ProfilParameters.Visit.Profil}} {{ .AccStruct.ProfilParameters.Profil.User.EntireName}}
-    <br>
-    <br> {{if .AccStruct.ProfilParameters.Visit.Friends}} {{range .AccStruct.ProfilParameters.Friends.Friends}} {{.EntireName}}
-    <br> {{end}} {{else}} PAS VOIR AMI pd de benj {{end}} {{else}} PAS VOIR {{end}} {{else}} EXISTE PAS {{end}}
+    {{if .AccStruct.ProfilParameters.Visit.Exist}}
+    {{if .AccStruct.ProfilParameters.Visit.Profil}}
+    <div class="main-page">
+
+    <div class="banner-div" style="background-image: url({{.AccStruct.ProfilParameters.Profil.User.Banner}});">
+        <img src="{{.AccStruct.ProfilParameters.Profil.User.PP}}" class="PP">
+        <!-- <button class="settings"><i class="material-icons">settings</i></button> -->
+    </div>
+    <a class="back-to-home" href="/">back to Home</a>
+    <a class="back-to-home" href="/logout">Logout</a>
+    <div class="content">
+        <p class="name">{{ .AccStruct.ProfilParameters.Profil.User.EntireName}}</p>
+        <div class="content-name">
+
+            <div class="liked-art" style="width: 50%;">
+                <div class="art-liké">Liste d'artistes liké</div>
+                <div class="liked-img-div">
+                    {{range .AccStruct.ProfilParameters.Artists.Artists}}
+                    <a href="/artiste/{{.Id}}" class="artist-a">
+                        <img class="liked-img" src="{{.Image}}">
+                    </a>
+                    {{end}}
+                </div>
+            </div>
+            {{if .AccStruct.ProfilParameters.Visit.Friends}}
+            Liste d'amis
+            {{range .AccStruct.ProfilParameters.Friends.Friends}}
+<div class="FD">
+    <div class="friend-div">
+        <img src="{{.Profil.PP}}" class="friend-pp">
+        <div class="FI">
+            <a href="/profil/{{.Id}}" style="color:white">{{.Profil.EntireName}}</a>
+            <a href="/deletefriend" value="{{.Id}}" name="id-of-friend" style="font-weight:bold; color:red; text-decoration: none;">X</a>
+        </div>
+    </div>
+    </div>
+    {{end}}
+</div>
+    {{else}}
+    <div class="hidden-friend">
+        <p>This user doesn't want you to see his friends</p>
+        <img style="border-radius:40px; margin:20px" src="https://c.tenor.com/mGIouYiuf-kAAAAC/alone-lonely.gif">
+    </div>
+    {{end}}
+    {{else}}
+    <div class="not-friend">
+        <p>This user is not your friend</p>
+        <br>
+        <img style="border-radius:40px" src="https://c.tenor.com/qVT5Go3n9TIAAAAM/sadgecry-bttv.gif">
+        <a class="back-to-home" href="/">back to Home</a>
+
+    </div>
+    {{end}}
+    {{else}}
+    <div class="doesnt-exist">
+        <p>Cet utilisateur n'existe pas</p>
+        <img style ="border-radius: 40px; margin:20px;" src="https://media1.giphy.com/media/hEc4k5pN17GZq/giphy.gif">
+        <a class="back-to-home" href="/">back to Home</a>
+
+    </div>
+    {{end}}
 </body>
