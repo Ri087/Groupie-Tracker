@@ -397,6 +397,9 @@ func main() {
 		IdArtist := r.Referer()[30:]
 		GroupieTracker.LoadUserByToken(cookie.Value, Main.AccStruct)
 		Main.AccStruct.ProfilParameters.Profil.User.ArtistsLiked[IdArtist] = !Main.AccStruct.ProfilParameters.Profil.User.ArtistsLiked[IdArtist]
+		if !Main.AccStruct.ProfilParameters.Profil.User.ArtistsLiked[IdArtist] {
+			delete(Main.AccStruct.ProfilParameters.Profil.User.ArtistsLiked, IdArtist)
+		}
 		Main.AccStruct.AllAccount[Main.AccStruct.AllToken[cookie.Value]] = Main.AccStruct.ProfilParameters.Profil
 		GroupieTracker.SaveAllAccount(Main.AccStruct)
 		GroupieTracker.ProfilAccountReset(Main.AccStruct)
