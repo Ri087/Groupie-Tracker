@@ -15,61 +15,162 @@
     <div id="main-flex">
         <div id="main-page">
             <div id="div-button-container">
-                <ul id="liste-items">
-                    <li><a class="a" href="#second-page">ARTISTE</a></li>
-                    <li><a class="a" href="#third-page">EVENT</a></li>
-                    <li><a class="a" href="/contact">CONTACT</a></li>
+                <ul class="ul-head" id="liste-items">
+                    <li class="li-head"><a class="a" href="#second-page">ARTISTE</a></li>
+                    <li class="li-head"><a class="a" href="#use">About</a></li>
+                    <li class="li-head"><a class="a" href="/contact">CONTACT</a></li>
                     {{if .AccStruct.ProfilParameters.Connected}}
-                    <li><a class="a" href="/connection">PROFIL</a></li>
+                    <li class="li-head"><a class="a" href="/connection">PROFIL</a></li>
                     {{else}}
-                    <li><a class="a" href="/connection">CONNECTION</a></li>
+                    <li class="li-head"><a class="a" href="/connection">CONNECTION</a></li>
                     {{end}}
                 </ul>
             </div>
         </div>
         <div id="second-page">
-            <div class="page-artist">
-                <div class="s-top">
-                    <h3 class="s-title">Top Artist </h3>
+            <div class="div-top">
+                <div class="top-artist-div">
+                    <div class="top-artist-title">
+                        <p class="title-top">Top Artist</p>
+                    </div>
                 </div>
-                <div class="s-mid">
-                    {{range .ApiStruct.Top3Artists }}
-                    <div class="s-artist">
-                        <a href="/artiste/{{.Info.Id}}" class="s-a-etiquette">
-                            <div class="s-a-top">
-                                <div class="s-a-div-t">
-                                    <h3 class="s-a-title">{{.Info.Name}}</h3>
+                <div class="top-classement-div">
+                    <div class="classement">
+                        <div class="top2">
+                            <a href="artiste/{{index (index .ApiStruct.Top3Artists 1).Info.Id }}" class="img-div2">
+                                <img class="img-artist" src=" {{index (index .ApiStruct.Top3Artists 1).Info.Image }}">
+                            </a>
+                            <div class="name-followers-div2">
+                                <div class="info1">
+                                    <p>#2: {{index (index .ApiStruct.Top3Artists 2).Info.Name }}</p>
+                                </div>
+                                <div class="info2">
+                                    <p>Followers: {{index (index .ApiStruct.Top3Artists 1).Spotify.Followers.Total }}</p>
                                 </div>
                             </div>
-                            <div class="s-a-bot">
-                                <img class="s-a-img" src="{{.Info.Image}}">
+                        </div>
+                        <div class="top1">
+                            <a href="artiste/{{index (index .ApiStruct.Top3Artists 0).Info.Id }}" class="img-div1">
+                                <img class="img-artist" src=" {{index (index .ApiStruct.Top3Artists 0).Info.Image }}">
+                            </a>
+                            <div class="name-followers-div1">
+                                <div class="info1">
+                                    <p>#1: {{index (index .ApiStruct.Top3Artists 0).Info.Name }}</p>
+                                </div>
+                                <div class="info2">
+                                    <p>Followers: {{index (index .ApiStruct.Top3Artists 0).Spotify.Followers.Total }}</p>
+                                </div>
                             </div>
-                        </a>
+                        </div>
+                        <div class="top3">
+                            <a href="artiste/{{index (index .ApiStruct.Top3Artists 2).Info.Id }}" class="img-div2">
+                                <img class="img-artist" src=" {{index (index .ApiStruct.Top3Artists 2).Info.Image }}">
+                            </a>
+                            <div class="name-followers-div2">
+                                <div class="info1">
+                                    <p>#3: {{index (index .ApiStruct.Top3Artists 2).Info.Name }}</p>
+                                </div>
+                                <div class="info2">
+                                    <p>Followers: {{index (index .ApiStruct.Top3Artists 2).Spotify.Followers.Total }}</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    {{end}}
-                </div>
-                <div class="s-bot">
-                    <div class="search_bar">
-                        <form action="/search" class="search-bar" method="post" onChange="submit()">
-                            <input class="search_input" list="Artists" display="none" type="text" name="search-artist" placeholder="Search an artist">
-                            <datalist id="Artists">
-                                {{range .ApiStruct.TabApiArtiste}} 
-                                <option value= "{{.Name}}">{{.CreationDate}} - {{.FirstAlbum}} - {{range .Members}} {{.}} {{end}}</option>
-                                {{end}}
-                            </datalist>
-                        </form>
+                    <div class="search-more">
+                        <div class="search_bar">
+                            <form action="/search" class="search-bar" method="post" onChange="submit()">
+                                <input class="search_input" list="Artists" display="none" type="text" name="search-artist" placeholder="Search an artist..">
+                                <datalist id="Artists">
+                                    {{range .ApiStruct.TabApiArtiste}} 
+                                    <option value= "{{.Name}}">{{.CreationDate}} - {{.FirstAlbum}} - {{range .Members}} {{.}} {{end}}</option>
+                                    {{end}}
+                                </datalist>
+                            </form>
+                        </div>
+                        <div class="more-div">
+                            <a class="more" href="/artiste">More Artist..</a>
+                        </div>
                     </div>
-                    <a href="/artiste" class="next">Next</a>
+
                 </div>
             </div>
+            <div id="use">
+                <div class="div-bot-title">
+                    <div class="bot-about-title">
+                        <p class="title-about">About</p>
+                    </div>
+                </div>
+                <div class="div-about-main">
+                    <div class="div-about">
+                        <div class="about-gauche">
+                            <div class="p-about">
+                                <p>Api uses</p>
+                            </div>
+                            <div class="ul-li-about">
 
-        </div>
-        <div id="third-page">
-            <h1 class="test">EVENT</h1>
 
+                                <ul>
+                                    <a href="https://groupietrackers.herokuapp.com/api" target="_blank">
+                                        <li class=" li-about ">Heroku(Artist)</li>
+                                    </a>
+                                    <a href="https://cezgindustries-api-contact.herokuapp.com/ " target="_blank">
+                                        <li class="li-about">Heroku(Contact)</li>
+                                    </a>
+                                    <a href="https://developer.spotify.com/documentation/web-api/" target="_blank">
+                                        <li class=" li-about ">Spotify</li>
+                                    </a>
+                                    <a href="https://www.last.fm/fr/api " target="_blank">
+                                        <li class="li-about ">Lastfm</li>
+                                    </a>
+                                    <a href="https://docs.mapbox.com/api/overview/ " target="_blank ">
+                                        <li class="li-about ">MapBox</li>
+                                    </a>
+
+                                </ul>
+                            </div>
+
+                        </div>
+                        <div class="about-droite ">
+                            <div class="p-about">
+                                <p>Added Options</p>
+                            </div>
+                            <div class="ul-li-about">
+                                <ul>
+                                    <a href="#second-page">
+                                        <li class="li-about-droite ">Top Artsit</li>
+                                    </a>
+                                    <a href="/artiste">
+                                        <li class="li-about-droite">Filters</li>
+                                    </a>
+                                    <a href="/artiste/1">
+                                        <li class="li-about-droite ">Spotify</li>
+                                    </a>
+                                    <a href="/artiste/1#concert-map">
+                                        <li class="li-about-droite ">Using Map</li>
+                                    </a>
+                                    <a href="/connection">
+                                        <li class="li-about-droite ">Création_Account</li>
+                                    </a>
+                                    <a href="/connection">
+                                        <li class="li-about-droite ">Surroundings_of_riends</li>
+                                    </a>
+                                    <a href="/connection">
+                                        <li class="li-about-droite ">Artist Séléction</li>
+                                    </a>
+                                    <a href="https://cezgindustries-api-contact.herokuapp.com/">
+                                        <li class="li-about-droite ">Personal_Api_Creation</li>
+                                    </a>
+                                    <a href="/connection"></a>
+                                    <li class="li-about-droite ">Multi_Connection</li>
+                                    </a>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-
 </body>
 
 </html>
