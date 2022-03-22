@@ -10,8 +10,9 @@
 <body>
     <div class="page">
         <div class="nav-bar">
-            <a class="a" href="/">Home</a>
-            <a class="a" href="/connection">Account</a>
+            <a class="a" href="/">Home</a> {{if .AccStruct.ProfilParameters.Connected}}
+            <a class="a" href="/connection">Profil</a> {{else}}
+            <a class="a" href="/connection">Connection</a> {{end}}
             <a class="a" href="/contact">Contact</a>
         </div>
         <div class="content">
