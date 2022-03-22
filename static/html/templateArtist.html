@@ -1,9 +1,10 @@
 {{define "ArtistRange"}}
 <a href="/artiste/{{.Id}}" class="artist">
-        <img class="img-artist" src="{{.Image}}">
+    <img class="img-artist" src="{{.Image}}">
     <div class="name">
         <p>{{.Name}}</p>
-        <ul>{{range .Members}}<li>{{.}}</li>{{end}}</ul>
+        <ul>{{range .Members}}
+            <li>{{.}}</li>{{end}}</ul>
         <p>{{.CreationDate}}</p>
     </div>
 </a>

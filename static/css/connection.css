@@ -1,45 +1,45 @@
 * {
     margin: 0;
     padding: 0;
-    font-family:'Cinzel';
+    font-family: 'Cinzel';
 }
 
 p {
     color: white;
 }
+
 #page-div {
     display: flex;
     height: 100vh;
     width: 100%;
-    background-image: url("/ressources/img/GROUPIE_TRACKER_5.png");
-    background-position: left -50px bottom -100px;
-    background-size: 105%;
+    background-image: url("/ressources/img/background-co-crea.png");
+    background-repeat: no-repeat, repeat-y;
+    background-position: center;
+    background-size: cover;
 }
-.back-to-home{
+
+.back-to-home {
     position: absolute;
     right: 20px;
     width: 10%;
     height: 10%;
-    margin:20px ;
-    font-size:18px ;
+    margin: 20px;
+    font-size: 18px;
     color: white;
     text-decoration: underline 0.15em rgba(0, 0, 0, 0);
     text-underline-offset: 0.4em;
- }
+}
 
- .back-to-home:hover{
+.back-to-home:hover {
     text-decoration-color: white;
     text-underline-offset: 0.4em;
-    transition:0.4s;
-
- }
+    transition: 0.4s;
+}
 
 #image-div {
     display: flex;
     height: 100%;
     width: 100%;
-
-
     background-position: center;
     background-size: cover;
 }
@@ -72,8 +72,6 @@ p {
     width: 50%;
     align-items: center;
     justify-content: center;
-
-
 }
 
 #tab {
@@ -114,59 +112,62 @@ form {
     justify-content: space-between;
 }
 
-#mail::placeholder{
+#mail::placeholder {
     color: white;
 }
 
-#pwd::placeholder{
+#pwd::placeholder {
     color: white;
 }
-input[type=text], input[type=password] {
+
+input[type=text],
+input[type=password] {
     background: unset;
     border: none;
-    border-bottom: 3px solid rgb(70,70,70);
+    border-bottom: 3px solid rgb(70, 70, 70);
     height: 35%;
     text-align: center;
     font-size: 165%;
     transition: 500ms;
     color: white;
-
 }
 
-input[type=text]::placeholder, input[type=password]::placeholder {
+input[type=text]::placeholder,
+input[type=password]::placeholder {
     color: white;
     opacity: 0.70;
     transition: 500ms;
 }
 
-input[type=text]:focus, input[type=text]:hover {
+input[type=text]:focus,
+input[type=text]:hover {
     color: white;
     outline: none;
     width: 50%;
 }
 
-input[type=password]:focus, input[type=password]:hover {
+input[type=password]:focus,
+input[type=password]:hover {
     color: white;
-
     outline: none;
     width: 65%;
 }
 
-input[type=text]:focus::placeholder, input[type=text]:hover::placeholder {
+input[type=text]:focus::placeholder,
+input[type=text]:hover::placeholder {
     color: white;
-
     opacity: 0.35;
 }
 
-input[type=password]:focus::placeholder, input[type=password]:hover::placeholder {
+input[type=password]:focus::placeholder,
+input[type=password]:hover::placeholder {
     color: white;
-
     opacity: 0.35;
 }
 
-#email, #password {
+#email,
+#password {
     color: white;
-
     display: flex;
     width: 100%;
     height: 40%;
@@ -210,20 +211,19 @@ input[type=password] {
     height: 100%;
     align-items: center;
     justify-content: center;
-
 }
 
 input[type="submit"] {
     display: flex;
     width: 60px;
     height: 60px;
-    background-image:url("/ressources/img/icon-check.png");
-    background-size: 100% ;
+    background-image: url("/ressources/img/icon-check.png");
+    background-size: 100%;
     border-radius: 50%;
     border: none;
     transition: 350ms;
 }
 
 input[type=submit]:hover {
-transform: scale(1.2);
+    transform: scale(1.2);
 }

@@ -51,8 +51,6 @@ func main() {
 		Main.AccStruct.ProfilParameters.Connected = false
 	})
 
-	//Page principal
-
 	http.HandleFunc("/artiste", func(w http.ResponseWriter, r *http.Request) {
 		Main.ApiStruct.TabApiArtiste, Main.ApiStruct.TabApiArtisteLocations = GroupieTracker.ApiArtistsArtiste()
 		GroupieTracker.TabCountry(Main.ApiStruct)
@@ -361,7 +359,6 @@ func main() {
 		GroupieTracker.ArtistsProfilFill(Main.AccStruct)
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
 		templateshtml.ExecuteTemplate(w, "profil-visite.html", Main)
-		GroupieTracker.ArtistsProfilReset(Main.AccStruct)
 		GroupieTracker.ProfilAccountReset(Main.AccStruct)
 		GroupieTracker.ProfilVisitReset(Main.AccStruct)
 		GroupieTracker.ArtistsProfilReset(Main.AccStruct)
@@ -400,6 +397,9 @@ func main() {
 		IdArtist := r.Referer()[30:]
 		GroupieTracker.LoadUserByToken(cookie.Value, Main.AccStruct)
 		Main.AccStruct.ProfilParameters.Profil.User.ArtistsLiked[IdArtist] = !Main.AccStruct.ProfilParameters.Profil.User.ArtistsLiked[IdArtist]
+		if !Main.AccStruct.ProfilParameters.Profil.User.ArtistsLiked[IdArtist] {
+			delete(Main.AccStruct.ProfilParameters.Profil.User.ArtistsLiked, IdArtist)
+		}
 		Main.AccStruct.AllAccount[Main.AccStruct.AllToken[cookie.Value]] = Main.AccStruct.ProfilParameters.Profil
 		GroupieTracker.SaveAllAccount(Main.AccStruct)
 		GroupieTracker.ProfilAccountReset(Main.AccStruct)

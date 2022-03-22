@@ -10,7 +10,7 @@
 
 <body>
     <div id="page-div">
-            <a class="back-to-home" href="/">back to Home</a>
+        <a class="back-to-home" href="/">back to Home</a>
         <div id="image-div">
             <div id="main-div">
                 <div id="co-text">
@@ -22,12 +22,12 @@
                             <div id="userentry">
                                 <div id="email">
                                     <input type="text" name="mail" id="mail" placeholder="e-mail" maxlength="160"> {{if .AccStruct.Connection.Verification.Mail}}
-                                    <p class="error">Mail inexistant</p>
+                                    <p class="error">MAIL DO NOT EXIST</p>
                                     {{end}}
                                 </div>
                                 <div id="password">
                                     <input type="password" name="pwd" id="pwd" placeholder="password" maxlength="64"> {{if .AccStruct.Connection.Verification.Password}}
-                                    <p class="error">Wrong password</p>
+                                    <p class="error">WRONG PASSWORD</p>
                                     {{end}}
                                 </div>
                             </div>
