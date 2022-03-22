@@ -51,8 +51,6 @@ func main() {
 		Main.AccStruct.ProfilParameters.Connected = false
 	})
 
-	//Page principal
-
 	http.HandleFunc("/artiste", func(w http.ResponseWriter, r *http.Request) {
 		Main.ApiStruct.TabApiArtiste, Main.ApiStruct.TabApiArtisteLocations = GroupieTracker.ApiArtistsArtiste()
 		GroupieTracker.TabCountry(Main.ApiStruct)
@@ -361,7 +359,6 @@ func main() {
 		GroupieTracker.ArtistsProfilFill(Main.AccStruct)
 		var templateshtml = template.Must(template.ParseGlob("./static/html/*.html"))
 		templateshtml.ExecuteTemplate(w, "profil-visite.html", Main)
-		GroupieTracker.ArtistsProfilReset(Main.AccStruct)
 		GroupieTracker.ProfilAccountReset(Main.AccStruct)
 		GroupieTracker.ProfilVisitReset(Main.AccStruct)
 		GroupieTracker.ArtistsProfilReset(Main.AccStruct)
