@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" href="/ressources/css/contact.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel&display=swap" rel="stylesheet">
+
+<body>
+    <div class="main">
+        <div id="name">
+            <div class="name_haut">
+                <div class="name_page">
+                    <p class="title_page">Contact</p>
+                </div>
+                <div class="navbar">
+                    <div class="menu">
+                        <a class="a" href="/">Home</a> {{if .AccStruct.ProfilParameters.Connected}}
+                        <a class="a" href="/connection">Profil</a> {{else}}
+                        <a class="a" href="/connection">Conneciton</a> {{end}}
+                        <a class="a" href="/contact">Contact</a>
+                    </div>
+                </div>
+            </div>
+            <div class="name_bas">
+                <div class="cezgin_haut">
+                    <div class="ondiv">
+                        <div class="nameCez">
+                            <p class="cezgindustries">cezgindustries</p>
+                        </div>
+                        <div class="under_title">
+                            <p class="iT">IT expertise 2022</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="cezgin_bas">
+                    <a href="#personnal" class="cez_more">more...</a>
+                </div>
+            </div>
+        </div>
+        <div id="personnal">
+            <div class="top-personnal">
+                {{range .ApiStruct.ContactApi.GroupieTracker}}
+                <div class="card-container">
+                    <div class="top_card">
+                        <div class="div-img">
+                            <div class="img_border">
+                                <div class="img">
+                                    <img src="{{.URLImage}}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="name_pers">
+                            {{.Name}}
+                        </div>
+                        <div class="location">
+                            {{.Post}}
+                        </div>
+                        <div class="post">
+                            {{.Mail}}
+                        </div>
+                        <div class="competences">
+                            <p class="competences-p">Competences :</p>
+                            {{range .Competences}}
+                            <li class="competences-p-range">{{.}}
+                            </li>{{end}}
+                        </div>
+                        <div class="contact">
+                            <a href="mailto:{{.Mail}}">contact</a>
+                        </div>
+                    </div>
+                </div>
+                {{end}}
+            </div>
+            <div class="bot-personnal">
+                <a href="#name"><img class="icon" src="/ressources/img/fleches-vers-le-haut.png"></a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
